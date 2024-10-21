@@ -22,27 +22,31 @@
 			</div>
 			<div class="col-md-4">
 				<div class="row">
+					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
+						<ReportCard title="ارجاع به ویرا" :count="data?.sendtovira" :total="data?.total" url="/ticket/list?status=3" color="progress-bar bg-info" />
+					</div>
+					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
+						<ReportCard title="بازگشت از ویرا" :count="data?.sendtotaz" :total="data?.total" url="/ticket/list?status=5" color="progress-bar bg-info" />
+					</div>
+					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
+						<ReportCard title="در حال انجام" :count="data?.sendtovira" :total="data?.total" url="/ticket/list?status=8" color="progress-bar bg-primary" />
+					</div>
+					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
+						<ReportCard title="در صف انجام پردازش" :count="data?.sendtovira" :total="data?.total" url="/ticket/list?status=7" color="progress-bar bg-info" />
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-md-6">
 						<ReportCard title="تیکت جدید " :count="data?.inserted" :total="data?.total" url="/ticket/list?status=2" color="progress-bar bg-success" />
 					</div>
 					<div class="col-md-6">
 						<ReportCard title="تیکت انجام شده " :count="data?.done" :total="data?.total" url="/ticket/list?status=1" color="progress-bar bg-primary" />
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
-						<ReportCard title="ارجاع به ویرا" :count="data?.sendtovira" :total="data?.total" url="/ticket/list?status=3" color="progress-bar bg-info" />
-					</div>
-					<div class="col-md-6" v-else>
-						<ReportCard title="در حال انجام" :count="data?.sendtovira" :total="data?.total" url="/ticket/list?status=3" color="progress-bar bg-info" />
-					</div>
 					<div class="col-md-6">
 						<ReportCard title="تیکت رد شده " :count="data?.rejected" :total="data?.total" url="/ticket/list?status=4" color="progress-bar bg-warning" />
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
-						<ReportCard title="بازگشت از ویرا" :count="data?.sendtotaz" :total="data?.total" url="/ticket/list?status=5" color="progress-bar bg-info" />
+						<ReportCard title="انجام شده در انتظار تایید" :count="data?.sendtovira" :total="data?.total" url="/ticket/list?status=6" color="progress-bar bg-info" />
 					</div>
 				</div>
 			</div>

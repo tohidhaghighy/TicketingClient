@@ -60,32 +60,77 @@
             </div>
           </div>
         </div>
+
         <div class="chat-body-footer" style="direction: ltr">
-          <div class="row" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject && (userrole.role == UserRole.AdminTaz || userrole.role==UserRole.AdminVira)">
-            <div class="col-md-3 m-t-b-20" v-if="userrole.role==UserRole.AdminTaz">
+
+          <div class="row" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject && userrole.role == UserRole.AdminTaz ">
+            
+            <div class="col-md-3 m-t-b-20" v-if="UserStatus.inserted && userrole.role == UserRole.AdminTaz">
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.done)">
+                تایید و بستن تیکت
+              </button>
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.rejected)">
+                رد کردن و بستن تیکت
+              </button>
+              <button type="button" class="btn btn-primary btn-rounded" @click="sendtogroup(UserRole.AdminVira)">
+                تایید و ارسال به ویرا
+              </button>
+            </div>
+            <div class="col-md-3 m-t-b-20" v-if="UserStatus.awaitingConfirmation && userrole.role == UserRole.AdminTaz">
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.done)">
+                تایید و بستن تیکت
+              </button>
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.rejected)">
+                رد کردن و بستن تیکت
+              </button>
               <button type="button" class="btn btn-primary btn-rounded" @click="sendtogroup(UserRole.AdminVira)">
                 تایید و ارسال به ویرا
               </button>
             </div>
 
-            <div class="col-md-3 m-t-b-20" v-if="userrole.role==UserRole.AdminVira">
+            <!--<div class="col-md-3 m-t-b-20">
+              <button type="button" class="btn btn-danger btn-rounded" @click="changestatus(UserStatus.Reject)">
+                رد کردن و بستن تیکت
+              </button>
+            </div>-->
+
+          </div>
+
+          <div class="row" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject && userrole.role==UserRole.AdminVira">
+
+            <div class="col-md-3 m-t-b-20" v-if="UserStatus.sendtovira && userrole.role==UserRole.AdminVira">
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.rejected)">
+                رد کردن و بستن تیکت
+              </button>
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.inLine)">
+                اضافه کردن به صف پردازش
+              </button>
+            </div>
+            <div class="col-md-3 m-t-b-20" v-if="UserStatus.inLine && userrole.role==UserRole.AdminVira">
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.rejected)">
+                رد کردن و بستن تیکت
+              </button>
+              <button type="button" class="btn btn-success btn-rounded" @click="sendtogroup(UserRole.AdminTaz)">
+                تایید و ارسال به ادمین تعزیرات
+              </button>
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.inProgress)">
+                در حال انجام
+              </button>
+            </div>
+            <div class="col-md-3 m-t-b-20" v-if="UserStatus.inProgress && userrole.role==UserRole.AdminVira">
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.rejected)">
+                رد کردن و بستن تیکت
+              </button>
+              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.awaitingConfirmation)">
+                انجام شد در انتظار تایید
+              </button>
               <button type="button" class="btn btn-success btn-rounded" @click="sendtogroup(UserRole.AdminTaz)">
                 تایید و ارسال به ادمین تعزیرات
               </button>
             </div>
 
-            <div class="col-md-3 m-t-b-20">
-              <button type="button" class="btn btn-primary btn-rounded" @click="changestatus(UserStatus.Done)">
-                تایید و بستن تیکت
-              </button>
-            </div>
-
-            <div class="col-md-3 m-t-b-20">
-              <button type="button" class="btn btn-danger btn-rounded" @click="changestatus(UserStatus.Reject)">
-                رد کردن و بستن تیکت
-              </button>
-            </div>
           </div>
+
         </div>
       </div>
     </div>
