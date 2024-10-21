@@ -1,5 +1,6 @@
 export interface TicketInfo{
-    opened:number,
+    sendtovira:number,
+    sendtotaz:number,
     rejected:number,
     inserted:number,
     done:number,

@@ -70,7 +70,7 @@
 
             <div class="col-md-3 m-t-b-20" v-if="userrole.role==UserRole.AdminVira">
               <button type="button" class="btn btn-success btn-rounded" @click="sendtogroup(UserRole.AdminTaz)">
-                تایید و ارسال به ادمین سامانه
+                تایید و ارسال به ادمین تعزیرات
               </button>
             </div>
 
@@ -126,7 +126,8 @@ const messageInfo = reactive({
 });
 
 async function send() {
-  try{
+  if(messageInfo.text!=""){
+    try{
 		  await $fetch(`${ticketingUrl}/api/v1/addMassage`,{
 			method:'POST',
 			body : messageInfo
@@ -142,6 +143,7 @@ async function send() {
   }catch(error){
 	      console.log(error);
   }
+  }
 }
 
 const statusInfo=reactive({
@@ -152,6 +154,7 @@ const statusInfo=reactive({
 
 async function changestatus(status) {
   statusInfo.status=status;
+  await send();
 	try{
 		  await $fetch(`${ticketingUrl}/api/v1/changeStatus`,{
 			method:'POST',
@@ -172,6 +175,7 @@ const roleInfo = reactive({
 
 async function sendtogroup(roleId) {
   roleInfo.roleId=roleId;
+  await send();
 	try{
 		  await $fetch(`${ticketingUrl}/api/v1/changeRole`,{
 			method:'POST',

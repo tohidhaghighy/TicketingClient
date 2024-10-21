@@ -16,6 +16,7 @@ tr > td{
 							<th>کد تیکت</th>
 							<th>ثبت کننده</th>
 							<th>تاریخ ثبت</th>
+							<th>نوع درخواست </th>
 							<th>اولویت</th>
 							<th>عنوان</th>
 							<th>سامانه</th>
@@ -30,6 +31,9 @@ tr > td{
 							<td>{{item.ticketNumber}} </td>
 							<td>{{item.username}} </td>
 							<td>{{item.date}}</td>
+							<td v-if="item.requestType==1">پشتیبانی</td>
+							<td v-else-if="item.requestType==2">توسعه</td>
+							<td v-else></td>
 							<td v-if="item.priority==1">بالا</td>
 							<td v-else-if="item.priority==2">متوسط</td>
 							<td v-else>پایین</td>
@@ -37,16 +41,16 @@ tr > td{
 							<td>{{item.project}}</td>
 							<td>{{user.userRoleList.find(x => {return x.id == item.currentRoleId;}).name }}</td>
 							<td v-if="item.statusId==1">
-								<a href="#" class="btn btn-success btn-sm">{{ item.status }}</a>
+								<p class="text-success">{{ item.status }}</p>
 							</td>
 							<td v-else-if="item.statusId==2">
-								<a href="#" class="btn btn-primary btn-sm">{{ item.status }}</a>
+								<a class="text-primary">{{ item.status }}</a>
 							</td>
 							<td v-else-if="item.statusId==3">
-								<a href="#" class="btn btn-warning btn-sm">{{ item.status }}</a>
+								<a class="text-warning">{{ item.status }}</a>
 							</td>
 							<td v-else>
-								<a href="#" class="btn btn-danger btn-sm">{{ item.status }}</a>
+								<a class="text-danger">{{ item.status }}</a>
 							</td>
 							<td>
 								<nuxt-link :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
@@ -70,7 +74,7 @@ const { public: { ticketingUrl }} = useRuntimeConfig();
 onMounted(() => {
 	$('#ticketlist').DataTable({
         responsive: true,
-		order: [[0, 'desc']],
+		order: [[3, 'desc']],
 		language: {
 			"sEmptyTable":     "هیچ داده ای در جدول وجود ندارد",
 			"sInfo":           "نمایش _START_ تا _END_ از _TOTAL_ رکورد",

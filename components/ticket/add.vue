@@ -28,6 +28,15 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
+            <label for="exampleFormControlSelect1">نوع درخواست :</label>
+            <select class="form-control" v-model="formValues.RequestType">
+              <option key="1" value="1">پشتیبانی</option>
+              <option key="2" value="2">توسعه</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
             <label for="exampleFormControlSelect1">اولویت</label>
             <select class="form-control" v-model="formValues.Priority">
               <option key="1" value="1">بالا</option>
@@ -65,7 +74,8 @@ const formValues = reactive({
 	Priority:1,
   UserId : user.value.userId,
   RoleId : user.value.userRole,
-  Username : user.value.username
+  Username : user.value.username,
+  RequestType:1
 });
 
 
@@ -79,6 +89,7 @@ async function send(){
   formData.append('Priority', formValues.Priority);
   formData.append('UserId', formValues.UserId);
   formData.append('Username', formValues.Username);
+  formData.append('RequestType', formValues.RequestType);
   formData.append('file', fileInput.files[0]);
 
 	if(formValues.Text!="" && formValues.Title!="" && formValues.ProjectId>0 && formValues.UserId>0){
