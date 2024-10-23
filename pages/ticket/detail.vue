@@ -42,11 +42,11 @@
             <template v-for="message in data.messageList">
               <div class="message-item" style="min-width: 300px;margin-top: 20px;" v-if="data.ticketInfo.userId==message.userId">
                 {{message.text}}
-                <small class="message-item-date text-muted">{{message.date}} | {{ message.username }}</small>
+                <small class="message-item-date text-muted"> {{ data.ticketInfo.ticketNumber }} : شماره تیکت | {{message.date}} | {{ message.username }}</small>
               </div>
               <div class="message-item outgoing-message" style="min-width: 300px;margin-top: 20px;" v-else >
                 {{message.text}}
-                <small class="message-item-date text-muted">  {{ data.ticketInfo.ticketNumber }} : شماره تیکت | {{message.date}} | {{ message.username }}</small>
+                <small class="message-item-date text-muted"> {{message.date}} | {{ message.username }} </small>
               </div>
             </template>
           </div>
