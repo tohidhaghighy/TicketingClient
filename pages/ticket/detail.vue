@@ -13,6 +13,7 @@
           <div class="message-items">
             <div class="message-item">
               <p>عنوان تیکت : {{ data.ticketInfo.title }}</p>
+              <p>شماره تیکت: {{ data.ticketInfo.ticketNumber }}</p>
               <p v-if="data.ticketInfo.priority == 1">اولویت : بالا</p>
               <p v-else-if="data.ticketInfo.priority == 2">اولویت : متوسط</p>
               <p v-else>اولویت : پایین</p>
@@ -41,11 +42,11 @@
             <template v-for="message in data.messageList">
               <div class="message-item" style="min-width: 300px;margin-top: 20px;" v-if="data.ticketInfo.userId==message.userId">
                 {{message.text}}
-                <small class="message-item-date text-muted">{{message.date}} - {{ message.username }}</small>
+                <small class="message-item-date text-muted">{{message.date}} | {{ message.username }}</small>
               </div>
               <div class="message-item outgoing-message" style="min-width: 300px;margin-top: 20px;" v-else >
                 {{message.text}}
-                <small class="message-item-date text-muted">{{message.date}} - {{ message.username }}</small>
+                <small class="message-item-date text-muted">  {{ data.ticketInfo.ticketNumber }} : شماره تیکت | {{message.date}} | {{ message.username }}</small>
               </div>
             </template>
           </div>

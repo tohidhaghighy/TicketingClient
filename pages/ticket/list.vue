@@ -49,8 +49,20 @@ tr > td{
 							<td v-else-if="item.statusId==3">
 								<a class="text-warning">{{ item.status }}</a>
 							</td>
-							<td v-else>
+							<td v-else-if="item.statusId==4">
 								<a class="text-danger">{{ item.status }}</a>
+							</td>
+							<td v-else-if="item.statusId==5">
+								<a class="text-warning">{{ item.status }}</a>
+							</td>
+							<td v-else-if="item.statusId==6">
+								<a class="text-primary">{{ item.status }}</a>
+							</td>
+							<td v-else-if="item.statusId==7">
+								<a class="text-warning">{{ item.status }}</a>
+							</td>
+							<td v-else-if="item.statusId==8">
+								<a class="text-primary">{{ item.status }}</a>
 							</td>
 							<td>
 								<nuxt-link :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
