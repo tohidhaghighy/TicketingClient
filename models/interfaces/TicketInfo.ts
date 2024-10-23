@@ -1,8 +1,11 @@
 export interface TicketInfo{
-    sendtovira:number,
-    sendtotaz:number,
-    rejected:number,
-    inserted:number,
-    done:number,
-    total:number
+    sendtotaz : number,
+    sendtovira :number,
+    rejected :number,
+    inserted :number,
+    awaitingConfirmation:number,
+    inLine:number,
+    inProgress:number,
+    done :number,
+    total :number
 }

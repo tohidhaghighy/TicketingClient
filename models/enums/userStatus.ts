@@ -1,6 +1,10 @@
 export enum UserStatus {
-    Done = 1,
-    New,
-    Doing,
-    Reject,
+    done=1,
+    inserted=2,
+    sendtovira=3,
+    rejected=4,
+    sendtotaz=5,
+    awaitingConfirmation=6,
+    inLine=7,
+    inProgress=8
 }

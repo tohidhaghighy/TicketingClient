@@ -61,9 +61,9 @@ export default defineNuxtConfig({
 
   runtimeConfig:{
     public:{
-      ticketingUrl:"http://172.16.11.131:5255",
-      ssoUrl:"http://172.16.11.131:7004",
-      loginUrl:"http://172.16.11.131:7062"
+      ticketingUrl:"http://localhost:5255",
+      ssoUrl:"https://localhost:7004",
+      loginUrl:"https://localhost:7062"
     }
   },
 
