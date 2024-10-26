@@ -43,22 +43,51 @@
               <div class="message-item" style="min-width: 300px;margin-top: 20px;" v-if="data.ticketInfo.userId==message.userId">
                 {{message.text}}
                 <small class="message-item-date text-muted"> {{ data.ticketInfo.ticketNumber }} : شماره تیکت | {{message.date}} | {{ message.username }}</small>
+                <!---->
+                <div v-if="message.haveFile==true">
+                  <a id="downloadfile" @click="downloadmessagefile(data.ticketInfo.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
+                    <i class="fa fa-download font-size-18 m-r-10"></i>
+                    <div class="small">
+                      <div class="mb-1">فایل برای دانلود</div>
+                      <div class="font-size-8" dir="ltr" >برای دانلود کلیک کنید </div>
+                    </div>
+                  </a>
+                </div>
+                <!---->
               </div>
               <div class="message-item outgoing-message" style="min-width: 300px;margin-top: 20px;" v-else >
                 {{message.text}}
                 <small class="message-item-date text-muted"> {{message.date}} | {{ message.username }} </small>
+                <!---->
+                <div v-if="message.haveFile==true">
+                  <a id="downloadfile" @click="downloadmessagefile(data.ticketInfo.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
+                    <i class="fa fa-download font-size-18 m-r-10"></i>
+                    <div class="small">
+                      <div class="mb-1">فایل برای دانلود</div>
+                      <div class="font-size-8" dir="ltr" >برای دانلود کلیک کنید </div>
+                    </div>
+                  </a>
+                </div>
+                <!---->
               </div>
             </template>
           </div>
         </div>
         <div class="chat-body-footer">
-          <div class="d-flex align-items-center">
-            <input type="text" v-model="messageInfo.text" class="form-control" placeholder="متن خود را بنویسید . . ." v-on:keyup.enter="send"/>
-            <div class="d-flex" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject">
-              <button type="button" class="ml-3 btn btn-primary btn-floating" @click="send">
-                <i class="fa fa-send"></i>
-              </button>
-            </div>
+          <div class="input-container d-flex align-items-center" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject">
+            <input type="text" v-model="messageInfo.text" class="form-control message-input" placeholder="متن خود را بنویسید . . ." v-on:keyup.enter="send"/>
+            <!--Add attachment-->
+            <<label for="fileUpload" class="icon-button file-upload-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 8.5L14.5 15C13.1 16.4 10.9 16.4 9.5 15C8.1 13.6 8.1 11.4 9.5 10L16 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 4L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </label>
+            <input type="file" id="fileUpload" name="fileUpload" accept="image/*,video/*,audio/*,.zip,.rar,.7zip,.pdf,.xml,.docx" style="display: none;" @change="handleFileUpload"/>
+            <!---->
+            <button type="button" class="ml-3 btn btn-primary btn-floating" @click="send">
+              <i class="fa fa-send"></i>
+            </button>
           </div>
         </div>
 
@@ -68,9 +97,6 @@
             <!--Inserted state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inserted">
               <div class="d-flex justify-content-around">
-                <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.done)">
-                  تایید و بستن تیکت
-                </button>
                 <button type="button" class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.rejected)">
                   رد کردن و بستن تیکت
                 </button>
@@ -96,9 +122,6 @@
             <!--Send to tazirat state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.sendtotaz">
               <div class="d-flex justify-content-around">
-                <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.done)">
-                  تایید و بستن تیکت
-                </button>
                 <button type="button" class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.rejected)">
                   رد کردن و بستن تیکت
                 </button>
@@ -149,6 +172,14 @@
                 </button>
               </div>
             </div>
+            <!--Rejected state-->
+            <div class="" v-if="data.ticketInfo.statusId==UserStatus.rejected">
+              <div class="d-flex justify-content-around">
+                <button type="button" class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.sendtovira)">
+                  تغییر وضعیت به ارجاع به ویرا
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -186,15 +217,25 @@ const messageInfo = reactive({
   text:'',
   userId:user.value.userId,
   ticketId:route.query.id,
-  username:user.value.username
+  username:user.value.username,
+  file:null
 });
 
 async function send() {
-  if(messageInfo.text!=""){
+  if(messageInfo.text !== "" || messageInfo.file){
     try{
+      const formData = new FormData();
+      formData.append('text', messageInfo.text);
+      formData.append('userId', messageInfo.userId);
+      formData.append('ticketId', messageInfo.ticketId);
+      formData.append('username', messageInfo.username);
+      if (messageInfo.file) {
+        formData.append('file', messageInfo.file);
+      }
+
 		  await $fetch(`${ticketingUrl}/api/v1/addMassage`,{
 			method:'POST',
-			body : messageInfo
+			body : formData
 		});
     toastr.success('پیام با موفقیت ارسال شد');
     messageInfo.text='';
@@ -207,6 +248,13 @@ async function send() {
   }catch(error){
 	      console.log(error);
   }
+  }
+}
+
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    messageInfo.file = file;
   }
 }
 
@@ -264,6 +312,18 @@ async function downloadfile(id){
   }
 }
 
+async function downloadmessagefile(messageId) {
+  try {
+    var popout = window.open(`${ticketingUrl}/api/v1/downloadMassageFile?messageId=` + messageId);
+    window.setTimeout(function () {
+      popout.close();
+    }, 2000);
+    toastr.success('با موفقیت دانلود شد');
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 onMounted(async () => {
         let divElement = document.getElementById('chatbody');
         divElement.scrollTop = divElement.scrollHeight;
@@ -278,3 +338,43 @@ async function refreshpage(){
 }
 
 </script>
+
+<style>
+.input-container {
+  background-color: #f1f1f1;
+  padding: 8px;
+  border-radius: 25px;
+}
+
+.message-input {
+  flex: 1;
+  border: none;
+  background-color: transparent;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: 8px;
+  color: #333; /* رنگ آیکون‌ها */
+}
+
+.icon-button:hover {
+  color: #0056b3; /* تغییر رنگ آیکون‌ها در هاور */
+}
+
+.file-upload-icon svg,
+.send-button i {
+  font-size: 24px; /* اندازه آیکون‌ها */
+}
+
+/* مخفی کردن پیش‌فرض حاشیه‌های فیلد ورودی */
+.message-input:focus {
+  outline: none;
+}
+
+</style>
