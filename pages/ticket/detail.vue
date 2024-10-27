@@ -45,7 +45,7 @@
                 <small class="message-item-date text-muted"> {{ data.ticketInfo.ticketNumber }} : شماره تیکت | {{message.date}} | {{ message.username }}</small>
                 <!---->
                 <div v-if="message.haveFile==true">
-                  <a id="downloadfile" @click="downloadmessagefile(data.ticketInfo.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
+                  <a id="downloadfile" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
                     <i class="fa fa-download font-size-18 m-r-10"></i>
                     <div class="small">
                       <div class="mb-1">فایل برای دانلود</div>
@@ -60,7 +60,7 @@
                 <small class="message-item-date text-muted"> {{message.date}} | {{ message.username }} </small>
                 <!---->
                 <div v-if="message.haveFile==true">
-                  <a id="downloadfile" @click="downloadmessagefile(data.ticketInfo.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
+                  <a id="downloadfile" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
                     <i class="fa fa-download font-size-18 m-r-10"></i>
                     <div class="small">
                       <div class="mb-1">فایل برای دانلود</div>
@@ -222,20 +222,11 @@ const messageInfo = reactive({
 });
 
 async function send() {
-  if(messageInfo.text !== "" || messageInfo.file){
+  if(messageInfo.text!=""){
     try{
-      const formData = new FormData();
-      formData.append('text', messageInfo.text);
-      formData.append('userId', messageInfo.userId);
-      formData.append('ticketId', messageInfo.ticketId);
-      formData.append('username', messageInfo.username);
-      if (messageInfo.file) {
-        formData.append('file', messageInfo.file);
-      }
-
 		  await $fetch(`${ticketingUrl}/api/v1/addMassage`,{
 			method:'POST',
-			body : formData
+			body : messageInfo
 		});
     toastr.success('پیام با موفقیت ارسال شد');
     messageInfo.text='';
