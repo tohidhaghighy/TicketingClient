@@ -44,7 +44,7 @@
                 {{message.text}}
                 <small class="message-item-date text-muted"> {{ data.ticketInfo.ticketNumber }} : شماره تیکت | {{message.date}} | {{ message.username }}</small>
                 <!---->
-                <div v-if="message.haveFile==true">
+                <p v-if="message.haveFile==true">
                   <a id="downloadfile" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
                     <i class="fa fa-download font-size-18 m-r-10"></i>
                     <div class="small">
@@ -52,7 +52,7 @@
                       <div class="font-size-8" dir="ltr" >برای دانلود کلیک کنید </div>
                     </div>
                   </a>
-                </div>
+                </p>
                 <!---->
               </div>
               <div class="message-item outgoing-message" style="min-width: 300px;margin-top: 20px;" v-else >
@@ -74,17 +74,22 @@
           </div>
         </div>
         <div class="chat-body-footer">
-          <div class="input-container d-flex align-items-center" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject">
-            <input type="text" v-model="messageInfo.text" class="form-control message-input" placeholder="متن خود را بنویسید . . ." v-on:keyup.enter="send"/>
+          <div class="form-group input-container d-flex align-items-center" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject">
+            <input  type="text" v-model="messageInfo.text" class="form-control message-input" placeholder="متن خود را بنویسید . . ." v-on:keyup.enter="send"/>
             <!--Add attachment-->
-            <<label for="fileUpload" class="icon-button file-upload-icon">
+            <!--<<label for="fileUpload" class="icon-button file-upload-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M21 8.5L14.5 15C13.1 16.4 10.9 16.4 9.5 15C8.1 13.6 8.1 11.4 9.5 10L16 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M17 4L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </label>
             <input type="file" id="fileUpload" name="fileUpload" accept="image/*,video/*,audio/*,.zip,.rar,.7zip,.pdf,.xml,.docx" style="display: none;" @change="handleFileUpload"/>
-            <!---->
+            -->
+            <div class="form-group">
+            <label for="exampleFormControlFile1">ورودی فایل </label>
+              <input type="file" class="form-control-file" id="File" name="File" accept="image/*,video/*,audio/*,.zip,.rar,.7zip,.pdf,.xml,.docx"/>
+            </div>
+
             <button type="button" class="ml-3 btn btn-primary btn-floating" @click="send">
               <i class="fa fa-send"></i>
             </button>
@@ -213,20 +218,30 @@ const userrole = reactive({
   role: user.value.userRole
 });
 
+
 const messageInfo = reactive({
   text:'',
   userId:user.value.userId,
   ticketId:route.query.id,
   username:user.value.username,
-  file:null
+  file : null
 });
 
 async function send() {
-  if(messageInfo.text!=""){
+
+  const fileInput = document.querySelector('#File');
+  const formData = new FormData();
+  formData.append('text', messageInfo.text);
+  formData.append('userId', messageInfo.userId);
+  formData.append('ticketId', messageInfo.ticketId);
+  formData.append('username', messageInfo.username);
+  formData.append('file', fileInput.files[0]);
+
+  if(messageInfo.text!="" || formData.get('file')!=null){
     try{
 		  await $fetch(`${ticketingUrl}/api/v1/addMassage`,{
 			method:'POST',
-			body : messageInfo
+			body : formData
 		});
     toastr.success('پیام با موفقیت ارسال شد');
     messageInfo.text='';
@@ -239,13 +254,6 @@ async function send() {
   }catch(error){
 	      console.log(error);
   }
-  }
-}
-
-function handleFileUpload(event) {
-  const file = event.target.files[0];
-  if (file) {
-    messageInfo.file = file;
   }
 }
 
@@ -329,43 +337,3 @@ async function refreshpage(){
 }
 
 </script>
-
-<style>
-.input-container {
-  background-color: #f1f1f1;
-  padding: 8px;
-  border-radius: 25px;
-}
-
-.message-input {
-  flex: 1;
-  border: none;
-  background-color: transparent;
-  padding: 10px;
-  font-size: 16px;
-}
-
-.icon-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  margin-left: 8px;
-  color: #333; /* رنگ آیکون‌ها */
-}
-
-.icon-button:hover {
-  color: #0056b3; /* تغییر رنگ آیکون‌ها در هاور */
-}
-
-.file-upload-icon svg,
-.send-button i {
-  font-size: 24px; /* اندازه آیکون‌ها */
-}
-
-/* مخفی کردن پیش‌فرض حاشیه‌های فیلد ورودی */
-.message-input:focus {
-  outline: none;
-}
-
-</style>
