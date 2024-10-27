@@ -37,16 +37,16 @@
 					
 				</div>
 				<div class="row">
-					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
+					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5 || user.userRole==8">
 						<ReportCard title="ارجاع به ویرا" :count="data?.sendtovira" :total="data?.total" url="/ticket/list?status=3" color="progress-bar bg-info" />
 					</div>
-					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
+					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5 || user.userRole==8">
 						<ReportCard title="بازگشت از ویرا" :count="data?.sendtotaz" :total="data?.total" url="/ticket/list?status=5" color="progress-bar bg-info" />
 					</div>
-					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
+					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5 || user.userRole==8">
 						<ReportCard title="انجام شده در انتظار تایید" :count="data?.awaitingConfirmation" :total="data?.total" url="/ticket/list?status=6" color="progress-bar bg-info" />
 					</div>
-					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5">
+					<div class="col-md-6" v-if="user.userRole==4 || user.userRole==5 || user.userRole==8">
 						<ReportCard title="در صف انجام پردازش" :count="data?.inLine" :total="data?.total" url="/ticket/list?status=7" color="progress-bar bg-info" />
 					</div>
 				</div>

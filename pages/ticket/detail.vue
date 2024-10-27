@@ -68,9 +68,6 @@
             <!--Inserted state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inserted">
               <div class="d-flex justify-content-around">
-                <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.done)">
-                  تایید و بستن تیکت
-                </button>
                 <button type="button" class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.rejected)">
                   رد کردن و بستن تیکت
                 </button>
@@ -96,9 +93,6 @@
             <!--Send to tazirat state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.sendtotaz">
               <div class="d-flex justify-content-around">
-                <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.done)">
-                  تایید و بستن تیکت
-                </button>
                 <button type="button" class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.rejected)">
                   رد کردن و بستن تیکت
                 </button>
@@ -146,6 +140,29 @@
                 </button>
                 <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="sendtogroup(UserRole.AdminTaz)">
                   رد کردن به دلیل اطلاعات ناکافی
+                </button>
+              </div>
+            </div>
+            <!--Rejected state-->
+            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.rejected">
+              <div class="d-flex justify-content-around">
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="sendtogroup(UserRole.AdminVira)">
+                  تغییر وضعیت به ارجاع به ویرا
+                </button>
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="sendtogroup(UserRole.AdminTaz)">
+                  تغییر وضعیت به برگشت از ویرا
+                </button>
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inserted)">
+                  تغییر وضعیت به جدید
+                </button>
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inLine)">
+                  تغییر وضعیت به در صف انجام
+                </button>
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inProgress)">
+                  تغییر وضعیت به ارجاع به درحال انجام
+                </button>
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.awaitingConfirmation)">
+                  تغییر وضعیت به انجام شد در انتظار تایید
                 </button>
               </div>
             </div>
