@@ -45,7 +45,7 @@
                 <small class="message-item-date text-muted"> {{ data.ticketInfo.ticketNumber }} : شماره تیکت | {{message.date}} | {{ message.username }}</small>
                 <!---->
                 <p v-if="message.haveFile==true">
-                  <a id="downloadfile" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
+                  <a id="downloadfilemessage" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
                     <i class="fa fa-download font-size-18 m-r-10"></i>
                     <div class="small">
                       <div class="mb-1">فایل برای دانلود</div>
@@ -60,7 +60,7 @@
                 <small class="message-item-date text-muted"> {{message.date}} | {{ message.username }} </small>
                 <!---->
                 <div v-if="message.haveFile==true">
-                  <a id="downloadfile" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
+                  <a id="downloadfilemessage" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
                     <i class="fa fa-download font-size-18 m-r-10"></i>
                     <div class="small">
                       <div class="mb-1">فایل برای دانلود</div>
@@ -313,7 +313,7 @@ async function downloadfile(id){
 
 async function downloadmessagefile(messageId) {
   try {
-    var popout = window.open(`${ticketingUrl}/api/v1/downloadMassageFile?messageId=` + messageId);
+    var popout = window.open(`${ticketingUrl}/api/v1/downloadMassageFile?massageId=`+messageId);
     window.setTimeout(function () {
       popout.close();
     }, 2000);
