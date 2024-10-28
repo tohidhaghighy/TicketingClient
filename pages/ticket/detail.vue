@@ -77,19 +77,11 @@
           <div class="form-group input-container d-flex align-items-center" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject">
             <input  type="text" v-model="messageInfo.text" class="form-control message-input" placeholder="متن خود را بنویسید . . ." v-on:keyup.enter="send"/>
             <!--Add attachment-->
-            <!--<<label for="fileUpload" class="icon-button file-upload-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 8.5L14.5 15C13.1 16.4 10.9 16.4 9.5 15C8.1 13.6 8.1 11.4 9.5 10L16 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M17 4L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </label>
-            <input type="file" id="fileUpload" name="fileUpload" accept="image/*,video/*,audio/*,.zip,.rar,.7zip,.pdf,.xml,.docx" style="display: none;" @change="handleFileUpload"/>
-            -->
             <div class="form-group">
             <label for="exampleFormControlFile1">ورودی فایل </label>
               <input type="file" class="form-control-file" id="File" name="File" accept="image/*,video/*,audio/*,.zip,.rar,.7zip,.pdf,.xml,.docx"/>
             </div>
-
+            <!--Add attachment-->
             <button type="button" class="ml-3 btn btn-primary btn-floating" @click="send">
               <i class="fa fa-send"></i>
             </button>
@@ -244,6 +236,7 @@ async function send() {
 			body : formData
 		});
     toastr.success('پیام با موفقیت ارسال شد');
+    document.querySelector('#File').value = null;
     messageInfo.text='';
     setTimeout(() => {
       refresh().then(()=>{
