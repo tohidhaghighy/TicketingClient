@@ -3,6 +3,15 @@
 	background: #5867dd;
 	color: white;
 	margin-right: auto;
+  direction: rtl;
+  text-align: right;
+}
+pre{
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'primary-font', segoe ui, tahoma;
+  font-weight: bold;
+  font-size: 14px;
 }
 </style>
 <template>
@@ -39,7 +48,7 @@
             </div>
             <template v-for="message in data.messageList">
               <div class="message-item" style="min-width: 300px;margin-top: 20px;" v-if="data.ticketInfo.userId==message.userId">
-                {{ message.text }} <!--Use <pre></pre> for showing down lins-->
+                <pre class="message-item">{{ message.text }}</pre> 
                 <small class="message-item-date text-muted"> {{ data.ticketInfo.ticketNumber }} : شماره تیکت | {{message.date}} | {{ message.username }}</small>
                 <!--download attachmet file-->
                 <p v-if="message.haveFile==true">
@@ -54,7 +63,7 @@
                 <!---->
               </div>
               <div class="message-item outgoing-message" style="min-width: 300px;margin-top: 20px;" v-else >
-                {{ message.text }}
+                <pre class="message-item outgoing-message">{{ message.text }}</pre> 
                 <small class="message-item-date text-muted"> {{message.date}} | {{ message.username }} </small>
                 <!--download attachmet file-->
                 <div v-if="message.haveFile==true">
