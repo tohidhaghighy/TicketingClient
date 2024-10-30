@@ -147,7 +147,7 @@ pre{
                 <button type="button" class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.rejected)">
                   رد کردن و بستن تیکت
                 </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inLine, data.ticketInfo.developerId)">
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inLine, developerInfo.developerId)">
                   اضافه کردن به صف پردازش
                 </button>
               </div>
@@ -158,10 +158,10 @@ pre{
                 <button type="button" class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.rejected)">
                   رد کردن و بستن تیکت
                 </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virachangestatus(UserStatus.inProgress, data.ticketInfo.developerId)">
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virachangestatus(UserStatus.inProgress, developerInfo.developerId)">
                   در حال انجام
                 </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virasendtogroup(UserRole.AdminTaz, data.ticketInfo.developerId, data.ticketInfo.ticketTime)">
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virasendtogroup(UserRole.AdminTaz, developerInfo.developerId, developerInfo.developerTime)">
                   رد کردن به دلیل اطلاعات ناکافی
                 </button>
               </div>
@@ -172,10 +172,10 @@ pre{
                 <button type="button" class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.rejected)">
                   رد کردن و بستن تیکت
                 </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virasendtogroup(UserRole.AdminTaz, data.ticketInfo.developerId, data.ticketInfo.ticketTime)">
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virasendtogroup(UserRole.AdminTaz, developerInfo.developerId, developerInfo.developerTime)">
                   رد کردن به دلیل اطلاعات ناکافی
                 </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virafinalchangestatus(UserStatus.awaitingConfirmation, data.ticketInfo.developerId, data.ticketInfo.ticketTime)">
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virafinalchangestatus(UserStatus.awaitingConfirmation, developerInfo.developerId, developerInfo.developerTime)">
                   انجام شد در انتظار تایید
                 </button>
               </div>
@@ -207,9 +207,9 @@ pre{
             <!-- v-if="data.ticketInfo.statusId=!UserStatus.rejected" -->
             <div class="col-md-12" style="margin-top: 10px;">
               <label class="col-md-1" for="input1">زمان انجام تیکت</label>
-              <input class="col-md-2" id="ticketTime" type="text" v-model="data.ticketInfo.ticketTime"  placeholder="زمان تیکت را وارد کنید" style="border: 1px solid black;">
+              <input class="col-md-2" id="ticketTime" type="text" v-model="developerInfo.developerTime"  placeholder="زمان تیکت را وارد کنید" style="border: 1px solid black;">
               <label class="col-md-1" for="statusSelect">برنامه نویس</label>
-              <select class="col-md-2" id="developerId" v-model="data.ticketInfo.developerId" >
+              <select class="col-md-2" id="developerId" v-model="developerInfo.developerId" >
                 <option :value="DeveloperId.p_rezayeh">پویا رضاییه</option>
                 <option :value="DeveloperId.m_bagheri">محمد باقری</option>
                 <option :value="DeveloperId.t_hagigi">توحید حقیقی</option>
@@ -217,8 +217,9 @@ pre{
                 <option :value="DeveloperId.m_salehi">امیر مسعود صالحی</option>
                 <option :value="DeveloperId.Sh_kazempour">شکیلا کاظم پور</option>
                 <option :value="DeveloperId.e_darvishi">احسان درویشی</option>
+                <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option>
               </select>
-              <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="savechange(data.ticketInfo.developerId, data.ticketInfo.ticketTime)">
+              <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="savechange(developerInfo.developerId, developerInfo.developerTime)">
                   ذخیره
                 </button>
             </div>
@@ -329,11 +330,15 @@ async function changestatus(status) {
   }
 }
 
-async function savechange(developerId,ticketTime) {
-  developerInfo.developerId=developerId;
-  developerInfo.developerTime=ticketTime;
+async function savechange(developerId,developerTime) {
+  console.log(developerTime);
 
-  if(ticketTime != null && ticketTime.trim() !== '' && developerId > 0)
+  developerInfo.developerId=developerId;
+  developerInfo.developerTime=developerTime;
+
+  console.log(developerInfo.developerTime);
+  console.log(developerInfo.developerId);
+  if(developerInfo.developerTime != null && developerInfo.developerId > 0)
   {
     debugger;
     try
@@ -360,7 +365,7 @@ async function savechange(developerId,ticketTime) {
 //data need to send /api/v1/changeDevelopedBy
 const developerInfo=reactive({
   developerId:0,
-  developerTime:"",
+  developerTime:"0",
   ticketId:route.query.id
 });
 

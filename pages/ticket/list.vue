@@ -22,6 +22,8 @@ tr > td{
 							<th>سامانه</th>
 							<th>ارجاع شده به</th>
 							<th>وضعیت</th>
+							<th v-if="user.userRole==5">برنامه نویس</th>
+							<th v-if="user.userRole==5">ساعت صرف شده</th>
 							<th>جزئیات</th>
 						</tr>
 					</thead>
@@ -64,6 +66,31 @@ tr > td{
 							<td v-else-if="item.statusId==8">
 								<a class="text-primary">{{ item.status }}</a>
 							</td>
+							<td v-if="item.developerId==1 && user.userRole==5">
+								<p>پویا رضاییه</p>
+							</td>
+							<td v-else-if="item.developerId==2 && user.userRole==5">
+								<p>محمد باقری</p>
+							</td>
+							<td v-else-if="item.developerId==3 && user.userRole==5">
+								<p>توحید حقیقی</p>
+							</td>
+							<td v-else-if="item.developerId==4 && user.userRole==5">
+								<p>مهسا برجی</p>
+							</td>
+							<td v-else-if="item.developerId==5 && user.userRole==5">
+								<p>امیر مسعود صالحی</p>
+							</td>
+							<td v-else-if="item.developerId==6 && user.userRole==5">
+								<p>شکیلا کاظم پور</p>
+							</td>
+							<td v-else-if="item.developerId==7 && user.userRole==5">
+								<p>احسان درویشی</p>
+							</td>
+							<td v-else-if="item.developerId==0 && user.userRole==5">
+								<p> تخصیص نشده</p>
+							</td>
+							<td v-if="user.userRole==5">{{item.ticketTime}}</td>
 							<td>
 								<nuxt-link :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
 							</td>
