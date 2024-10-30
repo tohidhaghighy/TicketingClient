@@ -207,7 +207,7 @@ pre{
             <!-- v-if="data.ticketInfo.statusId=!UserStatus.rejected" -->
             <div class="col-md-12" style="margin-top: 10px;">
               <label class="col-md-1" for="input1">زمان انجام تیکت</label>
-              <input class="col-md-2" id="ticketTime" type="text" v-model="developerInfo.developerTime"  placeholder="زمان تیکت را وارد کنید" style="border: 1px solid black;">
+              <input class="col-md-2" type="text" v-model="developerInfo.time"  placeholder="زمان تیکت را وارد کنید" style="border: 1px solid black;">
               <label class="col-md-1" for="statusSelect">برنامه نویس</label>
               <select class="col-md-2" id="developerId" v-model="developerInfo.developerId" >
                 <option :value="DeveloperId.p_rezayeh">پویا رضاییه</option>
@@ -219,7 +219,7 @@ pre{
                 <option :value="DeveloperId.e_darvishi">احسان درویشی</option>
                 <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option>
               </select>
-              <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="savechange(developerInfo.developerId, developerInfo.developerTime)">
+              <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="savechange(developerInfo.developerId, developerInfo.time)">
                   ذخیره
                 </button>
             </div>
@@ -334,11 +334,11 @@ async function savechange(developerId,developerTime) {
   console.log(developerTime);
 
   developerInfo.developerId=developerId;
-  developerInfo.developerTime=developerTime;
+  developerInfo.time=developerTime;
 
-  console.log(developerInfo.developerTime);
+  console.log(developerInfo.time);
   console.log(developerInfo.developerId);
-  if(developerInfo.developerTime != null && developerInfo.developerId > 0)
+  if(developerInfo.time != null && developerInfo.developerId > 0)
   {
     debugger;
     try
@@ -348,8 +348,10 @@ async function savechange(developerId,developerTime) {
 			body : developerInfo
 		});
 
+    console.log(developerInfo);
+
     toastr.success('با موفقیت ثبت شد');
-    refreshpage();
+    //refreshpage();
     }
     catch(error)
     {
@@ -365,7 +367,7 @@ async function savechange(developerId,developerTime) {
 //data need to send /api/v1/changeDevelopedBy
 const developerInfo=reactive({
   developerId:0,
-  developerTime:"0",
+  time:"0",
   ticketId:route.query.id
 });
 
