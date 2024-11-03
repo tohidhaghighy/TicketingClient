@@ -22,7 +22,7 @@ tr > td{
 							<th>سامانه</th>
 							<th>ارجاع شده به</th>
 							<th>وضعیت</th>
-							<th v-if="user.userRole==5">برنامه نویس</th>
+							<th v-if="user.userRole==5">انجام دهنده</th>
 							<th v-if="user.userRole==5">ساعت صرف شده</th>
 							<th>جزئیات</th>
 						</tr>
@@ -86,6 +86,12 @@ tr > td{
 							</td>
 							<td v-else-if="item.developerId==7 && user.userRole==5">
 								<p>احسان درویشی</p>
+							</td>
+							<td v-else-if="item.developerId==8 && user.userRole==5">
+								<p>الهه ابراهیمی</p>
+							</td>
+							<td v-else-if="item.developerId==9 && user.userRole==5">
+								<p>ساناز محمد زاده</p>
 							</td>
 							<td v-else-if="item.developerId==0 && user.userRole==5">
 								<p> تخصیص نشده</p>
