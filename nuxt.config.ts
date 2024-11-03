@@ -14,6 +14,8 @@ export default defineNuxtConfig({
         { rel: "icon",type:'image/x-icon', href: "/favicon.ico" },
         { rel: "stylesheet", href: "/vendors/bundle.css" },
         { rel: "stylesheet", href: "/files/css/app.css" },
+        { rel: "stylesheet", href: "/vendors/datepicker-jalali/bootstrap-datepicker.min.css" },
+        { rel: "stylesheet", href: "/vendors/datepicker/daterangepicker.css" },
       ],
       script: [
         {
@@ -55,6 +57,15 @@ export default defineNuxtConfig({
         {
           src: "/files/js/examples/ckeditor.js",
         },
+        {
+          src: "/vendors/datepicker-jalali/bootstrap-datepicker.min.js",
+        },
+        {
+          src: "/vendors/datepicker-jalali/bootstrap-datepicker.fa.min.js",
+        },
+        {
+          src: "/vendors/datepicker/daterangepicker.js",
+        }
       ],
     },
   },
