@@ -73,7 +73,7 @@
           <div class="form-group">
             <label for="exampleFormControlSelect1">انجام دهنده</label>
             <select v-model="query.DeveloperId" class="form-control">
-              <option value="1">پویا رضاییه</option>
+              <option value="1">پویا رضائیه</option>
               <option value="2">محمد باقری</option>
               <option value="3">توحید حقیقی</option>
               <option value="4">مهسا برجی</option>
@@ -82,7 +82,7 @@
               <option value="7">شکیلا کاظم پور</option>
               <option value="8">امیر مسعود صالحی</option>
               <option value="9">احسان درویشی</option>
-              <option value="-1">همه</option>
+              <option value="0">همه</option>
             </select>
           </div>
         </div>
@@ -91,13 +91,13 @@
         <div class="col-md-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">تاریخ شروع</label>
-            <input v-model="query.StartDateTime" type="text" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr">
+            <input type="text" id="startDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr">
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">تاریخ پایان</label>
-            <input v-model="query.EndDateTime" type="text" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr">
+            <input type="text" id="endDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr">
           </div>
         </div>
       </div>
@@ -111,6 +111,8 @@
 </template>
 
 <script setup>
+import jalaali from 'jalaali-js';
+
 const user = useCookie("UserInfo");
 const { public: { ticketingUrl }} = useRuntimeConfig();
 
@@ -120,12 +122,10 @@ const query = reactive({
 	Priority:0,
   RequestType:0,
   StatusId:0,
-  DeveloperId:-1,
-  StartDateTime:null,
-  EndDateTime:null
+  DeveloperId:0,
 });
 
-onMounted(()=>{
+onMounted(() => {
   $('input[name="date-picker-shamsi-list"]').datepicker({
 		dateFormat: "yy/mm/dd",
 		showOtherMonths: true,
@@ -134,12 +134,22 @@ onMounted(()=>{
 		changeYear: true,
 		showButtonPanel: true
 	});
-});
+})
+
+function convertShamsiToGregorian(shamsiDate) {
+    // فرض کنید تاریخ ورودی به فرمت "yyyy/MM/dd" باشد
+    const [year, month, day] = shamsiDate.split('/').map(Number);
+    const { gy, gm, gd } = jalaali.toGregorian(year, month, day);
+    
+    return `${gy}-${String(gm).padStart(2, '0')}-${String(gd).padStart(2, '0')}`;
+}
 
 async function send(){
+  var StartDateTime = document.getElementById('startDateTime').value;
+  var EndDateTime = document.getElementById('endDateTime').value;
 	if(query.Title!=""){
     try {
-    var popout = window.open(`${ticketingUrl}/api/v1/downloadReport?title=`+ query.Title , '?prjectId'+query.ProjectId , '?priority'+query.Priority , '?requestType'+query.RequestType , '?statusId'+query.StatusId , '?developerId'+query.DeveloperId , '?statrtDateTime'+query.StartDateTime , '?endDateTime'+query.EndDateTime);
+    var popout = window.open(`${ticketingUrl}/api/v1/downloadReport?title=${query.Title}&projectId=${query.ProjectId}&priority=${query.Priority}&requestType=${query.RequestType}&statusId=${query.StatusId}&developerId=${query.DeveloperId}&startDateTime=${convertShamsiToGregorian(StartDateTime)}&endDateTime=${convertShamsiToGregorian(EndDateTime)}`);
     window.setTimeout(function () {
       popout.close();
     }, 2000);

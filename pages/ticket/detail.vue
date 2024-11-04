@@ -351,8 +351,8 @@ pre{
               <input class="col-md-2" type="text" v-model="developerInfo.time"  placeholder="زمان تیکت را وارد کنید" style="border: 1px solid black;">
 
               <label class="col-md-1" for="statusSelect">برنامه نویس</label>
-              <select class="col-md-2" id="developerId" v-model="developerInfo.developerId" >
-                <option :value="DeveloperId.p_rezayeh">پویا رضاییه</option>
+              <select class="col-md-2" id="developerId" v-model="developerInfo.developerId" > <!--data.ticketInfo.developerId-->
+                <option :value="DeveloperId.p_rezayeh">پویا رضائیه</option>
                 <option :value="DeveloperId.m_bagheri">محمد باقری</option>
                 <option :value="DeveloperId.t_hagigi">توحید حقیقی</option>
                 <option :value="DeveloperId.m_borji">مهسا برجی</option>
@@ -543,7 +543,7 @@ async function savechange() {
 
 //data need to send /api/v1/changeDevelopedBy
 const developerInfo=reactive({
-  developerId:0,
+  developerId:10,
   time:"0",
   ticketId:route.query.id
 });

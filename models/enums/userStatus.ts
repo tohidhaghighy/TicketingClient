@@ -6,5 +6,6 @@ export enum UserStatus {
     sendtotaz=5,
     awaitingConfirmation=6,
     inLine=7,
-    inProgress=8
+    inProgress=8,
+    all=0
 }
