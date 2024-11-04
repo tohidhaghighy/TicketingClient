@@ -77,11 +77,11 @@
               <option value="2">محمد باقری</option>
               <option value="3">توحید حقیقی</option>
               <option value="4">مهسا برجی</option>
-              <option value="5">الهه ابراهیمی</option>
-              <option value="6">ساناز محمد زاده</option>
-              <option value="7">شکیلا کاظم پور</option>
-              <option value="8">امیر مسعود صالحی</option>
-              <option value="9">احسان درویشی</option>
+              <option value="8">الهه ابراهیمی</option>
+              <option value="9">ساناز محمد زاده</option>
+              <option value="6">شکیلا کاظم پور</option>
+              <option value="5">امیر مسعود صالحی</option>
+              <option value="7">احسان درویشی</option>
               <option value="0">همه</option>
             </select>
           </div>
