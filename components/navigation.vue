@@ -25,7 +25,7 @@
             <li>
                 <NuxtLink class="active" to="/ticket/add">ثبت تیکت پشتیبانی <span class="badge badge-warning">2</span></NuxtLink>
             </li>
-            <li>
+            <li v-if="user.userRole==5">
                 <NuxtLink class="active" to="/report/reporting">گزارش گیری<span class="badge badge-success">2</span></NuxtLink>
             </li>
         </ul>
