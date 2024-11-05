@@ -12,6 +12,7 @@
   "dependencies": {
     "@amcharts/amcharts5": "^5.10.5",
     "chart.js": "^4.4.4",
+    "jalaali-js": "^1.2.7",
     "nuxt": "^3.12.2",
     "vue": "^3.4.29",
     "vue-chartjs": "^5.3.1",
