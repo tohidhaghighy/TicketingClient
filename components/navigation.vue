@@ -28,6 +28,9 @@
             <li v-if="user.userRole==5">
                 <NuxtLink class="active" to="/report/reporting">گزارش گیری<span class="badge badge-success">2</span></NuxtLink>
             </li>
+            <li v-if="user.userRole==5">
+                <NuxtLink class="active" to="/search/searching">جستوجوی پیشرفته<span class="badge badge-success">2</span></NuxtLink>
+            </li>
         </ul>
     </div>
 </div>

@@ -20,6 +20,7 @@ tr > td{
 							<th>اولویت</th>
 							<th>عنوان</th>
 							<th>سامانه</th>
+							<th v-if="user.userRole==5">ایجاد شده توسط</th>
 							<th>ارجاع شده به</th>
 							<th>وضعیت</th>
 							<th v-if="user.userRole==5">انجام دهنده</th>
@@ -41,6 +42,7 @@ tr > td{
 							<td v-else>پایین</td>
 							<td>{{item.title}}</td>
 							<td>{{item.project}}</td>
+							<td v-if="user.userRole==5">{{user.userRoleList.find(x => {return x.id == item.insertedRoleId;}).name }}</td>
 							<td>{{user.userRoleList.find(x => {return x.id == item.currentRoleId;}).name }}</td>
 							<td v-if="item.statusId==1">
 								<p class="text-success">{{ item.status }}</p>
