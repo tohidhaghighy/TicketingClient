@@ -5,18 +5,6 @@
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
-            <label for="exampleFormControlInput1">عنوان گزارش </label>
-            <input
-              type="text"
-              class="form-control text-left"
-              v-model="query.Title"
-              placeholder="نمونه عنوان گزارش : گزارش مهر ماه 1403"
-              dir="ltr"
-            />
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
             <label for="exampleFormControlSelect1">سامانه</label>
             <select v-model="query.ProjectId" class="form-control">
               <option
@@ -41,8 +29,6 @@
             </select>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="col-md-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">نوع درخواست :</label>
@@ -53,6 +39,8 @@
             </select>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-md-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">وضعیت تیکت</label>
@@ -86,14 +74,14 @@
             </select>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="col-md-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">تاریخ شروع</label>
             <input type="text" id="startDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr">
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-md-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">تاریخ پایان</label>
@@ -117,7 +105,6 @@ const user = useCookie("UserInfo");
 const { public: { ticketingUrl }} = useRuntimeConfig();
 
 const query = reactive({
-  Title:"",
 	ProjectId:0,
 	Priority:0,
   RequestType:0,
@@ -147,9 +134,9 @@ function convertShamsiToGregorian(shamsiDate) {
 async function send(){
   var StartDateTime = document.getElementById('startDateTime').value;
   var EndDateTime = document.getElementById('endDateTime').value;
-	if(query.Title!=""){
+	if(StartDateTime != null && EndDateTime != null){
     try {
-    var popout = window.open(`${ticketingUrl}/api/v1/downloadReport?title=${query.Title}&projectId=${query.ProjectId}&priority=${query.Priority}&requestType=${query.RequestType}&statusId=${query.StatusId}&developerId=${query.DeveloperId}&startDateTime=${convertShamsiToGregorian(StartDateTime)}&endDateTime=${convertShamsiToGregorian(EndDateTime)}`);
+    var popout = window.open(`${ticketingUrl}/api/v1/downloadReport?projectId=${query.ProjectId}&priority=${query.Priority}&requestType=${query.RequestType}&statusId=${query.StatusId}&developerId=${query.DeveloperId}&startDateTime=${convertShamsiToGregorian(StartDateTime)}&endDateTime=${convertShamsiToGregorian(EndDateTime)}`);
     window.setTimeout(function () {
       popout.close();
     }, 2000);
@@ -158,7 +145,7 @@ async function send(){
     console.log(error);
   }
 }else{
-  toastr.error('عنوان تیکت باید انتخاب شود');
+  toastr.error('لطفا تاریخ شروع و پایان را مشخص کنید');
 }
 }
 
