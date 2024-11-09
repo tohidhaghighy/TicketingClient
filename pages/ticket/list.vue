@@ -93,7 +93,7 @@ tr > td{
 							<td v-else-if="item.developerId==9 && user.userRole==5">
 								<p>ساناز محمد زاده</p>
 							</td>
-							<td v-else-if="item.developerId==0 && user.userRole==5">
+							<td v-else-if="item.developerId==10 && user.userRole==5">
 								<p> تخصیص نشده</p>
 							</td>
 							<td v-if="user.userRole==5">{{item.ticketTime}}</td>

@@ -348,11 +348,11 @@ pre{
             <div class="col-md-12" style="margin-top: 10px;">
 
               <label class="col-md-1" for="input1">زمان انجام تیکت</label>
-              <input class="col-md-2" type="text" v-model="developerInfo.time"  placeholder="زمان تیکت را وارد کنید" style="border: 1px solid black;">
+              <input class="col-md-2" type="text" v-model="data.ticketInfo.ticketTime"  placeholder="زمان تیکت را وارد کنید" style="border: 1px solid black;">
 
               <label class="col-md-1" for="statusSelect">برنامه نویس</label>
-              <select class="col-md-2" id="developerId" v-model="developerInfo.developerId" >
-                <option :value="DeveloperId.p_rezayeh">پویا رضاییه</option>
+              <select class="col-md-2" id="developerId" v-model="data.ticketInfo.developerId" >
+                <option :value="DeveloperId.p_rezayeh">پویا رضائیه</option>
                 <option :value="DeveloperId.m_bagheri">محمد باقری</option>
                 <option :value="DeveloperId.t_hagigi">توحید حقیقی</option>
                 <option :value="DeveloperId.m_borji">مهسا برجی</option>
@@ -364,7 +364,7 @@ pre{
                 <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option>
               </select>
 
-              <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="savechange()">ذخیره</button>
+              <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="savechange(data.ticketInfo.ticketTime,data.ticketInfo.developerId)">ذخیره</button>
 
             </div>
           </div>
@@ -515,9 +515,18 @@ async function changestatus(status) {
   }
 }
 
-async function savechange() {
-  if(developerInfo.time != null && developerInfo.developerId > 0)
+//data need to send /api/v1/changeDevelopedBy
+const developerInfo=reactive({
+  developerId:DeveloperId.unknown,
+  time:"0",
+  ticketId:route.query.id
+});
+
+async function savechange(time,developerId) {
+  if(time != null && developerId > 0)
   {
+    developerInfo.developerId=developerId;
+    developerInfo.time=time;
     try
     {
     await $fetch(`${ticketingUrl}/api/v1/changeDevelopedBy`,{
@@ -541,12 +550,7 @@ async function savechange() {
   }
 }
 
-//data need to send /api/v1/changeDevelopedBy
-const developerInfo=reactive({
-  developerId:0,
-  time:"0",
-  ticketId:route.query.id
-});
+
 
 //virafinalchangestatus need to fill ticketTime and developerId
 async function virafinalchangestatus(status) {

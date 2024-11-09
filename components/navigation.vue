@@ -23,7 +23,10 @@
         <ul id="navigationDashboards" class="navigation-active">
             <li class="navigation-divider">داشبورد</li>
             <li>
-                <a class="active" href="/ticket/add">ثبت تیکت پشتیبانی <span class="badge badge-warning">2</span></a>
+                <NuxtLink class="active" to="/ticket/add">ثبت تیکت پشتیبانی <span class="badge badge-warning">2</span></NuxtLink>
+            </li>
+            <li v-if="user.userRole==5">
+                <NuxtLink class="active" to="/report/reporting">گزارش گیری<span class="badge badge-success">2</span></NuxtLink>
             </li>
         </ul>
     </div>
