@@ -7,11 +7,11 @@ tr > td{
 }
 </style>
 <template>
-    <div class="card">
+    <div class="row">
 		<div class="card-body">
 			<table id="ticketlist" class="table table-striped table-bordered" width="100%">
 				<thead>
-						<tr>
+					<tr>
 							<th>شماره ردیف تیکت</th>
 							<th>کد تیکت</th>
 							<th>ثبت کننده</th>
@@ -26,10 +26,10 @@ tr > td{
 							<th v-if="user.userRole==5">انجام دهنده</th>
 							<th v-if="user.userRole==5">ساعت صرف شده</th>
 							<th>جزئیات</th>
-						</tr>
+					</tr>
 				</thead>
 				<tbody>
-						<tr v-for="item in data" :key="Id" :name="Id">
+					<tr v-for="item in data" :key="item.id" :name="item.id">
 							<td>{{item.ticketRowNumber}} </td>
 							<td>{{item.ticketNumber}} </td>
 							<td>{{item.username}} </td>
@@ -42,8 +42,7 @@ tr > td{
 							<td v-else>پایین</td>
 							<td>{{item.title}}</td>
 							<td>{{item.project}}</td>
-							<td v-if="user.userRole==5">{{user.userRoleList.find(x => {return x.id == item.insertedRoleId;}).name }}</td>
-							<td>{{user.userRoleList.find(x => {return x.id == item.currentRoleId;}).name }}</td>
+							
 							<td v-if="item.statusId==1">
 								<p class="text-success">{{ item.status }}</p>
 							</td>
@@ -102,22 +101,17 @@ tr > td{
 							<td>
 								<nuxt-link :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
 							</td>
-						</tr>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	
 </template>
 
 <script setup>
 	
-definePageMeta({
-  layout: 'panel'
-});
-const route = useRoute();
 const user = useCookie("UserInfo");
-const { public: { ticketingUrl }} = useRuntimeConfig();
+debugger;
 onMounted(() => {
 	$('#ticketlist').DataTable({
         responsive: true,
@@ -147,5 +141,5 @@ onMounted(() => {
 		}
     });
 })
-const { data : data , error } = await useFetch(`${ticketingUrl}/api/v1/getTicketList?roleId=${user.value.userRole}&status=${route.query.status}&userId=${user.value.userId}`);
+const props = defineProps(['data'])
 </script>

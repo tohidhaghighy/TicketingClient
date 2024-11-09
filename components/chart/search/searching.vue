@@ -3,19 +3,19 @@
     <h6 class="card-title">جستجوی پیشرفته</h6>
 
       <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlInput1">شماره تیکت :</label>
               <input type="text" class="form-control text-left" v-model="query.TicketNumber" placeholder="نمونه شماره تیکت : 1403110001" />
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlInput1">عنوان :</label>
               <input type="text" class="form-control text-left" v-model="query.Title" placeholder="نمونه عنوان تیکت : قبض"/>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlSelect1">نقش ثبت کننده :</label>
               <select v-model="query.InsertedRoleId" class="form-control">
@@ -32,16 +32,13 @@
               </select>
             </div>
           </div>
-      </div>
-
-      <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlInput1">نام کاربری :</label>
               <input type="text" class="form-control text-left" v-model="query.Username" placeholder="نمونه نام کاربری : admintaz" />
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlSelect1">ارجاع شده به :</label>
               <select v-model="query.CurrentRoleId" class="form-control">
@@ -58,7 +55,7 @@
               </select>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlSelect1">وضعیت تیکت</label>
               <select v-model="query.StatusId" class="form-control">
@@ -77,7 +74,7 @@
       </div>
 
       <div class="row">
-          <div class="col-md-4">
+        <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlSelect1">سامانه</label>
               <select v-model="query.ProjectId" class="form-control">
@@ -92,7 +89,7 @@
               </select>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlSelect1">نوع درخواست :</label>
               <select class="form-control" v-model="query.RequestType">
@@ -102,7 +99,7 @@
               </select>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlSelect1">انجام دهنده</label>
               <select v-model="query.DeveloperId" class="form-control">
@@ -119,16 +116,13 @@
               </select>
             </div>
           </div>
-      </div>
-
-      <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlSelect1">تاریخ شروع</label>
               <input type="text" id="startDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr">
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="exampleFormControlSelect1">تاریخ پایان</label>
               <input type="text" id="endDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr">
@@ -142,6 +136,14 @@
         </div>
       </div>
   </div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <ClientOnly>
+        <ChartSearchList :data="searchResult"/>
+      </ClientOnly>
+    </div>
+  </div>
 </template>
   
 <script setup>
@@ -149,7 +151,7 @@
   
   const user = useCookie("UserInfo");
   const { public: { ticketingUrl }} = useRuntimeConfig();
-  
+  const searchResult = reactive([]);
   const query = reactive({
   TicketNumber:null,
   Title:null,
@@ -160,8 +162,6 @@
 	ProjectId:0,
   RequestType:0,
   DeveloperId:0,
-  StartDateTime:null,
-  EndDateTime:null,
 });
   
   onMounted(() => {
@@ -184,20 +184,17 @@
   }
   
   async function send(){
-    query.StartDateTime = convertShamsiToGregorian(document.getElementById('startDateTime').value);
-    query.EndDateTime = convertShamsiToGregorian(document.getElementById('endDateTime').value);
-    try{
-      const { searchResult , error } = await useFetch(`${ticketingUrl}/api/v1/search`,{
-      method:'POST',
-			body : query
-		});
-    toastr.success('با موفقیت ثبت شد');
-    refreshpage();
-  }catch(error){
-    console.log(error);
+    var StartDateTime = document.getElementById('startDateTime').value;
+    var EndDateTime = document.getElementById('endDateTime').value;
+    if(StartDateTime !=null && EndDateTime != null)
+    {
+      const { data : searchResult , error } = await useFetch(`${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${query.InsertedRoleId}&username=${query.Username}&CurrentRoleId=${query.CurrentRoleId}&statusId=${query.StatusId}&projectId=${query.ProjectId}&requestType=${query.RequestType}&developerId=${query.DeveloperId}&startDateTime=${convertShamsiToGregorian(StartDateTime)}&endDateTime=${convertShamsiToGregorian(EndDateTime)}`);
+    }
+    else
+    {
+      toastr.error('لطفا تاریخ شروع و پایان را مشخص کنید');
+    }
   }
-  }
-  
   const { data , error } = await useFetch(`${ticketingUrl}/api/v1/getProjects?roleId=${user.value.userRole}`);
 </script>
   

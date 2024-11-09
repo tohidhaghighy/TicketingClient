@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Searching from '~/components/chart/search/searching.vue';
 
 definePageMeta({
   layout: 'panel'
@@ -10,7 +9,7 @@ definePageMeta({
     <div class="row">
 			<div class="col-md-12">
 				<div class="card">
-					<Searching/>
+					<ChartSearchSearching/>
 				</div>
 			</div>
 		</div>
