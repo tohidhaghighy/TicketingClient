@@ -80,19 +80,19 @@ pre{
                   </div>
                 </a>
               </p>
-              <small class="message-item-date text-muted">{{
-                data.ticketInfo.date
-              }}</small>
+              <small class="message-item-date text-muted">
+                {{ data.ticketInfo.date }}
+              </small>
             </div>
             <div class="message-item message-item-date-border">
               <span class="badge">{{ data.ticketInfo.date }}</span>
             </div>
             <template v-for="message in data.messageList">
-              <div class="message-item" style="min-width: 300px;margin-top: 20px;" v-if="data.ticketInfo.userId==message.userId">
+              <div class="message-item" style="min-width: 350px;margin-top: 20px;" v-if="data.ticketInfo.userId==message.userId">
                 <pre>{{ message.text }}</pre>
-                <small class="message-item-date text-muted"> {{ data.ticketInfo.ticketNumber }} : شماره تیکت | {{message.date}} | {{ message.username }}</small>
+                <small class="message-item-date text-muted"> [ {{ data.ticketInfo.ticketNumber }} : شماره تیکت ] - {{message.date}} | {{ message.username }}</small>
                 <!--download attachmet file-->
-                <p v-if="message.haveFile==true">
+                <div v-if="message.haveFile==true">
                   <a id="downloadfilemessage" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
                     <i class="fa fa-download font-size-18 m-r-10"></i>
                     <div class="small">
@@ -100,10 +100,10 @@ pre{
                       <div class="font-size-8" dir="ltr" >برای دانلود کلیک کنید </div>
                     </div>
                   </a>
-                </p>
+                </div>
                 <!---->
               </div>
-              <div class="message-item outgoing-message" style="min-width: 300px;margin-top: 20px;" v-else >
+              <div class="message-item outgoing-message" style="min-width: 350px;margin-top: 20px;" v-else >
                 <pre class="m-color">{{ message.text }}</pre>
                 <small class="message-item-date text-muted"> {{message.date}} | {{ message.username }} </small>
                 <!--download attachmet file-->
@@ -231,11 +231,8 @@ pre{
                 </div>
               </div>
             </div>
-          </div>
-          <!--Admin Vira role-->
-          <div class="row" v-if="data.ticketInfo.statusId != UserStatus.Done && userrole.role==UserRole.AdminVira">
-            <!--Send to vira state-->
-            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.sendtovira">
+            <!--awaiting Rejecting state-->
+            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.awaitingRejecting">
               <div class="d-flex justify-content-around">
                 <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن و بستن تیکت</button>
                 <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
@@ -245,6 +242,36 @@ pre{
         
                     <!-- دکمه‌های تایید و لغو -->
                     <button @click="rejectConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToVira')">تایید و ارسال به ویرا</button>
+                <div v-if="isOpen && activePopup==('sendToVira')" class="popup-overlay">
+                  <div class="popup-content">
+                    <h3>آیا مطمئن هستید؟</h3>
+                    <p>آیا می‌خواهید تیکت به ویرا ارسال شود؟</p>
+        
+                    <!-- دکمه‌های تایید و لغو -->
+                    <button @click="sendTogroupViraConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Admin Vira role-->
+          <div class="row" v-if="data.ticketInfo.statusId != UserStatus.Done && userrole.role==UserRole.AdminVira">
+            <!--Send to vira state-->
+            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.sendtovira">
+              <div class="d-flex justify-content-around">
+                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد شده در انتظار تایید</button>
+                <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
+                  <div class="popup-content">
+                    <h3>آیا مطمئن هستید؟</h3>
+                    <p>آیا می‌خواهید تیکت را رد کرده و در انتظار تایید بمانید؟</p>
+        
+                    <!-- دکمه‌های تایید و لغو -->
+                    <button @click="awaitRejectConfirmAction" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -256,18 +283,18 @@ pre{
             <!--In line state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inLine">
               <div class="d-flex justify-content-around">
-                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن و بستن تیکت</button>
+                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد شده در انتظار تایید</button>
                 <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
                   <div class="popup-content">
                     <h3>آیا مطمئن هستید؟</h3>
-                    <p>آیا می‌خواهید تیکت را بسته و آن را رد کنید؟</p>
+                    <p>آیا می‌خواهید تیکت را رد کرده و در انتظار تایید بمانید؟</p>
         
                     <!-- دکمه‌های تایید و لغو -->
-                    <button @click="rejectConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="finalAwaitRejectConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virachangestatus(UserStatus.inProgress)">
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virachangestatus(UserStatus.inProgress,data.ticketInfo.ticketTime,data.ticketInfo.developerId)">
                   در حال انجام
                 </button>
                 <button class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToTaz')">رد کردن به دلیل اطلاعات ناکافی</button>
@@ -277,7 +304,7 @@ pre{
                     <p>آیا می‌خواهید تیکت را به دلیل اطلاعات ناکافی به تعزیرات ارسال کنید؟</p>
         
                     <!-- دکمه‌های تایید و لغو -->
-                    <button @click="sendTogroupTazConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="sendTogroupTazConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -286,13 +313,13 @@ pre{
             <!--In progress state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inProgress">
               <div class="d-flex justify-content-around">
-                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن و بستن تیکت</button>
+                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد شده در انتظار تایید</button>
                 <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
                   <div class="popup-content">
                     <h3>آیا مطمئن هستید؟</h3>
-                    <p>آیا می‌خواهید تیکت را بسته و آن را رد کنید؟</p>
+                    <p>آیا می‌خواهید تیکت را رد کرده و در انتظار تایید بمانید؟</p>
 
-                    <button @click="rejectConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="finalAwaitRejectConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -303,7 +330,7 @@ pre{
                     <p>آیا می‌خواهید تیکت را به دلیل اطلاعات ناکافی به تعزیرات ارسال کنید؟</p>
         
                     <!-- دکمه‌های تایید و لغو -->
-                    <button @click="sendTogroupTazConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="sendTogroupTazConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -314,7 +341,7 @@ pre{
                     <p>آیا می‌خواهید تیکت را نهایی کرده و در انتظار تایید تعزیرات بگذارید؟</p>
         
                     <!-- دکمه‌های تایید و لغو -->
-                    <button @click="viraConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="viraConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -415,18 +442,28 @@ async function rejectConfirmAction() {
   closePopup();
 }
 
+async function awaitRejectConfirmAction() {
+  await changestatus(UserStatus.awaitingRejecting);
+  closePopup();
+}
+
+async function finalAwaitRejectConfirmAction(time,developerId) {
+  await virafinalchangestatus(UserStatus.awaitingRejecting,time,developerId);
+  closePopup();
+}
+
 async function sendTogroupViraConfirmAction() {
   await sendtogroup(UserRole.AdminVira);
   closePopup();
 }
 
-async function sendTogroupTazConfirmAction() {
-  await virasendtogroup(UserRole.AdminTaz);
+async function sendTogroupTazConfirmAction(time,developerId) {
+  await virasendtogroup(UserRole.AdminTaz,time,developerId);
   closePopup();
 }
 
-async function viraConfirmAction() {
-  await virafinalchangestatus(UserStatus.awaitingConfirmation);
+async function viraConfirmAction(time,developerId) {
+  await virafinalchangestatus(UserStatus.awaitingConfirmation,time,developerId);
   closePopup();
 }
 
@@ -436,7 +473,7 @@ async function doneConfirmAction() {
 }
 
 function cancelAction() {
-  toastr.success("عملیات لغو شد");
+  toastr.warning("عملیات لغو شد");
   closePopup();
 }
 
@@ -523,10 +560,10 @@ const developerInfo=reactive({
 });
 
 async function savechange(time,developerId) {
-  if(time != null && developerId > 0)
+  developerInfo.developerId=developerId;
+  developerInfo.time=time;
+  if(time != null && time.trim(" ") != null  && developerId < 10)
   {
-    developerInfo.developerId=developerId;
-    developerInfo.time=time;
     try
     {
     await $fetch(`${ticketingUrl}/api/v1/changeDevelopedBy`,{
@@ -553,10 +590,11 @@ async function savechange(time,developerId) {
 
 
 //virafinalchangestatus need to fill ticketTime and developerId
-async function virafinalchangestatus(status) {
+async function virafinalchangestatus(status,time,developerId) {
   statusInfo.status=status;
-  
-  if(developerInfo.time != null && developerInfo.developerId > 0)
+  developerInfo.developerId=developerId;
+  developerInfo.time=time;
+  if(developerInfo.time != null && developerInfo.time.trim(" ") != null && developerInfo.developerId < 10)
   {
     try
     {
@@ -584,10 +622,11 @@ async function virafinalchangestatus(status) {
 }
 
 //virachangestatus need to fill developerId
-async function virachangestatus(status) {
+async function virachangestatus(status,time,developerId) {
   statusInfo.status=status;
-
-  if(developerInfo.developerId>0)
+  developerInfo.developerId=developerId;
+  developerInfo.time=time;
+  if(developerInfo.developerId < 10)
   {
     try
     {
@@ -615,10 +654,11 @@ async function virachangestatus(status) {
 }
 
 //virasendtogroup need to fill roleId,developerId and ticketTime
-async function virasendtogroup(roleId) {
+async function virasendtogroup(roleId,time,developerId) {
   roleInfo.roleId=roleId;
-
-  if(developerInfo.time != null && developerInfo.developerId > 0)
+  developerInfo.developerId=developerId;
+  developerInfo.time=time;
+  if(developerInfo.time != null && developerInfo.time.trim(" ")!= null && developerInfo.developerId < 10)
   {
     try
     {
@@ -630,7 +670,6 @@ async function virasendtogroup(roleId) {
 			method:'POST',
 			body : developerInfo
 		});
-
     toastr.success('با موفقیت ثبت شد');
     refreshpage();
     }

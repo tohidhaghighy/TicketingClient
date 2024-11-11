@@ -115,6 +115,7 @@ debugger;
 onMounted(() => {
 	$('#ticketlist').DataTable({
         responsive: true,
+		pageLength: 100,
 		order: [[3, 'desc']],
 		language: {
 			"sEmptyTable":     "هیچ داده ای در جدول وجود ندارد",

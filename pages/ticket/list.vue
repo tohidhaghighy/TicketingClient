@@ -68,6 +68,9 @@ tr > td{
 							<td v-else-if="item.statusId==8">
 								<a class="text-primary">{{ item.status }}</a>
 							</td>
+							<td v-else-if="item.statusId==9">
+								<a class="text-primary">{{ item.status }}</a>
+							</td>
 							<td v-if="item.developerId==1 && user.userRole==5">
 								<p>پویا رضاییه</p>
 							</td>
@@ -121,6 +124,7 @@ const { public: { ticketingUrl }} = useRuntimeConfig();
 onMounted(() => {
 	$('#ticketlist').DataTable({
         responsive: true,
+		pageLength: 100,
 		order: [[3, 'desc']],
 		language: {
 			"sEmptyTable":     "هیچ داده ای در جدول وجود ندارد",
