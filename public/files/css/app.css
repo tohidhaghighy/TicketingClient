@@ -3514,6 +3514,313 @@ textarea {
 	box-shadow: 0 0 0 0.2rem rgba(88, 103, 221, 0.3);
 }
 
+/* detail page css */
+
+  /*Add attachment*/
+
+  .file-label {
+	display: inline-flex;
+	align-items: center;
+	padding: 8px 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+	cursor: pointer;
+	color: #555;
+	font-size: 14px;
+	transition: background-color 0.3s, color 0.3s;
+	margin-bottom: 0px;
+  }
+  
+  .file-label:hover {
+	background-color: #ebebeb;
+	border-color: #4CAF50;
+	box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+	color: #333;
+  }
+  
+  .file-input {
+	display: none;
+  }
+  
+  .file-name {
+	display: block;
+	margin-top: 8px;
+	color: #333;
+	font-size: 14px;
+	text-align: left;
+	white-space: nowrap;       /* جلوگیری از شکستن متن به خطوط دیگر */
+	overflow: hidden;          /* مخفی کردن محتوای اضافی */
+	text-overflow: ellipsis;   /* اضافه کردن سه‌نقطه در انتهای متن */
+	max-width: 110px;          /* عرض محدود برای نمایش متن */
+  }
+  
+  .chat-body-footer {
+	padding: 10px;
+	background-color: #f8f9fa;
+  }
+  
+  .input-container {
+	gap: 15px; /* فاصله مناسب بین آیتم‌ها */
+	width: 100%;
+	margin-top: 16px;
+  }
+  
+  .message-input {
+	flex: 1;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	resize: none;
+  }
+  
+  .file-upload-container {
+	display:flexbox;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	margin-bottom: 0px;
+  }
+  
+  .file-name {
+	margin-top: 5px;
+	color: #333;
+	font-size: 12px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 100px; /* محدودیت عرض */
+  }
+  
+  .send-button {
+	padding: 8px 15px;
+	border-radius: 5px;
+  }
+
+  /*DeveloperId and TicketTime input css*/
+  
+  .form-label {
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 10px; /* فاصله بین لیبل و ورودی */
+    display: inline-block;
+    vertical-align: middle;
+    min-width: 120px; /* عرض ثابت برای لیبل‌ها */
+	display: inline;
+  }
+
+  .form-control1, .form-select {
+    border-radius: 10px; /* گوشه‌ها گرد می‌شود */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: auto;
+	display: inline;
+	margin-left: 20px;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  }
+
+  .btn-gradient {
+	background: linear-gradient(135deg, #6e7aef, #5c61f3);
+	border: none;
+  }
+  
+  .btn-gradient:hover {
+	background: linear-gradient(135deg, #5c61f3, #6e7aef);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /*DeveloperId and TicketTime input css*/
+
+.chat-app-wrapper .chat-app .chat-body .chat-body-messages .message-items .message-item.outgoing-message {
+	background: #5867dd;
+	color: white;
+	margin-right: auto;
+}
+pre{
+  word-wrap: break-word;
+  font-family: 'primary-font', segoe ui, tahoma;
+  font-weight: bold;
+  font-size: 14px;
+  white-space: pre-wrap; /* Preserve whitespace and wrap text */
+  direction: rtl; /* Set default direction to RTL */
+  unicode-bidi: plaintext; /* Handle mixed direction text */
+}
+.m-color{
+	color: white;
+}
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.popup-content button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-success {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #f44336dc;
+  color: white;
+}
+
+/* رنگ‌های سفارشی برای دکمه‌ها */
+.btn-reject-close {
+	background-color: #e74c3c !important; /* قرمز تیره برای رد کردن و بستن تیکت */
+	color: white !important;
+  }
+  
+  .btn-approve-sendtovira {
+	background-color: #3498db !important; /* آبی روشن برای تایید و ارسال به ویرا */
+	color: white !important;
+  }
+  
+  .btn-approve-close {
+	background-color: #2ecc71 !important; /* سبز برای تایید و بستن تیکت */
+	color: white !important;
+  }
+  
+  .btn-awaiting-reject {
+	background-color: #e67e22 !important; /* نارنجی ملایم‌تر برای رد شده در انتظار تایید*/
+	color: white !important;
+  }
+  
+  .btn-add-queue {
+	background-color: #1abc9c !important; /* سبز آبی برای اضافه کردن به صف پردازش */
+	color: white !important;
+  }
+  
+  .btn-in-progress {
+	background-color: #f39c12 !important; /* نارنجی روشن برای در حال انجام*/
+	color: white !important;
+  }
+  
+  .btn-reject-insufficient {
+	background-color: #c0392b !important; /* قرمز تیره‌تر برای رد کردن به دلیل اطلاعات ناکافی*/
+	color: white !important;
+  }
+
+  .btn-done-awaiting-confirmation {
+	background-color: #2980b9 !important; /* آبی برای انجام شد در انتظار تایید */
+	color: white !important;
+  }
+  
+  /* دکمه‌های تغییر وضعیت */
+  .btn-sendtovira {
+	background-color: #8e44ad !important; /* بنفش برای تغییر وضعیت به ارجاع به ویرا */
+	color: white !important;
+  }
+  
+  .btn-return-from-vira {
+	background-color: #2c3e50 !important; /* خاکستری تیره برای تغییر وضعیت به برگشت از ویرا */
+	color: white !important;
+  }
+  
+  .btn-new {
+	background-color: #3498db !important; /* آبی متوسط برای تغییر وضعیت به جدید */
+	color: white !important;
+  }
+  
+  .btn-in-queue {
+	background-color: #16a085 !important; /* سبز آبی تیره برای تغییر وضعیت به در صف انجام */
+	color: white !important;
+  }
+  
+  .btn-in-progress {
+	background-color: #e67e22 !important; /* نارنجی برای تغییر وضعیت به درحال انجام */
+	color: white !important;
+  }
+  
+  .btn-done-awaiting {
+	background-color: #27ae60 !important; /* سبز برای تغییر وضعیت به انجام شد در انتظار تایید */
+	color: white !important;
+  }
+  
+  .btn-awaiting-reject {
+	background-color: #e74c3c !important; /* قرمز تیره برای تغییر وضعیت به رد شد در انتظار تایید */
+	color: white !important;
+  }
+
+/* Status text color */
+.text-done {
+    color: #28a745 !important; /* سبز تیره برای تکمیل‌شده */
+}
+
+.text-inserted {
+    color: #1f78d1 !important; /* آبی متوسط برای تیکت جدید */
+}
+
+.text-sendtovira {
+    color: #00bcd4 !important; /* آبی فیروزه‌ای پررنگ برای ارسال‌شده به ویرا */
+}
+
+.text-rejected {
+    color: #e70f0f !important; /* قرمز تیره و متمایز برای رد شده */
+}
+
+.text-sendtotaz {
+    color: #0400ff !important; /* آبی متمایز برای ارسال‌شده به تعزیرات */
+}
+
+.text-awaitingConfirmation {
+    color: #eeb600 !important; /* زرد تیره و ملایم برای در انتظار تایید */
+}
+
+.text-inLine {
+    color: #2ecc71 !important; /* سبز روشن و جذاب برای در صف */
+}
+
+.text-inProgress {
+    color: #f3752b !important; /* نارنجی ملایم و قابل مشاهده برای در حال انجام */
+}
+
+.text-awaitingRejecting {
+    color: #c0392b !important; /* قرمز تیره‌تر برای در انتظار رد */
+}
+
+.text-all {
+    color: #adb5bd !important; /* خاکستری روشن برای نمایش همه */
+}
+
+/*download file btn*/
+.btn.btn-outline-dark-background-dark {
+	background: #3f3f3f;
+	border-color: #242328;
+	color: #1a191e;
+	border-width: 1px;
+}
+
+/* detail page css */
+
+
 .custom-checkbox .custom-control-input:not(:disabled):active~.custom-control-label::before,
 .custom-radio .custom-control-input:not(:disabled):active~.custom-control-label::before,
 .custom-switch .custom-control-input:not(:disabled):active~.custom-control-label::before {
@@ -5484,7 +5791,7 @@ a.btn:hover[href="#previous"] {
 
 .btn.btn-outline-light {
 	background: none;
-	border-color: #e2e2e2;
+	border-color: #c8c8c8;
 	color: #d8d8d8;
 	border-width: 1px;
 	color: #212529;
@@ -5623,6 +5930,13 @@ a.btn:hover[href="#previous"] {
 
 .btn.btn-outline-dark {
 	background: none;
+	border-color: #242328;
+	color: #1a191e;
+	border-width: 1px;
+}
+
+.btn.btn-outline-dark-background-ligth {
+	background: #FAFAFA;
 	border-color: #242328;
 	color: #1a191e;
 	border-width: 1px;
@@ -6705,7 +7019,7 @@ table .dropdown {
 }
 
 .badge.badge-warning {
-	background: #ffb822;
+	background: #ffb61a;
 }
 
 .badge.badge-dark {
@@ -6718,6 +7032,10 @@ table .dropdown {
 
 .badge.badge-light {
 	background: #e2e2e2;
+}
+
+.badge.badge-navigatin {
+	background: #ffd11a;
 }
 
 .btn {

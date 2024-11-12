@@ -7,5 +7,6 @@ export enum UserStatus {
     awaitingConfirmation=6,
     inLine=7,
     inProgress=8,
+    awaitingRejecting = 9,
     all=0
 }
