@@ -1,3 +1,6 @@
+<style>
+
+</style>
 <template>
   <div class="card-body">
     <h6 class="card-title">جستجوی پیشرفته</h6>
@@ -173,31 +176,34 @@
 							<td v-else>پایین</td>
 							<td>{{item.title}}</td>
 							<td>{{item.project}}</td>
-							<td>{{item.insertedRoleId}}</td>
-              <td>{{item.currentRoleId}}</td>
+							<td>{{user.userRoleList.find(x => {return x.id == item.insertedRoleId;}).name }}</td>
+              <td>{{user.userRoleList.find(x => {return x.id == item.currentRoleId;}).name }}</td>
 							<td v-if="item.statusId==1">
-								<p class="text-success">{{ item.status }}</p>
+								<p class="text-done">{{ item.status }}</p>
 							</td>
 							<td v-else-if="item.statusId==2">
-								<a class="text-primary">{{ item.status }}</a>
+								<a class="text-inserted">{{ item.status }}</a>
 							</td>
 							<td v-else-if="item.statusId==3">
-								<a class="text-warning">{{ item.status }}</a>
+								<a class="text-inserted">{{ item.status }}</a>
 							</td>
 							<td v-else-if="item.statusId==4">
 								<a class="text-danger">{{ item.status }}</a>
 							</td>
 							<td v-else-if="item.statusId==5">
-								<a class="text-warning">{{ item.status }}</a>
+								<a class="text-inserted">{{ item.status }}</a>
 							</td>
 							<td v-else-if="item.statusId==6">
-								<a class="text-primary">{{ item.status }}</a>
+								<a class="text-inserted">{{ item.status }}</a>
 							</td>
 							<td v-else-if="item.statusId==7">
-								<a class="text-warning">{{ item.status }}</a>
+								<a class="text-inserted">{{ item.status }}</a>
 							</td>
 							<td v-else-if="item.statusId==8">
-								<a class="text-primary">{{ item.status }}</a>
+								<a class="text-inserted">{{ item.status }}</a>
+							</td>
+              <td v-else-if="item.statusId==9">
+								<a class="text-awaitingConfirmation">{{ item.status }}</a>
 							</td>
 							<td v-if="item.developerId==1">
 								<p>پویا رضاییه</p>
@@ -270,6 +276,7 @@
     $('#ticketlist').DataTable({
       responsive: true,
       pageLength: 100,
+      searching: false,
 		  order: [[3, 'desc']],
 		  language: 
       {

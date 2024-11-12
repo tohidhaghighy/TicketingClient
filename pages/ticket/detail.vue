@@ -1,60 +1,3 @@
-<style>
-.chat-app-wrapper .chat-app .chat-body .chat-body-messages .message-items .message-item.outgoing-message {
-	background: #5867dd;
-	color: white;
-	margin-right: auto;
-}
-pre{
-  word-wrap: break-word;
-  font-family: 'primary-font', segoe ui, tahoma;
-  font-weight: bold;
-  font-size: 14px;
-  white-space: pre-wrap; /* Preserve whitespace and wrap text */
-  direction: rtl; /* Set default direction to RTL */
-  unicode-bidi: plaintext; /* Handle mixed direction text */
-}
-.m-color{
-	color: white;
-}
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-.popup-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 300px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-.popup-content button {
-  margin: 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-success {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.btn-danger {
-  background-color: #f44336;
-  color: white;
-}
-
-</style>
 <template>
   <div class="card chat-app-wrapper">
     <div class="row chat-app">
@@ -88,7 +31,7 @@ pre{
               <span class="badge">{{ data.ticketInfo.date }}</span>
             </div>
             <template v-for="message in data.messageList">
-              <div class="message-item" style="min-width: 350px;margin-top: 20px;" v-if="data.ticketInfo.userId==message.userId">
+              <div class="message-item" style="min-width: 350px;margin-top: 20px; margin-bottom: 20px;" v-if="data.ticketInfo.userId==message.userId">
                 <pre>{{ message.text }}</pre>
                 <small class="message-item-date text-muted"> [ {{ data.ticketInfo.ticketNumber }} : شماره تیکت ] - {{message.date}} | {{ message.username }}</small>
                 <!--download attachmet file-->
@@ -122,17 +65,37 @@ pre{
           </div>
         </div>
         <div class="chat-body-footer">
-          <div class="form-group input-container d-flex align-items-center" v-if="data.ticketInfo.statusId != UserStatus.Done">
-            <!--Send with enter & go one line down with enter+shift-->
-            <textarea v-model="messageInfo.text" class="form-control message-input" placeholder="متن خود را بنویسید . . ." @keydown.enter="handleEnter"></textarea>
-            <!--Add attachment-->
-            <div class="form-group" style="margin: 10px;">
-            <label for="exampleFormControlFile1">ورودی فایل </label>
-              <input type="file" class="form-control-file" id="File" name="File" accept="image/*,video/*,audio/*,.zip,.rar,.7zip,.pdf,.xml,.docx"/>
+          <div
+            class="form-group input-container d-flex align-items-center justify-content-between"
+            v-if="data.ticketInfo.statusId != UserStatus.Done"
+          >
+            <!-- Send message input -->
+            <textarea
+              v-model="messageInfo.text"
+              class="form-control message-input"
+              placeholder="متن خود را بنویسید . . ."
+              @keydown.enter="handleEnter"
+            ></textarea>
+
+            <!-- Add attachment -->
+            <div class="form-group file-upload-container">
+              <label for="File" class="file-label">
+                <i class="fa fa-paperclip"></i> آپلود فایل
+              </label>
+              <input
+                type="file"
+                class="form-control-file file-input"
+                id="File"
+                name="File"
+                @change="handleFileChange"
+                accept="image/*,video/*,audio/*,.zip,.rar,.7zip,.pdf,.xml,.docx"
+              />
+              <span v-if="fileName" class="file-name">{{ fileName }}</span>
             </div>
-            <!--Add attachment-->
-            <button type="button" class="ml-3 btn btn-primary btn-floating" @click="send">
-              <i class="fa fa-send"></i>
+
+            <!-- Send button -->
+            <button type="button" class="btn btn-lg btn-gradient text-white send-button" @click="send">
+              <i class="fa fa-paper-plane mr-2"></i> ارسال
             </button>
           </div>
         </div>
@@ -142,6 +105,17 @@ pre{
             <!--Inserted state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inserted">
               <div class="d-flex justify-content-around">
+                <button class="btn btn-approve-sendtovira btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToVira')">تایید و ارسال به ویرا</button>
+                <div v-if="isOpen && activePopup == 'sendToVira'" class="popup-overlay">
+                  <div class="popup-content">
+                    <h3>آیا مطمئن هستید؟</h3>
+                    <p>آیا می‌خواهید تیکت به ویرا ارسال شود؟</p>
+        
+                    <!-- دکمه‌های تایید و لغو -->
+                    <button @click="sendTogroupViraConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
+                  </div>
+                </div>
                 <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن و بستن تیکت</button>
                 <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay" id="exampleModal1">
                   <div class="popup-content">
@@ -150,17 +124,6 @@ pre{
         
                     <!-- دکمه‌های تایید و لغو -->
                     <button @click="rejectConfirmAction" class="btn btn-success">تأیید</button>
-                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
-                  </div>
-                </div>
-                <button class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToVira')">تایید و ارسال به ویرا</button>
-                <div v-if="isOpen && activePopup == 'sendToVira'" class="popup-overlay">
-                  <div class="popup-content">
-                    <h3>آیا مطمئن هستید؟</h3>
-                    <p>آیا می‌خواهید تیکت به ویرا ارسال شود؟</p>
-        
-                    <!-- دکمه‌های تایید و لغو -->
-                    <button @click="sendTogroupViraConfirmAction" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -180,18 +143,7 @@ pre{
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
-                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن و بستن تیکت</button>
-                <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
-                  <div class="popup-content">
-                    <h3>آیا مطمئن هستید؟</h3>
-                    <p>آیا می‌خواهید تیکت را بسته و آن را رد کنید؟</p>
-        
-                    <!-- دکمه‌های تایید و لغو -->
-                    <button @click="rejectConfirmAction" class="btn btn-success">تأیید</button>
-                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
-                  </div>
-                </div>
-                <button class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToVira')">تایید و ارسال به ویرا</button>
+                <button class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToVira')">ارسال مجدد به ویرا</button>
                 <div v-if="isOpen && activePopup == 'sendToVira'" class="popup-overlay">
                   <div class="popup-content">
                     <h3>آیا مطمئن هستید؟</h3>
@@ -207,18 +159,7 @@ pre{
             <!--Send to tazirat state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.sendtotaz">
               <div class="d-flex justify-content-around">
-                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن و بستن تیکت</button>
-                <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
-                  <div class="popup-content">
-                    <h3>آیا مطمئن هستید؟</h3>
-                    <p>آیا می‌خواهید تیکت را بسته و آن را رد کنید؟</p>
-        
-                    <!-- دکمه‌های تایید و لغو -->
-                    <button @click="rejectConfirmAction" class="btn btn-success">تأیید</button>
-                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
-                  </div>
-                </div>
-                <button class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToVira')">تایید و ارسال به ویرا</button>
+                <button class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToVira')">ارسال مجدد به ویرا</button>
                 <div v-if="isOpen && activePopup==('sendToVira')" class="popup-overlay">
                   <div class="popup-content">
                     <h3>آیا مطمئن هستید؟</h3>
@@ -226,6 +167,17 @@ pre{
         
                     <!-- دکمه‌های تایید و لغو -->
                     <button @click="sendTogroupViraConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
+                  </div>
+                </div>
+                <button class="btn btn-danger" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن و بستن تیکت</button>
+                <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
+                  <div class="popup-content">
+                    <h3>آیا مطمئن هستید؟</h3>
+                    <p>آیا می‌خواهید تیکت را بسته و آن را رد کنید؟</p>
+        
+                    <!-- دکمه‌های تایید و لغو -->
+                    <button @click="rejectConfirmAction" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -234,6 +186,17 @@ pre{
             <!--awaiting Rejecting state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.awaitingRejecting">
               <div class="d-flex justify-content-around">
+                <button class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToVira')">ارسال مجدد به ویرا</button>
+                <div v-if="isOpen && activePopup==('sendToVira')" class="popup-overlay">
+                  <div class="popup-content">
+                    <h3>آیا مطمئن هستید؟</h3>
+                    <p>آیا می‌خواهید تیکت به ویرا ارسال شود؟</p>
+        
+                    <!-- دکمه‌های تایید و لغو -->
+                    <button @click="sendTogroupViraConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
+                  </div>
+                </div>
                 <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن و بستن تیکت</button>
                 <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
                   <div class="popup-content">
@@ -242,17 +205,6 @@ pre{
         
                     <!-- دکمه‌های تایید و لغو -->
                     <button @click="rejectConfirmAction" class="btn btn-success">تأیید</button>
-                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
-                  </div>
-                </div>
-                <button class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('sendToVira')">تایید و ارسال به ویرا</button>
-                <div v-if="isOpen && activePopup==('sendToVira')" class="popup-overlay">
-                  <div class="popup-content">
-                    <h3>آیا مطمئن هستید؟</h3>
-                    <p>آیا می‌خواهید تیکت به ویرا ارسال شود؟</p>
-        
-                    <!-- دکمه‌های تایید و لغو -->
-                    <button @click="sendTogroupViraConfirmAction" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -264,7 +216,10 @@ pre{
             <!--Send to vira state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.sendtovira">
               <div class="d-flex justify-content-around">
-                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد شده در انتظار تایید</button>
+                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inLine)">
+                  اضافه کردن به صف پردازش
+                </button>
+                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن در انتظار تأیید</button>
                 <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
                   <div class="popup-content">
                     <h3>آیا مطمئن هستید؟</h3>
@@ -275,25 +230,11 @@ pre{
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inLine)">
-                  اضافه کردن به صف پردازش
-                </button>
               </div>
             </div>
             <!--In line state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inLine">
               <div class="d-flex justify-content-around">
-                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد شده در انتظار تایید</button>
-                <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
-                  <div class="popup-content">
-                    <h3>آیا مطمئن هستید؟</h3>
-                    <p>آیا می‌خواهید تیکت را رد کرده و در انتظار تایید بمانید؟</p>
-        
-                    <!-- دکمه‌های تایید و لغو -->
-                    <button @click="finalAwaitRejectConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
-                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
-                  </div>
-                </div>
                 <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virachangestatus(UserStatus.inProgress,data.ticketInfo.ticketTime,data.ticketInfo.developerId)">
                   در حال انجام
                 </button>
@@ -304,7 +245,18 @@ pre{
                     <p>آیا می‌خواهید تیکت را به دلیل اطلاعات ناکافی به تعزیرات ارسال کنید؟</p>
         
                     <!-- دکمه‌های تایید و لغو -->
-                    <button @click="sendTogroupTazConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
+                    <button @click="sendTogroupTazConfirmAction" class="btn btn-success">تأیید</button>
+                    <button @click="cancelAction" class="btn btn-danger">لغو</button>
+                  </div>
+                </div>
+                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن در انتظار تأیید</button>
+                <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
+                  <div class="popup-content">
+                    <h3>آیا مطمئن هستید؟</h3>
+                    <p>آیا می‌خواهید تیکت را رد کرده و در انتظار تایید بمانید؟</p>
+        
+                    <!-- دکمه‌های تایید و لغو -->
+                    <button @click="finalAwaitRejectConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -313,13 +265,14 @@ pre{
             <!--In progress state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inProgress">
               <div class="d-flex justify-content-around">
-                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد شده در انتظار تایید</button>
-                <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
+                <button  class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="openPopup('doneAwait')">انجام شد در انتظار تایید</button>
+                <div v-if="isOpen && activePopup =='doneAwait'" class="popup-overlay">
                   <div class="popup-content">
                     <h3>آیا مطمئن هستید؟</h3>
-                    <p>آیا می‌خواهید تیکت را رد کرده و در انتظار تایید بمانید؟</p>
-
-                    <button @click="finalAwaitRejectConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
+                    <p>آیا می‌خواهید تیکت را نهایی کرده و در انتظار تایید تعزیرات بگذارید؟</p>
+        
+                    <!-- دکمه‌های تایید و لغو -->
+                    <button @click="viraConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -334,14 +287,13 @@ pre{
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
-                <button  class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="openPopup('doneAwait')">انجام شد در انتظار تایید</button>
-                <div v-if="isOpen && activePopup =='doneAwait'" class="popup-overlay">
+                <button class="btn btn-danger btn-rounded" style="margin-right: 20px ;" @click="openPopup('reject')">رد کردن در انتظار تأیید</button>
+                <div v-if="isOpen && activePopup == 'reject'" class="popup-overlay">
                   <div class="popup-content">
                     <h3>آیا مطمئن هستید؟</h3>
-                    <p>آیا می‌خواهید تیکت را نهایی کرده و در انتظار تایید تعزیرات بگذارید؟</p>
-        
-                    <!-- دکمه‌های تایید و لغو -->
-                    <button @click="viraConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
+                    <p>آیا می‌خواهید تیکت را رد کرده و در انتظار تایید بمانید؟</p>
+
+                    <button @click="finalAwaitRejectConfirmAction(data.ticketInfo.ticketTime,data.ticketInfo.developerId)" class="btn btn-success">تأیید</button>
                     <button @click="cancelAction" class="btn btn-danger">لغو</button>
                   </div>
                 </div>
@@ -350,49 +302,54 @@ pre{
             <!--Rejected state-->
             <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.rejected">
               <div class="d-flex justify-content-around">
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="sendtogroup(UserRole.AdminVira)">
-                  تغییر وضعیت به ارجاع به ویرا
-                </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="sendtogroup(UserRole.AdminTaz)">
-                  تغییر وضعیت به برگشت از ویرا
-                </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inserted)">
+                <button type="button" class="btn btn-new btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inserted)">
                   تغییر وضعیت به جدید
                 </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inLine)">
+                <button type="button" class="btn btn-sendtovira btn-rounded" style="margin-right: 20px ;" @click="sendtogroup(UserRole.AdminVira)">
+                  تغییر وضعیت به ارجاع به ویرا
+                </button>
+                <button type="button" class="btn btn-return-from-vira btn-rounded" style="margin-right: 20px ;" @click="sendtogroup(UserRole.AdminTaz)">
+                  تغییر وضعیت به برگشت از ویرا
+                </button>
+                <button type="button" class="btn btn-in-queue btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inLine)">
                   تغییر وضعیت به در صف انجام
                 </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inProgress)">
+                <button type="button" class="btn btn-in-progress btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inProgress)">
                   تغییر وضعیت به درحال انجام
                 </button>
-                <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.awaitingConfirmation)">
+                <button type="button" class="btn btn-done-awaiting btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.awaitingConfirmation)">
                   تغییر وضعیت به انجام شد در انتظار تایید
+                </button>
+                <button type="button" class="btn btn-awaiting-reject btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.awaitingRejecting)">
+                  تغییر وضعیت به رد کردن در انتظار تأیید
                 </button>
               </div>
             </div>
 
-            <!-- v-if="data.ticketInfo.statusId=!UserStatus.rejected" -->
             <div class="col-md-12" style="margin-top: 10px;">
+              <div class="form-group">
+                <label class="form-label" for="input1" style="margin-right: 10px; margin-left: 10px;">زمان انجام تیکت</label>
+                <input class="form-select rounded-input" type="text" v-model="data.ticketInfo.ticketTime"  placeholder="زمان تیکت را وارد کنید">
 
-              <label class="col-md-1" for="input1">زمان انجام تیکت</label>
-              <input class="col-md-2" type="text" v-model="data.ticketInfo.ticketTime"  placeholder="زمان تیکت را وارد کنید" style="border: 1px solid black;">
+                <label class="form-label" for="statusSelect" style="margin-left: 10px;">برنامه نویس</label>
+                <select class="form-select rounded-input" id="developerId" v-model="data.ticketInfo.developerId" >
+                  <option :value="DeveloperId.p_rezayeh">پویا رضائیه</option>
+                  <option :value="DeveloperId.m_bagheri">محمد باقری</option>
+                  <option :value="DeveloperId.t_hagigi">توحید حقیقی</option>
+                  <option :value="DeveloperId.m_borji">مهسا برجی</option>
+                  <option :value="DeveloperId.s_mohamadzadeh">ساناز محمد زاده</option>
+                  <option :value="DeveloperId.e_ebrahimi">الهه ابراهیمی</option>
+                  <option :value="DeveloperId.m_salehi">امیر مسعود صالحی</option>
+                  <option :value="DeveloperId.Sh_kazempour">شکیلا کاظم پور</option>
+                  <option :value="DeveloperId.e_darvishi">احسان درویشی</option>
+                  <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option>
+                </select>
 
-              <label class="col-md-1" for="statusSelect">برنامه نویس</label>
-              <select class="col-md-2" id="developerId" v-model="data.ticketInfo.developerId" >
-                <option :value="DeveloperId.p_rezayeh">پویا رضائیه</option>
-                <option :value="DeveloperId.m_bagheri">محمد باقری</option>
-                <option :value="DeveloperId.t_hagigi">توحید حقیقی</option>
-                <option :value="DeveloperId.m_borji">مهسا برجی</option>
-                <option :value="DeveloperId.s_mohamadzadeh">ساناز محمد زاده</option>
-                <option :value="DeveloperId.e_ebrahimi">الهه ابراهیمی</option>
-                <option :value="DeveloperId.m_salehi">امیر مسعود صالحی</option>
-                <option :value="DeveloperId.Sh_kazempour">شکیلا کاظم پور</option>
-                <option :value="DeveloperId.e_darvishi">احسان درویشی</option>
-                <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option>
-              </select>
+                <button type="button" class="btn btn-success btn-rounded " style="margin-right: 20px;" @click="savechange(data.ticketInfo.ticketTime, data.ticketInfo.developerId)">
+                  ذخیره
+                </button>
 
-              <button type="button" class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="savechange(data.ticketInfo.ticketTime,data.ticketInfo.developerId)">ذخیره</button>
-
+              </div>
             </div>
           </div>
         </div>
@@ -428,6 +385,13 @@ const { public: { ticketingUrl }} = useRuntimeConfig();
 const isOpen = ref(false);
 const activePopup = ref(null);
 
+const fileName = ref('');
+
+function handleFileChange(event) {
+  const file = event.target.files[0];
+  fileName.value = file ? file.name : '';
+}
+
 function openPopup(popupType) {
   isOpen.value = true;
   activePopup.value = popupType;
@@ -457,8 +421,8 @@ async function sendTogroupViraConfirmAction() {
   closePopup();
 }
 
-async function sendTogroupTazConfirmAction(time,developerId) {
-  await virasendtogroup(UserRole.AdminTaz,time,developerId);
+async function sendTogroupTazConfirmAction() {
+  await virasendtogroup(UserRole.AdminTaz);
   closePopup();
 }
 
@@ -509,6 +473,7 @@ async function send() {
     toastr.success('پیام با موفقیت ارسال شد');
     document.querySelector('#File').value = null;
     messageInfo.text='';
+    fileName.value='';
     setTimeout(() => {
       refresh().then(()=>{
         let divElement = document.getElementById('chatbody');
@@ -654,21 +619,14 @@ async function virachangestatus(status,time,developerId) {
 }
 
 //virasendtogroup need to fill roleId,developerId and ticketTime
-async function virasendtogroup(roleId,time,developerId) {
+async function virasendtogroup(roleId) {
   roleInfo.roleId=roleId;
-  developerInfo.developerId=developerId;
-  developerInfo.time=time;
-  if(developerInfo.time != null && developerInfo.time.trim(" ")!= null && developerInfo.developerId < 10)
-  {
-    try
+
+  try
     {
 		  await $fetch(`${ticketingUrl}/api/v1/changeRole`,{
 			method:'POST',
 			body : roleInfo
-		});
-    await $fetch(`${ticketingUrl}/api/v1/changeDevelopedBy`,{
-			method:'POST',
-			body : developerInfo
 		});
     toastr.success('با موفقیت ثبت شد');
     refreshpage();
@@ -677,11 +635,6 @@ async function virasendtogroup(roleId,time,developerId) {
     {
 	      console.log(error);
     }
-  }
-  else
-  {
-    toastr.error('لطفا زمان تیکت و توسعه دهنده را وارد کنید');
-  }
 }
 
 const roleInfo = reactive({
