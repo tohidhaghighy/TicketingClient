@@ -143,7 +143,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card-body">
-        <table id="ticketlist" class="table table-striped table-bordered" width="100%">
+        <table id="search" class="table table-striped table-bordered" width="100%">
         <thead>
           <tr>
             <th>شماره ردیف تیکت</th>
@@ -163,7 +163,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in searchResult" :key="item.id">
+          <tr v-for="item in searchResult" :key="id" :name="id">
             <td>{{item.ticketRowNumber}} </td>
 							<td>{{item.ticketNumber}} </td>
 							<td>{{item.username}} </td>
@@ -174,7 +174,8 @@
 							<td v-if="item.priority==1">بالا</td>
 							<td v-else-if="item.priority==2">متوسط</td>
 							<td v-else>پایین</td>
-							<td>{{item.title}}</td>
+							<td v-if="item.title.length>100">{{item.title.substring(0, 50) + "..."}}</td>
+              <td v-else>{{item.title}}</td>
 							<td>{{item.project}}</td>
 							<td>{{user.userRoleList.find(x => {return x.id == item.insertedRoleId;}).name }}</td>
               <td>{{user.userRoleList.find(x => {return x.id == item.currentRoleId;}).name }}</td>
@@ -273,7 +274,7 @@
       changeYear: true,
       showButtonPanel: true
     });
-    $('#ticketlist').DataTable({
+    $('#search').DataTable({
       responsive: true,
       pageLength: 100,
       searching: false,
@@ -304,7 +305,7 @@
 		  }
     });
   })
-  
+
   function convertShamsiToGregorian(shamsiDate) {
     // فرض کنید تاریخ ورودی به فرمت "yyyy/MM/dd" باشد
     const [year, month, day] = shamsiDate.split('/').map(Number);

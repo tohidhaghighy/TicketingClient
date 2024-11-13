@@ -3521,15 +3521,16 @@ textarea {
   .file-label {
 	display: inline-flex;
 	align-items: center;
-	padding: 8px 10px;
+	padding: 14px 15px;
 	border: 1px solid #ccc;
-	border-radius: 5px;
+	border-radius: 200px;
 	background-color: #f9f9f9;
 	cursor: pointer;
-	color: #555;
-	font-size: 14px;
+	color: #ccc;
+	font-size: 18px;
 	transition: background-color 0.3s, color 0.3s;
 	margin-bottom: 0px;
+	transform: scaleX(-1);
   }
   
   .file-label:hover {
@@ -3595,7 +3596,7 @@ textarea {
   
   .send-button {
 	padding: 8px 15px;
-	border-radius: 5px;
+	border-radius: 200px;
   }
 
   /*DeveloperId and TicketTime input css*/
@@ -4819,8 +4820,8 @@ a.btn:focus {
 }
 
 .btn.btn-lg {
-	padding: 15px 20px;
-	font-size: 17px;
+	padding: 15px 15px;
+	font-size: 18px;
 }
 
 .btn.btn-block {

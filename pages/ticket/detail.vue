@@ -80,7 +80,7 @@
             <!-- Add attachment -->
             <div class="form-group file-upload-container">
               <label for="File" class="file-label">
-                <i class="fa fa-paperclip"></i> آپلود فایل
+                <i class="fa fa-paperclip"></i>
               </label>
               <input
                 type="file"
@@ -95,7 +95,7 @@
 
             <!-- Send button -->
             <button type="button" class="btn btn-lg btn-gradient text-white send-button" @click="send">
-              <i class="fa fa-paper-plane mr-2"></i> ارسال
+              <i class="fa fa-paper-plane"></i>
             </button>
           </div>
         </div>
