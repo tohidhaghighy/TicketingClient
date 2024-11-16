@@ -3514,6 +3514,27 @@ textarea {
 	box-shadow: 0 0 0 0.2rem rgba(88, 103, 221, 0.3);
 }
 
+/* Searching page css */
+  /* Default style for the link */
+  .custom-link {
+	color: #007bff; /* Initial link color */
+	text-decoration: none; /* Remove underline */
+	transition: all 0.3s ease; /* Smooth transition */
+  }
+  
+  /* Hover effect */
+  .custom-link:hover {
+	color: #ffdd57; /* Change text color to gold-like */
+	background: linear-gradient(90deg, #ffdd57, #ffd700); /* Gradient background */
+	text-decoration: none; /* Ensure no underline */
+	box-shadow: 0px 4px 15px rgba(255, 215, 0, 0.5); /* Glowing shadow */
+	padding: 5px 10px; /* Add padding to make the background visible */
+	border-radius: 5px; /* Smooth corners */
+  }
+
+/* Searching page css */
+
+
 /* detail page css */
 
   /*Add attachment*/
