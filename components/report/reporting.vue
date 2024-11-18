@@ -3,9 +3,9 @@
     <h6 class="card-title">گزارش گیری</h6>
       
       <div class="row">
-        <div class="col-md-4">
+        <div class="custom-col col">
           <div class="form-group">
-            <label for="exampleFormControlSelect1">سامانه</label>
+            <label for="exampleFormControlSelect1">سامانه :</label>
             <select v-model="query.ProjectId" class="form-control">
               <option
                 v-for="item in data"
@@ -18,9 +18,9 @@
             </select>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="custom-col col">
           <div class="form-group">
-            <label for="exampleFormControlSelect1">اولویت</label>
+            <label for="exampleFormControlSelect1">اولویت :</label>
             <select class="form-control" v-model="query.Priority">
               <option key="1" value="1">بالا</option>
               <option key="2" value="2">متوسط</option>
@@ -29,7 +29,7 @@
             </select>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="custom-col col">
           <div class="form-group">
             <label for="exampleFormControlSelect1">نوع درخواست :</label>
             <select class="form-control" v-model="query.RequestType">
@@ -39,11 +39,9 @@
             </select>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
+        <div class="custom-col col">
           <div class="form-group">
-            <label for="exampleFormControlSelect1">وضعیت تیکت</label>
+            <label for="exampleFormControlSelect1">وضعیت تیکت :</label>
             <select v-model="query.StatusId" class="form-control">
               <option value="1">انجام شده</option>
               <option value="2">جدید</option>
@@ -57,9 +55,9 @@
             </select>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="custom-col col">
           <div class="form-group">
-            <label for="exampleFormControlSelect1">انجام دهنده</label>
+            <label for="exampleFormControlSelect1">انجام دهنده :</label>
             <select v-model="query.DeveloperId" class="form-control">
               <option value="1">پویا رضائیه</option>
               <option value="2">محمد باقری</option>
@@ -74,22 +72,21 @@
             </select>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">تاریخ شروع</label>
-            <input type="text" id="startDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr">
-          </div>
-        </div>
       </div>
       <div class="row">
-        <div class="col-md-4">
+        <div class="custom-col col">
           <div class="form-group">
-            <label for="exampleFormControlSelect1">تاریخ پایان</label>
-            <input type="text" id="endDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr">
+            <label for="exampleFormControlSelect1">تاریخ شروع :</label>
+            <input type="text" id="startDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+          </div>
+        </div>
+        <div class="custom-col col">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">تاریخ پایان :</label>
+            <input type="text" id="endDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
           </div>
         </div>
       </div>
-
       <div class="row">
         <div class="col-md-3 m-t-b-20">
           <button class="btn btn-primary btn-rounded" @click="send">ایجاد گرازش</button>
@@ -121,6 +118,10 @@ onMounted(() => {
 		changeYear: true,
 		showButtonPanel: true
 	});
+  document.onkeydown = async function(evt) {
+      evt = evt || window.evt;
+      if (evt.shiftKey && evt.key === 'Enter') {await send();}
+  }; //For get search resualt with press Enter key
 })
 
 function convertShamsiToGregorian(shamsiDate) {
@@ -134,19 +135,17 @@ function convertShamsiToGregorian(shamsiDate) {
 async function send(){
   var StartDateTime = document.getElementById('startDateTime').value;
   var EndDateTime = document.getElementById('endDateTime').value;
-	if(StartDateTime != null && EndDateTime != null){
-    try {
-    var popout = window.open(`${ticketingUrl}/api/v1/downloadReport?projectId=${query.ProjectId}&priority=${query.Priority}&requestType=${query.RequestType}&statusId=${query.StatusId}&developerId=${query.DeveloperId}&startDateTime=${convertShamsiToGregorian(StartDateTime)}&endDateTime=${convertShamsiToGregorian(EndDateTime)}`);
+	
+  try {
+    var popout = window.open(`${ticketingUrl}/api/v1/downloadReport?projectId=${query.ProjectId}&priority=${query.Priority}&requestType=${query.RequestType}&statusId=${query.StatusId}&developerId=${query.DeveloperId}${StartDateTime==''?'':'&startDateTime='+convertShamsiToGregorian(StartDateTime)}${EndDateTime==''?'':'&endDateTime='+convertShamsiToGregorian(EndDateTime)}`);
     window.setTimeout(function () {
       popout.close();
     }, 2000);
     toastr.success('با موفقیت دانلود شد');
-  } catch (error) {
+  }
+  catch (error) {
     console.log(error);
   }
-}else{
-  toastr.error('لطفا تاریخ شروع و پایان را مشخص کنید');
-}
 }
 
 const { data , error } = await useFetch(`${ticketingUrl}/api/v1/getProjects?roleId=${user.value.userRole}`);
