@@ -3514,6 +3514,15 @@ textarea {
 	box-shadow: 0 0 0 0.2rem rgba(88, 103, 221, 0.3);
 }
 
+/* Reporting page css */
+.custom-col {
+	flex: 0 0 20%;
+	max-width: 20%;
+	padding: 0 15px;
+	box-sizing: border-box;
+  }
+/* Reporting page css */
+
 /* Searching page css */
   /* Default style for the link */
   .custom-link {
@@ -4178,7 +4187,7 @@ pre{
 .card .card-body h4.card-title,
 .card .card-body h5.card-title,
 .card .card-body h6.card-title {
-	font-weight: 700;
+	font-weight: 800;
 	margin-bottom: 1.5rem;
 }
 

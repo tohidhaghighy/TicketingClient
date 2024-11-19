@@ -57,7 +57,7 @@
           </div>
           <div class="col-md-2">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">وضعیت تیکت</label>
+              <label for="exampleFormControlSelect1">وضعیت تیکت :</label>
               <select v-model="query.StatusId" class="form-control">
                 <option value="1">انجام شده</option>
                 <option value="2">جدید</option>
@@ -76,7 +76,7 @@
       <div class="row">
         <div class="col-md-2">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">سامانه</label>
+              <label for="exampleFormControlSelect1">سامانه :</label>
               <select v-model="query.ProjectId" class="form-control">
                 <option
                   v-for="item in data"
@@ -101,7 +101,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">انجام دهنده</label>
+              <label for="exampleFormControlSelect1">انجام دهنده :</label>
               <select v-model="query.DeveloperId" class="form-control">
                 <option value="1">پویا رضائیه</option>
                 <option value="2">محمد باقری</option>
@@ -118,13 +118,13 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">تاریخ شروع</label>
+              <label for="exampleFormControlSelect1">تاریخ شروع :</label>
               <input type="text" id="startDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">تاریخ پایان</label>
+              <label for="exampleFormControlSelect1">تاریخ پایان :</label>
               <input type="text" id="endDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
@@ -224,6 +224,10 @@
 			  }
 		  }
     });
+    document.onkeydown = async function(evt) {
+      evt = evt || window.event;
+      if (evt.key === 'Enter') {await send();}
+    }; //For get search resualt with press Enter key
   })
   
   function convertShamsiToGregorian(shamsiDate) {
@@ -238,13 +242,11 @@
   {
     var StartDateTime = document.getElementById('startDateTime').value;
     var EndDateTime = document.getElementById('endDateTime').value;
-    if (!StartDateTime || !EndDateTime) 
-    {
-      toastr.error('لطفا تاریخ شروع و پایان را مشخص کنید');
-    }
+    
     try {
-      const { data, error: fetchError } = await useFetch(
-      `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${query.InsertedRoleId}&username=${query.Username}&CurrentRoleId=${query.CurrentRoleId}&statusId=${query.StatusId}&projectId=${query.ProjectId}&requestType=${query.RequestType}&developerId=${query.DeveloperId}&startDateTime=${convertShamsiToGregorian(StartDateTime)}&endDateTime=${convertShamsiToGregorian(EndDateTime)}`
+      const { data, error: fetchError } = await useFetch
+      (
+        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${query.InsertedRoleId}&username=${query.Username}&CurrentRoleId=${query.CurrentRoleId}&statusId=${query.StatusId}&projectId=${query.ProjectId}&requestType=${query.RequestType}&developerId=${query.DeveloperId}${StartDateTime==''?'':'&startDateTime='+convertShamsiToGregorian(StartDateTime)}${EndDateTime==''?'':'&endDateTime='+convertShamsiToGregorian(EndDateTime)}`       
       );
 
       if (!fetchError.value) //fetchError.value == null or empty
