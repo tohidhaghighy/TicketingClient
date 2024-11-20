@@ -4,10 +4,10 @@
             <table id="flowResult" class="table table-striped table-bordered" width="100%">
                 <thead>
                     <tr>
-                        <th>شماره ردیف تیکت</th>
-			            <th>کاربر</th>
-			            <th>وضعیت</th>
-			            <th>زمان</th>
+                        <th style="width:auto;">ردیف</th>
+			            <th style="width:auto;">کاربر</th>
+			            <th style="width:auto;">وضعیت</th>
+			            <th style="width:140px;">زمان</th>
                     </tr>
                 </thead>
             </table>
@@ -44,7 +44,10 @@
                 pageLength: 100,
                 order: [[0, 'desc']],
                 columns: [
-                    { data: 'flowId'},
+                    { "data": "id",
+                      render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }},
                     { data: 'userId' ,
                     render: (data) => {
                         const developers = {
