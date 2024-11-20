@@ -3667,7 +3667,23 @@ textarea {
   }
 
   /*DeveloperId and TicketTime input css*/
+  /*Ticket Flow*/
 
+  /* For card-header */
+  .card-header-custom {
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+  }
+  
+  /* For card-body */
+  .card-body-custom {
+	border-top: none;
+	border-radius: 8px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+  }
 .chat-app-wrapper .chat-app .chat-body .chat-body-messages .message-items .message-item.outgoing-message {
 	background: #5867dd;
 	color: white;

@@ -327,28 +327,85 @@
             </div>
 
             <div class="col-md-12" style="margin-top: 10px;">
-              <div class="form-group">
-                <label class="form-label" for="input1" style="margin-right: 10px; margin-left: 10px;">زمان انجام تیکت</label>
-                <input class="form-select rounded-input" type="text" v-model="data.ticketInfo.ticketTime"  placeholder="زمان تیکت را وارد کنید">
+              <div class="card">
+                <div class="card-header" style="border-bottom: none; border-radius: 8px;">
+                  <div class="d-flex justify-content-start gap-3 mb-3">
+        
+                    <!-- First Column: Ticket Time and Developer Selection -->
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header"
+                        data-toggle="collapse"
+                        data-target="#multiCollapseExample1"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample1"
+                        style="border: 1px solid #ddd; 
+                        border-radius: 8px; 
+                        border-bottom-left-radius: 0px; 
+                        border-bottom-right-radius: 0px;"
+                        >
+                          <button class="btn btn-link">انجام دهنده</button>
+                        </div>
+                        <div class="collapse" id="multiCollapseExample1">
+                          <div class="card card-body" style="border-top: none; border-radius: 8px; border-top-left-radius: 0px; border-top-right-radius: 0px;">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <!-- Ticket Time Input -->
+                              <div class="me-2 flex-grow-1">
+                                <label class="form-label" for="input1" style="margin-right: 10px; margin-left: 10px;">زمان انجام تیکت :</label>
+                                <input class="form-select rounded-input" type="text" v-model="data.ticketInfo.ticketTime" placeholder="زمان تیکت را وارد کنید">
+                              </div>
 
-                <label class="form-label" for="statusSelect" style="margin-left: 10px;">برنامه نویس</label>
-                <select class="form-select rounded-input" id="developerId" v-model="data.ticketInfo.developerId" >
-                  <option :value="DeveloperId.p_rezayeh">پویا رضائیه</option>
-                  <option :value="DeveloperId.m_bagheri">محمد باقری</option>
-                  <option :value="DeveloperId.t_hagigi">توحید حقیقی</option>
-                  <option :value="DeveloperId.m_borji">مهسا برجی</option>
-                  <option :value="DeveloperId.s_mohamadzadeh">ساناز محمد زاده</option>
-                  <option :value="DeveloperId.e_ebrahimi">الهه ابراهیمی</option>
-                  <option :value="DeveloperId.m_salehi">امیر مسعود صالحی</option>
-                  <option :value="DeveloperId.Sh_kazempour">شکیلا کاظم پور</option>
-                  <option :value="DeveloperId.e_darvishi">احسان درویشی</option>
-                  <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option>
-                </select>
+                              <!-- Developer Select -->
+                              <div class="me-2 flex-grow-1">
+                                <label class="form-label" for="statusSelect" style="margin-left: 10px;">برنامه نویس :</label>
+                                <select class="form-select rounded-input" id="developerId" v-model="data.ticketInfo.developerId">
+                                  <option :value="DeveloperId.p_rezayeh">پویا رضائیه</option>
+                                  <option :value="DeveloperId.m_bagheri">محمد باقری</option>
+                                  <option :value="DeveloperId.t_hagigi">توحید حقیقی</option>
+                                  <option :value="DeveloperId.m_borji">مهسا برجی</option>
+                                  <option :value="DeveloperId.s_mohamadzadeh">ساناز محمد زاده</option>
+                                  <option :value="DeveloperId.e_ebrahimi">الهه ابراهیمی</option>
+                                  <option :value="DeveloperId.m_salehi">امیر مسعود صالحی</option>
+                                  <option :value="DeveloperId.Sh_kazempour">شکیلا کاظم پور</option>
+                                  <option :value="DeveloperId.e_darvishi">احسان درویشی</option>
+                                  <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option>
+                                </select>
+                              </div>
 
-                <button type="button" class="btn btn-success btn-rounded " style="margin-right: 20px;" @click="savechange(data.ticketInfo.ticketTime, data.ticketInfo.developerId)">
-                  ذخیره
-                </button>
+                              <!-- Save Button -->
+                              <div class="flex-shrink-0">
+                                <button type="button" class="btn btn-success btn-rounded" style="margin-right: 10px;" @click="savechange(data.ticketInfo.ticketTime, data.ticketInfo.developerId)">
+                                  ذخیره
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
+                    <!-- Second Column: Ticket Flow -->
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-header" 
+                        data-toggle="collapse"
+                        data-target="#multiCollapseExample2"
+                        aria-expanded="false"
+                        aria-controls="multiCollapseExample2"
+                        style="border: 1px solid #ddd; border-radius: 8px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;"
+                        >
+                          <button class="btn btn-link">گردش کار</button>
+                        </div>
+                        <div class="collapse" id="multiCollapseExample2">
+                          <div class="card card-body" style="border-top: none; border-radius: 8px; border-top-left-radius: 0px; border-top-right-radius: 0px;">
+                            <ticketFlow :ticketId="route.query.id" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+        
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -356,6 +413,7 @@
       </div>
     </div>
   </div>
+  
 </template>
 
 <script setup>
