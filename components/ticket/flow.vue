@@ -114,6 +114,7 @@
                     sProcessing: "در حال پردازش...",
                     sSearch: "جستجو:",
                     sZeroRecords: "رکوردی با این مشخصات پیدا نشد",
+                    sLengthMenu:     "نمایش _MENU_ رکورد",
                     oPaginate: {
                       sFirst: "ابتدا",
                       sLast: "انتها",
