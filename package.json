@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@amcharts/amcharts5": "^5.10.5",
+    "@pinia/nuxt": "^0.7.0",
     "chart.js": "^4.4.4",
     "jalaali-js": "^1.2.7",
     "nuxt": "^3.12.2",
+    "pinia": "^2.2.6",
     "vue": "^3.4.29",
     "vue-chartjs": "^5.3.1",
     "vue-router": "^4.3.3"

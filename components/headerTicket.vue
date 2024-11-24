@@ -21,7 +21,7 @@
         <!-- begin::breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">داشبورد</a></li>
+                <li class="breadcrumb-item"><NuxtLink to="/">داشبورد</NuxtLink></li>
                 <li class="breadcrumb-item active" aria-current="page">داشبورد پشتیبانی</li>
             </ol>
         </nav>
@@ -33,6 +33,12 @@
         <!-- begin::navbar main body -->
         <ul class="navbar-nav">
             <li class="nav-item">
+            </li>
+            <li class="nav-item dropdown">
+                <label class="switch">
+                    <input type="checkbox" :checked="isChecked" @change="updateChange">
+                    <span class="slider round"></span>
+                </label>
             </li>
             <li class="nav-item dropdown">
                 <a href="/ticket/add" class="nav-link" data-toggle="tooltip" title="ثبت تیکت جدید">
@@ -77,6 +83,15 @@
 </template>
 
 <script setup>
+    import { useRequestTypeStore } from '@/stores/requestTypeStore'
+    const changeRequestTypeId = useRequestTypeStore();
+    const isChecked = ref(false);
+
+    const updateChange = (event) =>{
+        changeRequestTypeId.requestTypeId=event.target.checked;
+    }
+   
+    
     var user = useCookie("UserInfo");
     const { public: { loginUrl }} = useRuntimeConfig();	
     if(user.value==null){

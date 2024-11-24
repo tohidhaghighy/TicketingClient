@@ -7,5 +7,6 @@ export interface TicketInfo{
     inLine:number,
     inProgress:number,
     done :number,
-    total :number
+    total :number,
+    awaitingRejecting :number
 }

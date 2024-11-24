@@ -14,9 +14,7 @@
 								</div>
 							</div>
 						</div>
-						<ClientOnly>
-        						<Chart :data="chartlist"/>
-    					</ClientOnly>
+        						<Chart :data="chartlistData"/>
 					</div>
 				</div>
 			</div>
@@ -24,53 +22,53 @@
     			<div class="row">
         			<!-- تیکت جدید -->
         			<div class="col-md-6">
-            			<ReportCard title="تیکت جدید " :count="data?.inserted" :total="data?.total" url="/ticket/list?status=2" color="progress-bar bg-success" />
+            			<ReportCard title="تیکت جدید " :count="tableData?.inserted" :total="tableData?.total" url="/ticket/list?status=2" color="progress-bar bg-success" />
         			</div>
 
         			<!-- تیکت انجام شده -->
         			<div class="col-md-6">
-            			<ReportCard title="تیکت انجام شده " :count="data?.done" :total="data?.total" url="/ticket/list?status=1" color="progress-bar bg-primary" />
+            			<ReportCard title="تیکت انجام شده " :count="tableData?.done" :total="tableData?.total" url="/ticket/list?status=1" color="progress-bar bg-primary" />
         			</div>
     			</div>
 
     			<div class="row">
         			<!-- تیکت در حال انجام -->
         			<div class="col-md-6">
-            			<ReportCard title="در حال انجام" :count="data?.inProgress" :total="data?.total" url="/ticket/list?status=8" color="progress-bar bg-primary" />
+            			<ReportCard title="در حال انجام" :count="tableData?.inProgress" :total="tableData?.total" url="/ticket/list?status=8" color="progress-bar bg-primary" />
         			</div>
 
         			<!-- تیکت رد شده -->
         			<div class="col-md-6">
-            			<ReportCard title="تیکت رد شده " :count="data?.rejected" :total="data?.total" url="/ticket/list?status=4" color="progress-bar bg-warning" />
+            			<ReportCard title="تیکت رد شده " :count="tableData?.rejected" :total="tableData?.total" url="/ticket/list?status=4" color="progress-bar bg-warning" />
         			</div>
     			</div>
 
     			<div class="row" v-if="user.userRole==4 || user.userRole==5">
         			<!-- ارجاع به ویرا -->
         			<div class="col-md-6">
-            			<ReportCard title="ارجاع به ویرا" :count="data?.sendtovira" :total="data?.total" url="/ticket/list?status=3" color="progress-bar bg-info" />
+            			<ReportCard title="ارجاع به ویرا" :count="tableData?.sendtovira" :total="tableData?.total" url="/ticket/list?status=3" color="progress-bar bg-info" />
         			</div>
 
         			<!-- بازگشت از ویرا -->
         			<div class="col-md-6">
-            			<ReportCard title="بازگشت از ویرا" :count="data?.sendtotaz" :total="data?.total" url="/ticket/list?status=5" color="progress-bar bg-info" />
+            			<ReportCard title="بازگشت از ویرا" :count="tableData?.sendtotaz" :total="tableData?.total" url="/ticket/list?status=5" color="progress-bar bg-info" />
         			</div>
     			</div>
 
     			<div class="row" v-if="user.userRole==4 || user.userRole==5">
         			<!-- انجام شده در انتظار تایید -->
         			<div class="col-md-6">
-            			<ReportCard title="انجام شده در انتظار تایید" :count="data?.awaitingConfirmation" :total="data?.total" url="/ticket/list?status=6" color="progress-bar bg-info" />
+            			<ReportCard title="انجام شده در انتظار تایید" :count="tableData?.awaitingConfirmation" :total="tableData?.total" url="/ticket/list?status=6" color="progress-bar bg-info" />
         			</div>
 
         			<!-- در صف انجام پردازش -->
         			<div class="col-md-6">
-            			<ReportCard title="در صف انجام پردازش" :count="data?.inLine" :total="data?.total" url="/ticket/list?status=7" color="progress-bar bg-info" />
+            			<ReportCard title="در صف انجام پردازش" :count="tableData?.inLine" :total="tableData?.total" url="/ticket/list?status=7" color="progress-bar bg-info" />
         			</div>
 
         			<!-- رد شده در انتظار تایید -->
         			<div class="col-md-6">
-            			<ReportCard title="رد شده در انتظار تایید" :count="data?.awaitingRejecting" :total="data?.total" url="/ticket/list?status=9" color="progress-bar bg-info" />
+            			<ReportCard title="رد شده در انتظار تایید" :count="tableData?.awaitingRejecting" :total="tableData?.total" url="/ticket/list?status=9" color="progress-bar bg-info" />
         			</div>
     			</div>
 			</div>
@@ -81,16 +79,36 @@
 	import type { UserInfo } from '../models/interfaces/UserInfo'
 	import type { TicketInfo } from '../models/interfaces/TicketInfo'
 	import type { ChartInfo } from '../models/interfaces/ChartConfig'
+	import { useRequestTypeStore } from '@/stores/requestTypeStore'
+
+	const changeRequestTypeId = useRequestTypeStore();
+	const tableData = ref<TicketInfo>();
+	const chartlistData = ref<ChartInfo>();
+
+	let requestId = 1 ;
+	if(changeRequestTypeId.requestTypeId){
+		requestId =2;
+	}
+	watch(()=>changeRequestTypeId.requestTypeId,(newval)=>{
+		if(newval){
+			showdata(2);
+		}else{
+			showdata(1);
+		}
+	});
 
 	const { public: { ticketingUrl }} = useRuntimeConfig();	
 	var user = useCookie<UserInfo>("UserInfo");
 
-	const { data , error } = await useFetch<TicketInfo>(`${ticketingUrl}/api/v1/getRoleTicket?RoleId=${user.value.userRole}&userId=${user.value.userId}`);
-   
-	const { data:chartlist } = await useFetch<ChartInfo>(`${ticketingUrl}/api/v1/getYearTicketInfo?RoleId=${user.value.userRole}&userId=${user.value.userId}`);
-
-	onMounted(()=>{
-		
-	});
+    async function showdata(val: number){
+		var { data , error } = await useFetch<TicketInfo>(`${ticketingUrl}/api/v1/getRoleTicket?RoleId=${user.value.userRole}&userId=${user.value.userId}&requestTypeId=`+val);
+		tableData.value = data.value || undefined;
+		var { data:chartlist ,error } = await useFetch<ChartInfo>(`${ticketingUrl}/api/v1/getYearTicketInfo?RoleId=${user.value.userRole}&userId=${user.value.userId}&requestTypeId=`+val);
+		chartlistData.value = chartlist.value || undefined;
+	}
+	var { data , error } = await useFetch<TicketInfo>(`${ticketingUrl}/api/v1/getRoleTicket?RoleId=${user.value.userRole}&userId=${user.value.userId}&requestTypeId=`+requestId);
+	tableData.value = data.value || undefined;
+	var { data:chartlist , error } = await useFetch<ChartInfo>(`${ticketingUrl}/api/v1/getYearTicketInfo?RoleId=${user.value.userRole}&userId=${user.value.userId}&requestTypeId=`+requestId);
+	chartlistData.value = chartlist.value || undefined;
 
 </script>
