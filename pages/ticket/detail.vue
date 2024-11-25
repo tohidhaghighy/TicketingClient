@@ -422,6 +422,9 @@ import {UserRole} from '../../models/enums/userRole'
 import {UserStatus} from '../../models/enums/userStatus'
 import {DeveloperId} from '../../models/enums/developerId'
 import { ref } from 'vue';
+import { useRequestTypeStore } from '@/stores/requestTypeStore'
+const changeRequestTypeId = useRequestTypeStore();
+changeRequestTypeId.isShowButton=false;
 
 definePageMeta({
   layout: "panel",

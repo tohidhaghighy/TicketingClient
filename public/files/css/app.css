@@ -3870,8 +3870,12 @@ pre{
 
 /* headerTicket */
 	/* The switch - the box around the slider */
+.custome-lable{
+	margin-bottom: 0px;
+}
 .switch {
 	margin-bottom: 0px;
+	margin-left: 12px;
 	position: relative;
 	display: inline-block;
 	width: 50px;

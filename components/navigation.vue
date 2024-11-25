@@ -4,10 +4,10 @@
     <div class="navigation-icon-menu">
         <ul>
             <li class="active" data-toggle="tooltip" title="داشبورد">
-                <a href="#navigationDashboards" title="داشبوردها">
+                <NuxtLink to="#navigationDashboards" title="داشبوردها">
                     <i class="icon ti-pie-chart"></i>
                     <span class="badge badge-navigatin">2</span>
-                </a>
+                </NuxtLink>
             </li>
         
         </ul>

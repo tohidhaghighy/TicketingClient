@@ -20,7 +20,11 @@
 </template>
 
 <script setup lang="ts">
+import { useRequestTypeStore } from '@/stores/requestTypeStore'
+const changeRequestTypeId = useRequestTypeStore();
+changeRequestTypeId.isShowButton=true;
 definePageMeta({
   layout: 'panel'
 });
+
 </script>

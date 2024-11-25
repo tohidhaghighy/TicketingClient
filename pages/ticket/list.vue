@@ -125,10 +125,10 @@ tr > td{
 	
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRequestTypeStore } from '@/stores/requestTypeStore'
-import type { TicketInfo } from '../models/interfaces/TicketInfo'
-
+const changeRequestTypeId = useRequestTypeStore();
+changeRequestTypeId.isShowButton=true;
 
 definePageMeta({
   layout: 'panel'
@@ -167,25 +167,26 @@ onMounted(() => {
     });
 })
 
-const changeRequestTypeId = useRequestTypeStore();
-const tableData = ref<TicketInfo>();
+
+const tableData = ref(null);
 
 let requestId = 1 ;
-	if(changeRequestTypeId.requestTypeId){
-		requestId =2;
+if(changeRequestTypeId.requestTypeId){
+	requestId =2;
+}
+watch(()=>changeRequestTypeId.requestTypeId,(newval)=>{
+	if(newval){
+		showdata(2);
+	}else{
+		showdata(1);
 	}
-	watch(()=>changeRequestTypeId.requestTypeId,(newval)=>{
-		if(newval){
-			showdata(2);
-		}else{
-			showdata(1);
-		}
-	});
+});
 
-	async function showdata(val: number){
-		var { data : data , error } = await useFetch(`${ticketingUrl}/api/v1/getTicketList?roleId=${user.value.userRole}&status=${route.query.status}&userId=${user.value.userId}`);
-		tableData.value = data.value || undefined;
-	}
+async function showdata(val){
+	var { data : data , error } = await useFetch(`${ticketingUrl}/api/v1/getTicketList?roleId=${user.value.userRole}&status=${route.query.status}&userId=${user.value.userId}&requestTypeId=`+val);
+	tableData.value = data.value || undefined;
+}
 
-var { data : data , error } = await useFetch(`${ticketingUrl}/api/v1/getTicketList?roleId=${user.value.userRole}&status=${route.query.status}&userId=${user.value.userId}`);
+var { data : data , error } = await useFetch(`${ticketingUrl}/api/v1/getTicketList?roleId=${user.value.userRole}&status=${route.query.status}&userId=${user.value.userId}&requestTypeId=`+requestId);
+tableData.value = data.value || undefined;
 </script>

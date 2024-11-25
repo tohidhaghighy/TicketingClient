@@ -3,11 +3,11 @@
 
 <!-- begin::header logo -->
 <div class="header-logo">
-    <a href="/">
+    <NuxtLink to="/">
         <img class="large-logo" src="/files/media/image/logo.png" alt="سامانه تیکتینگ ویرا">
         <img class="small-logo" src="/files/media/image/logo.png" alt="سامانه تیکتینگ ویرا">
         <img class="dark-logo" src="/files/media/image/logo.png" alt="سامانه تیکتینگ ویرا">
-    </a>
+    </NuxtLink>
 </div>
 <!-- end::header logo -->
 
@@ -34,25 +34,27 @@
         <ul class="navbar-nav">
             <li class="nav-item">
             </li>
+            <label class="custome-lable" v-show="isShow">توسعه</label>
             <li class="nav-item dropdown">
-                <label class="switch">
+                <label class="switch" v-show="isShow">
                     <input type="checkbox" :checked="isChecked" @change="updateChange">
                     <span class="slider round"></span>
                 </label>
             </li>
+            <label class="custome-lable" v-show="isShow">پشتیبانی</label>
             <li class="nav-item dropdown">
-                <a href="/ticket/add" class="nav-link" data-toggle="tooltip" title="ثبت تیکت جدید">
+                <NuxtLink to="/ticket/add" class="nav-link" data-toggle="tooltip" title="ثبت تیکت جدید">
                     <i class="ti-plus"></i>
-                </a>
+                </NuxtLink>
             </li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link bg-none">
+                <NuxtLink to="#" class="nav-link bg-none">
                     <div>
                         <figure class="avatar avatar-state-success avatar-sm">
                             <img src="/files/media/image/logo.png" class="rounded-circle" alt="تصویر کاربر">
                         </figure>
                     </div>
-                </a>
+                </NuxtLink>
             </li>
         </ul>
         <!-- end::navbar main body -->
@@ -60,17 +62,17 @@
         <div class="d-flex align-items-center">
             <!-- begin::navbar navigation toggler -->
             <div class="d-xl-none d-lg-none d-sm-block navigation-toggler">
-                <a href="#">
+                <NuxtLink to="#">
                     <i class="ti-menu"></i>
-                </a>
+                </NuxtLink>
             </div>
             <!-- end::navbar navigation toggler -->
 
             <!-- begin::navbar toggler -->
             <div class="d-xl-none d-lg-none d-sm-block navbar-toggler">
-                <a href="#">
+                <NuxtLink to="#">
                     <i class="ti-arrow-down"></i>
-                </a>
+                </NuxtLink>
             </div>
             <!-- end::navbar toggler -->
         </div>
@@ -84,14 +86,23 @@
 
 <script setup>
     import { useRequestTypeStore } from '@/stores/requestTypeStore'
+    import { useRoute } from 'vue-router';
+
+    const route = useRoute();
+    const showHeader = ref(false);
+
     const changeRequestTypeId = useRequestTypeStore();
     const isChecked = ref(false);
+    const isShow = ref(true);
+
+    watch(() => changeRequestTypeId.isShowButton, (newVal) => {
+        isShow.value = newVal;
+    });
 
     const updateChange = (event) =>{
         changeRequestTypeId.requestTypeId=event.target.checked;
     }
    
-    
     var user = useCookie("UserInfo");
     const { public: { loginUrl }} = useRuntimeConfig();	
     if(user.value==null){

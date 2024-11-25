@@ -3,7 +3,7 @@
     <h3 class="primary-font font-weight-bold mb-3 line-height-24">
       <span class="align-middle"> {{ count }} _ </span>
       <span class="font-size-13"
-        ><a :href="url"> {{ title }} </a></span
+        ><NuxtLink :to="url"> {{ title }} </NuxtLink></span
       >
     </h3>
     <p class="font-size-13 m-b-0">
