@@ -4,10 +4,10 @@
     <div class="navigation-icon-menu">
         <ul>
             <li class="active" data-toggle="tooltip" title="داشبورد">
-                <a href="#navigationDashboards" title="داشبوردها">
+                <NuxtLink to="#navigationDashboards" title="داشبوردها">
                     <i class="icon ti-pie-chart"></i>
                     <span class="badge badge-navigatin">2</span>
-                </a>
+                </NuxtLink>
             </li>
         
         </ul>
@@ -29,7 +29,7 @@
                 <NuxtLink class="active" to="/report/reporting">گزارش گیری<span class="badge badge-warning">2</span></NuxtLink>
             </li>
             <li v-if="user.userRole==5">
-                <NuxtLink class="active" to="/search/searching">جستوجوی پیشرفته<span class="badge badge-danger">2</span></NuxtLink>
+                <NuxtLink class="active" to="/search/searching">جستجوی پیشرفته<span class="badge badge-danger">2</span></NuxtLink>
             </li>
         </ul>
     </div>

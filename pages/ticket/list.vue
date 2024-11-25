@@ -29,7 +29,7 @@ tr > td{
 						</tr>
 				</thead>
 				<tbody>
-						<tr v-for="item in data" :key="Id" :name="Id">
+						<tr v-for="item in tableData" :key="Id" :name="Id">
 							<td>{{item.ticketRowNumber}} </td>
 							<td>{{item.ticketNumber}} </td>
 							<td>{{item.username}} </td>
@@ -126,7 +126,10 @@ tr > td{
 </template>
 
 <script setup>
-	
+import { useRequestTypeStore } from '@/stores/requestTypeStore'
+const changeRequestTypeId = useRequestTypeStore();
+changeRequestTypeId.isShowButton=true;
+
 definePageMeta({
   layout: 'panel'
 });
@@ -163,5 +166,27 @@ onMounted(() => {
 		}
     });
 })
-const { data : data , error } = await useFetch(`${ticketingUrl}/api/v1/getTicketList?roleId=${user.value.userRole}&status=${route.query.status}&userId=${user.value.userId}`);
+
+
+const tableData = ref(null);
+
+let requestId = 1 ;
+if(changeRequestTypeId.requestTypeId){
+	requestId =2;
+}
+watch(()=>changeRequestTypeId.requestTypeId,(newval)=>{
+	if(newval){
+		showdata(2);
+	}else{
+		showdata(1);
+	}
+});
+
+async function showdata(val){
+	var { data : data , error } = await useFetch(`${ticketingUrl}/api/v1/getTicketList?roleId=${user.value.userRole}&status=${route.query.status}&userId=${user.value.userId}&requestTypeId=`+val);
+	tableData.value = data.value || undefined;
+}
+
+var { data : data , error } = await useFetch(`${ticketingUrl}/api/v1/getTicketList?roleId=${user.value.userRole}&status=${route.query.status}&userId=${user.value.userId}&requestTypeId=`+requestId);
+tableData.value = data.value || undefined;
 </script>

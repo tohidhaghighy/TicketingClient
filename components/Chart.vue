@@ -9,7 +9,7 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 
 const props = defineProps(['data'])
 const chartdiv = ref(null);
-
+let series = null;
 onMounted(() => {
     am5.ready(function () {
 
@@ -83,7 +83,7 @@ onMounted(() => {
             direction: "rtl",
             fontFamily: "Vazir"
         })
-        let series = chart.series.push(am5xy.ColumnSeries.new(root, {
+        series = chart.series.push(am5xy.ColumnSeries.new(root, {
             name: "Series 1",
             xAxis: xAxis,
             yAxis: yAxis,
@@ -115,6 +115,13 @@ onMounted(() => {
         series.appear(1000);
         chart.appear(1000, 100);
 
+      
     }); // end am5.ready()
-})
+});
+
+watch(()=>props.data,(newval)=>{
+		if(series){
+			series.data.setAll(newval);
+		}
+	});
 </script>

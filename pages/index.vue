@@ -1,12 +1,5 @@
 
-<script setup lang="ts">
-import Report from '~/components/report.vue';
 
-definePageMeta({
-  layout: 'panel'
-});
-
-</script>
 <template>
     <Report />
     <div class="colors">
@@ -25,3 +18,13 @@ definePageMeta({
 		<div class="bg-warning-bright"></div>
 	</div>
 </template>
+
+<script setup lang="ts">
+import { useRequestTypeStore } from '@/stores/requestTypeStore'
+const changeRequestTypeId = useRequestTypeStore();
+changeRequestTypeId.isShowButton=true;
+definePageMeta({
+  layout: 'panel'
+});
+
+</script>
