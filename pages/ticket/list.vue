@@ -128,8 +128,7 @@ tr > td{
 <script setup>
 import { useRequestTypeStore } from '@/stores/requestTypeStore'
 const changeRequestTypeId = useRequestTypeStore();
-changeRequestTypeId.isShowButton=true;
-
+changeRequestTypeId.showSwitchButton(false)
 definePageMeta({
   layout: 'panel'
 });

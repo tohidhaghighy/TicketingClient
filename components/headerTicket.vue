@@ -92,15 +92,15 @@
     const showHeader = ref(false);
 
     const changeRequestTypeId = useRequestTypeStore();
-    const isChecked = ref(false);
-    const isShow = ref(true);
+    const isChecked = ref(changeRequestTypeId.requestTypeId);
+    const isShow = ref(changeRequestTypeId.isShowButton);
 
     watch(() => changeRequestTypeId.isShowButton, (newVal) => {
         isShow.value = newVal;
     });
 
     const updateChange = (event) =>{
-        changeRequestTypeId.requestTypeId=event.target.checked;
+        changeRequestTypeId.changeRequestTypeId(event.target.checked);
     }
    
     var user = useCookie("UserInfo");
