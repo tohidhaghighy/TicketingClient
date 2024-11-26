@@ -424,8 +424,7 @@ import {DeveloperId} from '../../models/enums/developerId'
 import { ref } from 'vue';
 import { useRequestTypeStore } from '@/stores/requestTypeStore'
 const changeRequestTypeId = useRequestTypeStore();
-changeRequestTypeId.isShowButton=false;
-
+changeRequestTypeId.showSwitchButton(false)
 definePageMeta({
   layout: "panel",
 });

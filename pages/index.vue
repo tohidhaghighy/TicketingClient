@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { useRequestTypeStore } from '@/stores/requestTypeStore'
 const changeRequestTypeId = useRequestTypeStore();
-changeRequestTypeId.isShowButton=true;
+changeRequestTypeId.showSwitchButton(true);
 definePageMeta({
   layout: 'panel'
 });

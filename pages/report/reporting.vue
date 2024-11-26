@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { useRequestTypeStore } from '@/stores/requestTypeStore'
 const changeRequestTypeId = useRequestTypeStore();
-changeRequestTypeId.isShowButton=false;
+changeRequestTypeId.showSwitchButton(false);
 definePageMeta({
   layout: 'panel'
 })
