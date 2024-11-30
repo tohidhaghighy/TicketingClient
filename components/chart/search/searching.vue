@@ -118,14 +118,28 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">تاریخ شروع :</label>
-              <input type="text" id="startDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+              <label for="exampleFormControlSelect1">از تاریخ ایجاد تیکت:</label>
+              <input type="text" id="insertStartDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">تاریخ پایان :</label>
-              <input type="text" id="endDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+              <label for="exampleFormControlSelect1">تا تاریخ ایجاد تیکت:</label>
+              <input type="text" id="InsertEndDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">از تاریخ اتمام تیکت:</label>
+              <input type="text" id="CloseStartDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">تا تاریخ اتمام تیکت:</label>
+              <input type="text" id="CloseEndDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
       </div>
@@ -147,6 +161,7 @@
 						  <th>کد تیکت</th>
 						  <th>ثبت کننده</th>
 						  <th>تاریخ ثبت</th>
+              <th>تاریخ اتمام</th>
 						  <th>نوع درخواست </th>
 						  <th>اولویت</th>
 						  <th>عنوان</th>
@@ -240,13 +255,27 @@
 
   async function send()
   {
-    var StartDateTime = document.getElementById('startDateTime').value;
-    var EndDateTime = document.getElementById('endDateTime').value;
+    var InsertStartDateTime = document.getElementById('InsertStartDateTime').value;
+    var InsertEndDateTime = document.getElementById('InsertEndDateTime').value;
+    var CloseStartDateTime = document.getElementById('CloseStartDateTime').value;
+    var CloseEndDateTime = document.getElementById('CloseEndDateTime').value;
     
     try {
       const { data, error: fetchError } = await useFetch
       (
-        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${query.InsertedRoleId}&username=${query.Username}&CurrentRoleId=${query.CurrentRoleId}&statusId=${query.StatusId}&projectId=${query.ProjectId}&requestType=${query.RequestType}&developerId=${query.DeveloperId}${StartDateTime==''?'':'&startDateTime='+convertShamsiToGregorian(StartDateTime)}${EndDateTime==''?'':'&endDateTime='+convertShamsiToGregorian(EndDateTime)}`       
+        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}
+        &title=${query.Title}
+        &insertedRoleId=${query.InsertedRoleId}
+        &username=${query.Username}
+        &CurrentRoleId=${query.CurrentRoleId}
+        &statusId=${query.StatusId}
+        &projectId=${query.ProjectId}
+        &requestType=${query.RequestType}
+        &developerId=${query.DeveloperId}
+        ${InsertStartDateTime==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStartDateTime)}
+        ${InsertEndDateTime==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEndDateTime)}
+        ${CloseStartDateTime==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartDateTime)}
+        ${CloseEndDateTime==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEndDateTime)}`       
       );
 
       if (!fetchError.value) //fetchError.value == null or empty
@@ -268,6 +297,7 @@
             { data: 'ticketNumber' },
             { data: 'username' },
             { data: 'date' },
+            { data: 'closeDate'},
             { 
               data: 'requestType',
               render: (data) => (data === 1 ? 'پشتیبانی' : (data === 2 ? 'توسعه' : ''))
