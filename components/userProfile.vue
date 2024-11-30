@@ -12,6 +12,9 @@
 </div>
 </template>
 <script setup lang="ts">
+
+const { public: { loginUrl }} = useRuntimeConfig();
+
 interface UserInfo{
 		userId:number,
         name:string,
@@ -20,6 +23,10 @@ interface UserInfo{
         mobile:string,
         userRole:number
 	}
+    if(!useCookie<UserInfo>("UserInfo").value){
+
+        window.location.href = loginUrl;
+    }
 	
 	var user = useCookie<UserInfo>("UserInfo");
 </script>
