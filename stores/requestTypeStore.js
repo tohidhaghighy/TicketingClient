@@ -2,9 +2,10 @@ import { defineStore } from 'pinia'
 
 export const useRequestTypeStore = defineStore('requestTypeId', {
   state: () => {
+    var requestId=localStorage.getItem('requestTypeId');
     return { 
-       requestTypeId: localStorage.getItem('requestTypeId')  || false ,
-       isShowButton:localStorage.getItem('isShowButton') || true 
+       requestTypeId:(requestId=='true' ? true : false)  || false ,
+       isShowButton:localStorage.getItem('isShowButton') || false
       }
   },
   actions: {
