@@ -31,7 +31,7 @@
                 let time = now.getTime();
                 let expireTime = time + 5_000 * 36_000;
                 now.setTime(expireTime);
-    
+                localStorage.clear();
                 document.cookie =
                   "UserInfo=" +
                    JSON.stringify(result.data) +
