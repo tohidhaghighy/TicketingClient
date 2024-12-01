@@ -212,23 +212,6 @@
   const selectRefs =["a","b","c","d","e","f"]
   //#endregion
 
-  //#region handleSelection function
-  function handleSelection(key) {
-    watch(
-      () => selections[key],
-      (newVal) => {
-        if (newVal.includes("0") && newVal.length > 1) {
-          // اگر "همه" انتخاب شده و سایر موارد هم انتخاب شده‌اند
-          selections[key] = ["0"]; // فقط "همه" باقی بماند
-        } else if (!newVal.includes("0") && newVal.length > 0) {
-          // اگر گزینه‌ای به غیر از "همه" انتخاب شده باشد
-          selections[key] = newVal.filter((value) => value !== "0"); // "همه" را حذف کن
-        }
-      }
-    );
-  }
-  //#endregion
-
   //#region onMounted
   onMounted(() => {
     $('input[name="date-picker-shamsi-list"]').datepicker({
@@ -291,7 +274,22 @@
   })
   //#endregion
 
-
+  //#region handleSelection function
+    function handleSelection(key) {
+    watch(
+      () => selections[key],
+      (newVal) => {
+        if (newVal.includes("0") && newVal.length > 1) {
+          // اگر "همه" انتخاب شده و سایر موارد هم انتخاب شده‌اند
+          selections[key] = ["0"]; // فقط "همه" باقی بماند
+        } else if (!newVal.includes("0") && newVal.length > 0) {
+          // اگر گزینه‌ای به غیر از "همه" انتخاب شده باشد
+          selections[key] = newVal.filter((value) => value !== "0"); // "همه" را حذف کن
+        }
+      }
+    );
+  }
+  //#endregion
 
   //#region convertShamsiToGregorian function
   function convertShamsiToGregorian(shamsiDate) {
