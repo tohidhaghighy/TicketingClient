@@ -3,22 +3,22 @@
     <h6 class="card-title">جستجوی پیشرفته</h6>
 
       <div class="row">
-          <div class="col-md-2">
+          <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlInput1">شماره تیکت :</label>
               <input type="text" class="form-control text-left" v-model="query.TicketNumber" autocomplete="off" placeholder="نمونه شماره تیکت : 1403110001" />
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlInput1">عنوان :</label>
               <input type="text" class="form-control text-left" v-model="query.Title" autocomplete="off" placeholder="نمونه عنوان تیکت : قبض"/>
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">نقش ثبت کننده :</label>
-              <select v-model="query.InsertedRoleId" class="form-control">
+              <select v-model="selections['InsertedRoleId']" class="form-control js-example-basic-single" multiple ref="a">
                 <option value="1">ادمین سامانه SSO</option>
                 <option value="2">ادمین سامانه مدیریت پرونده ها</option>
                 <option value="3">ادمین سامانه میز خدمت</option>
@@ -28,20 +28,20 @@
                 <option value="7">ادمین سامانه تبادل اطلاعات</option>
                 <option value="10">هوش تجاری</option>
                 <option value="9">زیر ساخت</option>
-                <option value="0">همه</option>
+                <option selected value="0">همه</option>
               </select>
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlInput1">نام کاربری :</label>
               <input type="text" class="form-control text-left" v-model="query.Username" autocomplete="off" placeholder="نمونه نام کاربری : admintaz" />
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">ارجاع شده به :</label>
-              <select v-model="query.CurrentRoleId" class="form-control">
+              <select v-model="selections['CurrentRoleId']" class="form-control js-example-basic-single" multiple ref="b">
                 <option value="1">ادمین سامانه SSO</option>
                 <option value="2">ادمین سامانه مدیریت پرونده ها</option>
                 <option value="3">ادمین سامانه میز خدمت</option>
@@ -51,14 +51,18 @@
                 <option value="7">ادمین سامانه تبادل اطلاعات</option>
                 <option value="10">هوش تجاری</option>
                 <option value="9">زیر ساخت</option>
-                <option value="0">همه</option>
+                <option selected value="0">همه</option>
               </select>
             </div>
           </div>
-          <div class="col-md-2">
+          
+      </div>
+
+      <div class="row">
+        <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">وضعیت تیکت :</label>
-              <select v-model="query.StatusId" class="form-control">
+              <select v-model="selections['StatusId']" class="form-control js-example-basic-single" multiple ref="c">
                 <option value="1">انجام شده</option>
                 <option value="2">جدید</option>
                 <option value="3">ارجاع به ویرا</option>
@@ -67,17 +71,14 @@
                 <option value="6">انجام شد در انتظار تایید</option>
                 <option value="7">در صف انجام پردازش</option>
                 <option value="8">در حال انجام</option>
-                <option value="0">همه</option>
+                <option selected value="0">همه</option>
               </select>
             </div>
-          </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-2">
+        </div>
+        <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">سامانه :</label>
-              <select v-model="query.ProjectId" class="form-control">
+              <select v-model="selections['ProjectId']" class="form-control js-example-basic-single" multiple ref="d">
                 <option
                   v-for="item in data"
                   :key="item.id"
@@ -85,24 +86,24 @@
                 >
                   {{ item.name }}
                 </option>
-                <option key="0" value="0">همه</option>
+                <option selected key="0" value="0">همه</option>
               </select>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">نوع درخواست :</label>
-              <select class="form-control" v-model="query.RequestType">
+              <select v-model="query.RequestType" class="form-control js-example-basic-single" multiple ref="e">
                 <option key="1" value="1">پشتیبانی</option>
                 <option key="2" value="2">توسعه</option>
-                <option key="0" value="0">همه</option>
+                <option selected key="0" value="0">همه</option>
               </select>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="custom-col col">
+          <label for="exampleFormControlSelect1">انجام دهنده :</label>
             <div class="form-group">
-              <label for="exampleFormControlSelect1">انجام دهنده :</label>
-              <select v-model="query.DeveloperId" class="form-control">
+              <select v-model="selections['DeveloperId']" class="form-control js-example-basic-single" multiple ref="f">
                 <option value="1">پویا رضائیه</option>
                 <option value="2">محمد باقری</option>
                 <option value="3">توحید حقیقی</option>
@@ -112,31 +113,33 @@
                 <option value="6">شکیلا کاظم پور</option>
                 <option value="5">امیر مسعود صالحی</option>
                 <option value="7">احسان درویشی</option>
-                <option value="0">همه</option>
+                <option selected value="0">همه</option>
               </select>
             </div>
         </div>
-        <div class="col-md-2">
+      </div>
+      <div class="row">
+        <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">از تاریخ ایجاد تیکت:</label>
               <input type="text" id="insertStartDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">تا تاریخ ایجاد تیکت:</label>
               <input type="text" id="InsertEndDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
-        <div class="col-md-2">
+      </div>
+      <div class="row">
+        <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">از تاریخ اتمام تیکت:</label>
               <input type="text" id="CloseStartDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-2">
+        <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">تا تاریخ اتمام تیکت:</label>
               <input type="text" id="CloseEndDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
@@ -179,10 +182,16 @@
     </div>
   </div>
 </template>
+
   
 <script setup>
+
+  //#region import
+  import { _toLeftRightCenter } from 'chart.js/helpers';
   import jalaali from 'jalaali-js';
-  
+  //#endregion
+
+  //#region  constants
   const user = useCookie("UserInfo");
   const { public: { ticketingUrl }} = useRuntimeConfig();
   const { data , error } = await useFetch(`${ticketingUrl}/api/v1/getProjects?roleId=${user.value.userRole}`);
@@ -190,15 +199,37 @@
   const query = reactive({
     TicketNumber: "",
     Title: "",
-    InsertedRoleId: 0,
     Username: "",
-    CurrentRoleId: 0,
-    StatusId: 0,
-    ProjectId: 0,
-    RequestType: 0,
-    DeveloperId: 0,
   });
+  const selections = reactive({
+    InsertedRoleId: ["0"], 
+    CurrentRoleId: ["0"],
+    StatusId: ["0"],
+    ProjectId: ["0"],
+    RequestType: ["0"],
+    DeveloperId: ["0"],
+  });
+  const selectRefs =["a","b","c","d","e","f"]
+  //#endregion
 
+  //#region handleSelection function
+  function handleSelection(key) {
+    watch(
+      () => selections[key],
+      (newVal) => {
+        if (newVal.includes("0") && newVal.length > 1) {
+          // اگر "همه" انتخاب شده و سایر موارد هم انتخاب شده‌اند
+          selections[key] = ["0"]; // فقط "همه" باقی بماند
+        } else if (!newVal.includes("0") && newVal.length > 0) {
+          // اگر گزینه‌ای به غیر از "همه" انتخاب شده باشد
+          selections[key] = newVal.filter((value) => value !== "0"); // "همه" را حذف کن
+        }
+      }
+    );
+  }
+  //#endregion
+
+  //#region onMounted
   onMounted(() => {
     $('input[name="date-picker-shamsi-list"]').datepicker({
       dateFormat: "yy/mm/dd",
@@ -243,8 +274,26 @@
       evt = evt || window.event;
       if (evt.key === 'Enter') {await send();}
     }; //For get search resualt with press Enter key
+    $('.js-example-basic-single').select2({
+        placeholder: 'انتخاب',
+    });
+    selectRefs.forEach((refName) => {
+      const refElement = $refs[refName];
+      if (refElement){
+        $(refElement)
+        .select2()
+        .on("change", () => {
+          selections[refName] = $(refElement).val();
+        });
+        handleSelection(refName);
+      }
+    })
   })
-  
+  //#endregion
+
+
+
+  //#region convertShamsiToGregorian function
   function convertShamsiToGregorian(shamsiDate) {
     // فرض کنید تاریخ ورودی به فرمت "yyyy/MM/dd" باشد
     const [year, month, day] = shamsiDate.split('/').map(Number);
@@ -252,7 +301,9 @@
     
     return `${gy}-${String(gm).padStart(2, '0')}-${String(gd).padStart(2, '0')}`;
   }
+  //#endregion
 
+  //#region sned function
   async function send()
   {
     var InsertStartDateTime = document.getElementById('InsertStartDateTime').value;
@@ -263,19 +314,7 @@
     try {
       const { data, error: fetchError } = await useFetch
       (
-        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}
-        &title=${query.Title}
-        &insertedRoleId=${query.InsertedRoleId}
-        &username=${query.Username}
-        &CurrentRoleId=${query.CurrentRoleId}
-        &statusId=${query.StatusId}
-        &projectId=${query.ProjectId}
-        &requestType=${query.RequestType}
-        &developerId=${query.DeveloperId}
-        ${InsertStartDateTime==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStartDateTime)}
-        ${InsertEndDateTime==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEndDateTime)}
-        ${CloseStartDateTime==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartDateTime)}
-        ${CloseEndDateTime==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEndDateTime)}`       
+        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${query.InsertedRoleId}&username=${query.Username}&CurrentRoleId=${query.CurrentRoleId}&statusId=${query.StatusId}&projectId=${query.ProjectId}&requestType=${query.RequestType}&developerId=${query.DeveloperId}${InsertStartDateTime==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStartDateTime)}${InsertEndDateTime==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEndDateTime)}${CloseStartDateTime==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartDateTime)}${CloseEndDateTime==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEndDateTime)}`       
       );
 
       if (!fetchError.value) //fetchError.value == null or empty
@@ -405,7 +444,7 @@
       console.error("An unexpected error occurred:", err);
     }
   }
-
+  //#endregion
   
 </script>
   
