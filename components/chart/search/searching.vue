@@ -18,7 +18,7 @@
           <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">نقش ثبت کننده :</label>
-              <select v-model="selections['InsertedRoleId']" class="form-control js-example-basic-multiple" multiple>
+              <select id='InsertedRoleId' class="form-control js-example-basic-multiple" multiple>
                 <option value="1">ادمین سامانه SSO</option>
                 <option value="2">ادمین سامانه مدیریت پرونده ها</option>
                 <option value="3">ادمین سامانه میز خدمت</option>
@@ -40,7 +40,7 @@
           <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">ارجاع شده به :</label>
-              <select v-model="selections['CurrentRoleId']" class="form-control js-example-basic-multiple" multiple>
+              <select id='CurrentRoleId' class="form-control js-example-basic-multiple" multiple>
                 <option value="1">ادمین سامانه SSO</option>
                 <option value="2">ادمین سامانه مدیریت پرونده ها</option>
                 <option value="3">ادمین سامانه میز خدمت</option>
@@ -60,7 +60,7 @@
         <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">وضعیت تیکت :</label>
-              <select v-model="selections['StatusId']" class="form-control js-example-basic-multiple" multiple>
+              <select id='StatusId' class="form-control js-example-basic-multiple" multiple>
                 <option value="1">انجام شده</option>
                 <option value="2">جدید</option>
                 <option value="3">ارجاع به ویرا</option>
@@ -75,7 +75,7 @@
         <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">سامانه :</label>
-              <select v-model="selections['ProjectId']" class="form-control js-example-basic-multiple" multiple>
+              <select id='ProjectId' class="form-control js-example-basic-multiple" multiple>
                 <option
                   v-for="item in data"
                   :key="item.id"
@@ -89,7 +89,7 @@
         <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">نوع درخواست :</label>
-              <select v-model="selections['RequestType']" class="form-control js-example-basic-multiple" multiple>
+              <select id='RequestType' class="form-control js-example-basic-multiple" multiple>
                 <option key="1" value="1">پشتیبانی</option>
                 <option key="2" value="2">توسعه</option>
               </select>
@@ -98,7 +98,7 @@
         <div class="custom-col col">
           <label for="exampleFormControlSelect1">انجام دهنده :</label>
             <div class="form-group">
-              <select v-model="selections['DeveloperId']" class="form-control js-example-basic-multiple" multiple ref="select2">
+              <select id="DeveloperId" class="form-control js-example-basic-multiple" multiple >
                 <option value="1">پویا رضائیه</option>
                 <option value="2">محمد باقری</option>
                 <option value="3">توحید حقیقی</option>
@@ -116,7 +116,7 @@
         <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">از تاریخ ایجاد تیکت:</label>
-              <input type="text" id="insertStartDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+              <input type="text" id="InsertStartDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
         <div class="custom-col col">
@@ -182,7 +182,6 @@
   //#region import
   import { _toLeftRightCenter } from 'chart.js/helpers';
   import jalaali from 'jalaali-js';
-import { DeveloperId } from '~/models/enums/developerId';
   //#endregion
 
   //#region  constants
@@ -195,16 +194,7 @@ import { DeveloperId } from '~/models/enums/developerId';
     Title: "",
     Username: "",
   });
-  const selections = reactive({
-    InsertedRoleId: [""], 
-    CurrentRoleId: [""],
-    StatusId: [""],
-    ProjectId: [""],
-    RequestType: [""],
-    DeveloperId: [""],
-  });
   
-  console.log(selections['DeveloperId'])
   //#endregion
 
   //#region onMounted
@@ -279,15 +269,22 @@ import { DeveloperId } from '~/models/enums/developerId';
   //#region sned function
   async function send()
   {
-    var InsertStartDateTime = document.getElementById('InsertStartDateTime').value;
-    var InsertEndDateTime = document.getElementById('InsertEndDateTime').value;
-    var CloseStartDateTime = document.getElementById('CloseStartDateTime').value;
-    var CloseEndDateTime = document.getElementById('CloseEndDateTime').value;
-    
+    var InsertStart = document.getElementById('InsertStartDateTime').value;
+    var InsertEnd = document.getElementById('InsertEndDateTime').value;
+    var CloseStartD = document.getElementById('CloseStartDateTime').value;
+    var CloseEnd = document.getElementById('CloseEndDateTime').value;
+
+    var InsertedRoleId = document.getElementById('InsertedRoleId').value;
+    var CurrentRoleId = document.getElementById('CurrentRoleId').value; 
+    var StatusId = document.getElementById('StatusId').value;
+    var ProjectId = document.getElementById('ProjectId').value;
+    var RequestType = document.getElementById('RequestType').value;
+    var DeveloperId = document.getElementById('DeveloperId').value;
+
     try {
       const { data, error: fetchError } = await useFetch
       (
-        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${selections.InsertedRoleId}&username=${query.Username}&CurrentRoleId=${selections.CurrentRoleId}&statusId=${selections.StatusId}&projectId=${selections.ProjectId}&requestType=${selections.RequestType}&developerId=${selections.DeveloperId}${InsertStartDateTime==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStartDateTime)}${InsertEndDateTime==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEndDateTime)}${CloseStartDateTime==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartDateTime)}${CloseEndDateTime==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEndDateTime)}`       
+        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${InsertedRoleId}&username=${query.Username}&CurrentRoleId=${CurrentRoleId}&statusId=${StatusId}&projectId=${ProjectId}&requestType=${RequestType}&developerId=${DeveloperId}${InsertStart==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStart)}${InsertEnd==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEnd)}${CloseStartD==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartD)}${CloseEnd==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEnd)}`       
       );
 
       if (!fetchError.value) //fetchError.value == null or empty
