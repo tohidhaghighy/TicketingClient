@@ -242,12 +242,10 @@
       evt = evt || window.event;
       if (evt.key === 'Enter') {await send();}
     }; //For get search resualt with press Enter key
-   
     $('.js-example-basic-multiple').select2({
       placeholder: '                           انتخاب کنید',
       allowClear: true
     });
-
     // Update placeholder with number of selected items
     $('.js-example-basic-multiple').on('change', function () {
       const selectedCount = $(this).val() ? $(this).val().length : 0;
@@ -269,17 +267,30 @@
   //#region sned function
   async function send()
   {
+    //#region getValues
+    var InsertedRoleIdData = $('#InsertedRoleId').select2('data');
+    var CurrentRoleIdData = $('#CurrentRoleId').select2('data');
+    var StatusIdData = $('#StatusId').select2('data');
+    var ProjectIdData = $('#ProjectId').select2('data');
+    var RequestTypeData = $('#RequestType').select2('data');
+    var DeveloperIdData = $('#DeveloperId').select2('data');
+    //#endregion
+    
+    //#region getTime
     var InsertStart = document.getElementById('InsertStartDateTime').value;
     var InsertEnd = document.getElementById('InsertEndDateTime').value;
     var CloseStartD = document.getElementById('CloseStartDateTime').value;
     var CloseEnd = document.getElementById('CloseEndDateTime').value;
+    //#endregion
 
-    var InsertedRoleId = document.getElementById('InsertedRoleId').value;
-    var CurrentRoleId = document.getElementById('CurrentRoleId').value; 
-    var StatusId = document.getElementById('StatusId').value;
-    var ProjectId = document.getElementById('ProjectId').value;
-    var RequestType = document.getElementById('RequestType').value;
-    var DeveloperId = document.getElementById('DeveloperId').value;
+    //#region getValues
+    var InsertedRoleId = InsertedRoleIdData.map(option => option.id);
+    var CurrentRoleId = CurrentRoleIdData.map(option => option.id);
+    var StatusId = StatusIdData.map(option => option.id);
+    var ProjectId = ProjectIdData.map(option => option.id);
+    var RequestType = RequestTypeData.map(option => option.id);
+    var DeveloperId = DeveloperIdData.map(option => option.id);
+    //#endregion
 
     try {
       const { data, error: fetchError } = await useFetch
@@ -290,7 +301,8 @@
       if (!fetchError.value) //fetchError.value == null or empty
       {
         searchResult.value = data.value;
-        
+        //#region generate list
+
         // Destroy existing DataTable instance
         $('#searchResult').DataTable().destroy();
         // Reinitialize DataTable with updated data
@@ -305,7 +317,7 @@
             { data: 'ticketRowNumber' },
             { data: 'ticketNumber' },
             { data: 'username' },
-            { data: 'date' },
+            { data: 'insertDate' },
             { data: 'closeDate'},
             { 
               data: 'requestType',
@@ -403,7 +415,9 @@
             },
           },
         });
+        //#endregion
       } 
+
       else 
       {
         console.error("Fetch error:", fetchError.value);
