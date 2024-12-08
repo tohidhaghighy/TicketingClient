@@ -158,12 +158,12 @@
 						  <th>کد تیکت</th>
 						  <th>ثبت کننده</th>
 						  <th>تاریخ ثبت</th>
-              <th>تاریخ اتمام</th>
+              <th>تاریخ تحویل</th>
 						  <th>نوع درخواست </th>
 						  <th>اولویت</th>
 						  <th>عنوان</th>
 						  <th>سامانه</th>
-						  <th >ایجاد شده توسط</th>
+						  <th>ایجاد شده توسط</th>
 						  <th>ارجاع شده به</th>
 						  <th>وضعیت</th>
 						  <th>انجام دهنده</th>
@@ -319,7 +319,7 @@
             { data: 'ticketNumber' },
             { data: 'username' },
             { data: 'insertDate' },
-            { data: 'closeDate'},
+            { data: 'processEndDateTime'},
             { 
               data: 'requestType',
               render: (data) => (data === 1 ? 'پشتیبانی' : (data === 2 ? 'توسعه' : ''))
