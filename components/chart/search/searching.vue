@@ -130,13 +130,13 @@
       <div class="row">
         <div class="custom-col col">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">از تاریخ اتمام تیکت:</label>
+              <label for="exampleFormControlSelect1">از تاریخ تحویل تیکت:</label>
               <input type="text" id="CloseStartDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
         <div class="custom-col col">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">تا تاریخ اتمام تیکت:</label>
+              <label for="exampleFormControlSelect1">تا تاریخ تحویل تیکت:</label>
               <input type="text" id="CloseEndDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
