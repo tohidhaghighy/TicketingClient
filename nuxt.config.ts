@@ -16,6 +16,7 @@ export default defineNuxtConfig({
         { rel: "stylesheet", href: "/files/css/app.css" },
         { rel: "stylesheet", href: "/vendors/datepicker-jalali/bootstrap-datepicker.min.css" },
         { rel: "stylesheet", href: "/vendors/datepicker/daterangepicker.css" },
+        { rel: "stylesheet", href: "/vendors/select2/css/select2.min.css"},
       ],
       script: [
         {
@@ -65,6 +66,9 @@ export default defineNuxtConfig({
         },
         {
           src: "/vendors/datepicker/daterangepicker.js",
+        },
+        {
+          src: "/vendors/select2/js/select2.min.js",
         }
       ],
     },
