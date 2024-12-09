@@ -86,10 +86,6 @@
 
 <script setup>
     import { useRequestTypeStore } from '@/stores/requestTypeStore'
-    import { useRoute } from 'vue-router';
-
-    const route = useRoute();
-    const showHeader = ref(false);
 
     const changeRequestTypeId = useRequestTypeStore();
     const isChecked = ref(changeRequestTypeId.requestTypeId);

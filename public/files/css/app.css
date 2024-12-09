@@ -3522,6 +3522,20 @@ textarea {
 	box-sizing: border-box;
   }
 /* Reporting page css */
+.checkbox-container {
+	display: flex;
+	align-items: center;
+	height: 38px; /* Match the height of other input elements */
+	padding: 15px 12px 11px 6px; /* Add padding similar to other inputs */
+	background-color: #fff; /* Background color of inputs */
+  }
+  
+  .form-control-checkbox {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	margin: 0;
+  }
 
 /* Searching page css */
   /* Default style for the link */
