@@ -53,7 +53,6 @@
               </select>
             </div>
           </div>
-          
       </div>
 
       <div class="row">
@@ -91,8 +90,17 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">نوع درخواست :</label>
               <select id='RequestType' class="form-control js-example-basic-multiple" multiple>
-                <option key="1" value="1">پشتیبانی</option>
-                <option key="2" value="2">توسعه</option>
+                <option value="1">پشتیبانی</option>
+                <option value="2">توسعه</option>
+              </select>
+            </div>
+        </div>
+        <div class="custom-col col">
+            <div class="form-group">
+              <label>بر اساس برنامه زمانبندی می باشد؟ </label>
+              <select id='IsSchadule' class="form-control js-example-basic-multiple" multiple :disabled="IsSchaduleChange">
+                <option key="1" value=1>بله</option>
+                <option key="2" value=0>خیر</option>
               </select>
             </div>
         </div>
@@ -113,6 +121,7 @@
             </div>
         </div>
       </div>
+      
       <div class="row">
         <div class="custom-col col">
             <div class="form-group">
@@ -126,8 +135,6 @@
               <input type="text" id="InsertEndDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
             </div>
         </div>
-      </div>
-      <div class="row">
         <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">از تاریخ تحویل تیکت:</label>
@@ -194,8 +201,8 @@
     TicketNumber: "",
     Title: "",
     Username: "",
-  });
-  
+  });  
+  var IsSchaduleChange = ref(true);
   //#endregion
 
   //#region onMounted
@@ -251,6 +258,13 @@
     $('.js-example-basic-multiple').on('change', function () {
       const selectedCount = $(this).val() ? $(this).val().length : 0;
       $(this).next('.select2').find('.select2-selection__rendered').text(`${selectedCount} : تعداد انتخاب شده`);
+      var RequestTypeDataIds = $('#RequestType').select2('data').map(option => option.id);
+      IsSchaduleChange.value = true;
+      RequestTypeDataIds.forEach(element => {
+        if(element == "2"){
+          IsSchaduleChange.value = false;
+        }
+      });
     });
   })
   //#endregion
@@ -264,7 +278,7 @@
     return `${gy}-${String(gm).padStart(2, '0')}-${String(gd).padStart(2, '0')}`;
   }
   //#endregion
-
+  
   //#region sned function
   async function send()
   {
@@ -275,6 +289,7 @@
     var ProjectIdData = $('#ProjectId').select2('data');
     var RequestTypeData = $('#RequestType').select2('data');
     var DeveloperIdData = $('#DeveloperId').select2('data');
+    var IsSchaduleData = $('#IsSchadule').select2('data');
     //#endregion
     
     //#region getTime
@@ -291,12 +306,13 @@
     var ProjectId = ProjectIdData.map(option => option.id);
     var RequestType = RequestTypeData.map(option => option.id);
     var DeveloperId = DeveloperIdData.map(option => option.id);
+    var IsSchadule = IsSchaduleData.map(option => option.id);
     //#endregion
 
     try {
       const { data, error: fetchError } = await useFetch
       (
-        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${InsertedRoleId}&username=${query.Username}&CurrentRoleId=${CurrentRoleId}&statusId=${StatusId}&projectId=${ProjectId}&requestType=${RequestType}&developerId=${DeveloperId}${InsertStart==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStart)}${InsertEnd==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEnd)}${CloseStartD==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartD)}${CloseEnd==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEnd)}`       
+        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${InsertedRoleId}&username=${query.Username}&CurrentRoleId=${CurrentRoleId}&statusId=${StatusId}&projectId=${ProjectId}&requestType=${RequestType}&developerId=${DeveloperId}${InsertStart==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStart)}${InsertEnd==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEnd)}${CloseStartD==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartD)}${CloseEnd==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEnd)}&IsSchadule=${IsSchadule}`       
       );
 
       if (!fetchError.value) //fetchError.value == null or empty

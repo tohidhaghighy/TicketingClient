@@ -29,10 +29,22 @@
         <div class="col-md-4">
           <div class="form-group">
             <label for="exampleFormControlSelect1">نوع درخواست :</label>
-            <select class="form-control" v-model="formValues.RequestType">
+            <select id="requestType" class="form-control" v-model="formValues.RequestType">
               <option key="1" value="1">پشتیبانی</option>
               <option key="2" value="2">توسعه</option>
             </select>
+          </div>
+        </div>
+        <div v-show="formValues.RequestType == 2" class="col-md-4">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1"> </label>
+            <div class="checkbox-container">
+              <label style="margin-left: 12px; margin-top: 10px;">آیا بر اساس برنامه زمانبندی می باشد؟ </label>
+              <label class="switch">
+                  <input type="checkbox" v-model="formValues.IsSchedule" :true-value="1" :false-value="0">
+                  <span class="slider round"></span>
+              </label>
+            </div>
           </div>
         </div>
         <div class="col-md-4">
@@ -75,7 +87,12 @@ const formValues = reactive({
   UserId : user.value.userId,
   RoleId : user.value.userRole,
   Username : user.value.username,
-  RequestType:1
+  RequestType: 1,
+  IsSchedule: 1
+});
+
+watch(() => formValues.RequestType, (value) => {
+  formValues.RequestType = value;
 });
 
 
@@ -91,6 +108,7 @@ async function send(){
   formData.append('Username', formValues.Username);
   formData.append('RequestType', formValues.RequestType);
   formData.append('file', fileInput.files[0]);
+  formData.append('IsSchedule' , formValues.IsSchedule);
 
 	if(formValues.Text!="" && formValues.Title!="" && formValues.ProjectId>0 && formValues.UserId>0){
     try{
