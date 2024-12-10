@@ -107,7 +107,7 @@
         <div class="custom-col col">
           <label for="exampleFormControlSelect1">انجام دهنده :</label>
             <div class="form-group">
-              <select id="DeveloperId" class="form-control js-example-basic-multiple" multiple >
+              <select id="DeveloperId" class="form-control js-example-basic-multiple" multiple>
                 <option value="1">پویا رضائیه</option>
                 <option value="2">محمد باقری</option>
                 <option value="3">توحید حقیقی</option>
@@ -167,6 +167,7 @@
 						  <th>تاریخ ثبت</th>
               <th>تاریخ تحویل</th>
 						  <th>نوع درخواست </th>
+              <th>بر اساس برنامه زمانی</th>
 						  <th>اولویت</th>
 						  <th>عنوان</th>
 						  <th>سامانه</th>
@@ -339,6 +340,10 @@
             { 
               data: 'requestType',
               render: (data) => (data === 1 ? 'پشتیبانی' : (data === 2 ? 'توسعه' : ''))
+            },
+            { 
+              data: 'isSchedule',
+              render: (data) => (data === 1 ? 'بله' : (data === 0 ? 'خیر' : 'نامشخص'))
             },
             { 
               data: 'priority',

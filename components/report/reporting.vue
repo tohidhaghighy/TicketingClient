@@ -6,7 +6,7 @@
         <div class="custom-col col">
           <div class="form-group">
             <label for="exampleFormControlSelect1">سامانه :</label>
-            <select v-model="query.ProjectId" class="form-control">
+            <select id='ProjectId' class="form-control js-example-basic-multiple" multiple>
               <option
                 v-for="item in data"
                 :key="item.id"
@@ -14,51 +14,59 @@
               >
                 {{ item.name }}
               </option>
-              <option key="0" value="0">همه</option>
             </select>
           </div>
         </div>
         <div class="custom-col col">
           <div class="form-group">
             <label for="exampleFormControlSelect1">اولویت :</label>
-            <select class="form-control" v-model="query.Priority">
+            <select id="Priority" class="form-control js-example-basic-multiple" multiple>
               <option key="1" value="1">بالا</option>
               <option key="2" value="2">متوسط</option>
               <option key="3" value="3">پایین</option>
-              <option key="0" value="0">همه</option>
             </select>
           </div>
         </div>
         <div class="custom-col col">
           <div class="form-group">
             <label for="exampleFormControlSelect1">نوع درخواست :</label>
-            <select class="form-control" v-model="query.RequestType">
+            <select id='RequestType' class="form-control js-example-basic-multiple" multiple>
               <option key="1" value="1">پشتیبانی</option>
               <option key="2" value="2">توسعه</option>
-              <option key="0" value="0">همه</option>
             </select>
           </div>
         </div>
         <div class="custom-col col">
+            <div class="form-group">
+              <label>بر اساس برنامه زمانبندی می باشد؟ </label>
+              <select id='IsSchadule' class="form-control js-example-basic-multiple" multiple :disabled="IsSchaduleChange">
+                <option key="1" value=1>بله</option>
+                <option key="2" value=0>خیر</option>
+              </select>
+            </div>
+        </div>
+        <div class="custom-col col">
           <div class="form-group">
             <label for="exampleFormControlSelect1">وضعیت تیکت :</label>
-            <select v-model="query.StatusId" class="form-control">
+            <select id='StatusId' class="form-control js-example-basic-multiple" multiple>
               <option value="1">انجام شده</option>
               <option value="2">جدید</option>
               <option value="3">ارجاع به ویرا</option>
               <option value="4">ردشده</option>
               <option value="5">بازگشت از ویرا</option>
               <option value="6">انجام شد در انتظار تایید</option>
+              <option value="9">رد شده در انتظار تایید</option>
               <option value="7">در صف انجام پردازش</option>
               <option value="8">در حال انجام</option>
-              <option value="0">همه</option>
             </select>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="custom-col col">
           <div class="form-group">
             <label for="exampleFormControlSelect1">انجام دهنده :</label>
-            <select v-model="query.DeveloperId" class="form-control">
+            <select id="DeveloperId" class="form-control js-example-basic-multiple" multiple>
               <option value="1">پویا رضائیه</option>
               <option value="2">محمد باقری</option>
               <option value="3">توحید حقیقی</option>
@@ -68,23 +76,32 @@
               <option value="6">شکیلا کاظم پور</option>
               <option value="5">امیر مسعود صالحی</option>
               <option value="7">احسان درویشی</option>
-              <option value="0">همه</option>
             </select>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="custom-col col">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">تاریخ شروع :</label>
-            <input type="text" id="startDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
-          </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">از تاریخ ایجاد تیکت:</label>
+              <input type="text" id="InsertStartDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+            </div>
         </div>
         <div class="custom-col col">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">تاریخ پایان :</label>
-            <input type="text" id="endDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
-          </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">تا تاریخ ایجاد تیکت:</label>
+              <input type="text" id="InsertEndDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+            </div>
+        </div>
+        <div class="custom-col col">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">از تاریخ تحویل تیکت:</label>
+              <input type="text" id="CloseStartDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+            </div>
+        </div>
+        <div class="custom-col col">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">تا تاریخ تحویل تیکت:</label>
+              <input type="text" id="CloseEndDateTime" name="date-picker-shamsi-list" class="form-control text-left" dir="ltr" autocomplete="off">
+            </div>
         </div>
       </div>
       <div class="row">
@@ -96,19 +113,17 @@
 </template>
 
 <script setup>
+//#region imported item
 import jalaali from 'jalaali-js';
+//#endregion
 
+//#region variables
 const user = useCookie("UserInfo");
 const { public: { ticketingUrl }} = useRuntimeConfig();
+var IsSchaduleChange = ref(true);
+//#endregion
 
-const query = reactive({
-	ProjectId:0,
-	Priority:0,
-  RequestType:0,
-  StatusId:0,
-  DeveloperId:0,
-});
-
+//#region onMounted
 onMounted(() => {
   $('input[name="date-picker-shamsi-list"]').datepicker({
 		dateFormat: "yy/mm/dd",
@@ -122,8 +137,26 @@ onMounted(() => {
       evt = evt || window.evt;
       if (evt.shiftKey && evt.key === 'Enter') {await send();}
   }; //For get search resualt with press Enter key
+  $('.js-example-basic-multiple').select2({
+      placeholder: '                           انتخاب کنید',
+      allowClear: true
+  });
+  // Update placeholder with number of selected items
+  $('.js-example-basic-multiple').on('change', function () {
+    const selectedCount = $(this).val() ? $(this).val().length : 0;
+    $(this).next('.select2').find('.select2-selection__rendered').text(`${selectedCount} : تعداد انتخاب شده`);
+    var RequestTypeDataIds = $('#RequestType').select2('data').map(option => option.id);
+    IsSchaduleChange.value = true;
+    RequestTypeDataIds.forEach(element => {
+      if(element == "2"){
+        IsSchaduleChange.value = false;
+      }
+    });
+  });
 })
+//#endregion
 
+//#region convertShamsiToGregorian function
 function convertShamsiToGregorian(shamsiDate) {
     // فرض کنید تاریخ ورودی به فرمت "yyyy/MM/dd" باشد
     const [year, month, day] = shamsiDate.split('/').map(Number);
@@ -131,13 +164,38 @@ function convertShamsiToGregorian(shamsiDate) {
     
     return `${gy}-${String(gm).padStart(2, '0')}-${String(gd).padStart(2, '0')}`;
 }
+//#endregion
 
+//#region Send function
 async function send(){
-  var StartDateTime = document.getElementById('startDateTime').value;
-  var EndDateTime = document.getElementById('endDateTime').value;
+  //#region getValues
+  var PriorityData = $('#Priority').select2('data');
+  var StatusIdData = $('#StatusId').select2('data');
+  var ProjectIdData = $('#ProjectId').select2('data');
+  var RequestTypeData = $('#RequestType').select2('data');
+  var DeveloperIdData = $('#DeveloperId').select2('data');
+  var IsSchaduleData = $('#IsSchadule').select2('data');
+  //#endregion
+
+  //#region getTime
+  var InsertStart = document.getElementById('InsertStartDateTime').value;
+  var InsertEnd = document.getElementById('InsertEndDateTime').value;
+  var CloseStartD = document.getElementById('CloseStartDateTime').value;
+  var CloseEnd = document.getElementById('CloseEndDateTime').value;
+  //#endregion
+
+  //#region getValues
+  var Priority = PriorityData.map(option => option.id);
+  var StatusId = StatusIdData.map(option => option.id);
+  var ProjectId = ProjectIdData.map(option => option.id);
+  var RequestType = RequestTypeData.map(option => option.id);
+  var DeveloperId = DeveloperIdData.map(option => option.id);
+  var IsSchadule = IsSchaduleData.map(option => option.id);
+  //#endregion
+
 	
   try {
-    var popout = window.open(`${ticketingUrl}/api/v1/downloadReport?projectId=${query.ProjectId}&priority=${query.Priority}&requestType=${query.RequestType}&statusId=${query.StatusId}&developerId=${query.DeveloperId}${StartDateTime==''?'':'&startDateTime='+convertShamsiToGregorian(StartDateTime)}${EndDateTime==''?'':'&endDateTime='+convertShamsiToGregorian(EndDateTime)}`);
+    var popout = window.open(`${ticketingUrl}/api/v1/downloadReport?projectId=${ProjectId}&priority=${Priority}&requestType=${RequestType}&statusId=${StatusId}&developerId=${DeveloperId}${InsertStart==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStart)}${InsertEnd==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEnd)}${CloseStartD==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartD)}${CloseEnd==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEnd)}&IsSchadule=${IsSchadule}`);
     window.setTimeout(function () {
       popout.close();
     }, 2000);
@@ -147,6 +205,9 @@ async function send(){
     console.log(error);
   }
 }
+//#endregion
 
+//#region get project api
 const { data , error } = await useFetch(`${ticketingUrl}/api/v1/getProjects?roleId=${user.value.userRole}`);
+//#endregion
 </script>
