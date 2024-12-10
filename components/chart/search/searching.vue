@@ -262,7 +262,7 @@
       var RequestTypeDataIds = $('#RequestType').select2('data').map(option => option.id);
       IsSchaduleChange.value = true;
       RequestTypeDataIds.forEach(element => {
-        if(element == "2"){
+        if(RequestTypeDataIds.length == 1 && element == "2"){
           IsSchaduleChange.value = false;
         }
       });
