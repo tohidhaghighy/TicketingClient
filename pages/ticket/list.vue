@@ -26,6 +26,7 @@ tr > td{
 							<th v-if="user.userRole==5">انجام دهنده</th>
 							<th v-if="user.userRole==5">ساعت صرف شده</th>
 							<th>جزئیات</th>
+							<th v-if="user.userRole==5">ویرایش</th>
 						</tr>
 				</thead>
 				<tbody>
@@ -115,7 +116,10 @@ tr > td{
 							</td>
 							<td v-if="user.userRole==5">{{item.ticketTime}}</td>
 							<td>
-								<nuxt-link :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
+								<nuxt-link class="custom-link" :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
+							</td>
+							<td v-if="user.userRole==5">
+								<nuxt-link class="custom-link" :to="{ path: '/ticket/edit', query: {id: item.id}}">ویرایش</nuxt-link>
 							</td>
 						</tr>
 				</tbody>
