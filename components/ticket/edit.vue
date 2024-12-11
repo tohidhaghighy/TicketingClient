@@ -1,13 +1,13 @@
 <template>
     <div class="card-body">
-      <h6 class="card-title">تیکت جدید</h6>
+      <h6 class="card-title">ویرایش تیکت</h6>
         <div class="form-group">
           <label for="exampleFormControlInput1">عنوان تیکت </label>
           <input
             id="title"
             type="text"
             class="form-control text-left"
-            v-model="ticketData.value.ticketInfo.title"
+            v-model="tableData.value.ticketInfo.text"
             placeholder="نمونه عنوان ورودی : مشکل در ثبت اطلاعات"
             dir="ltr"
           />
@@ -16,7 +16,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="exampleFormControlSelect1">سامانه</label>
-              <select id="projectId" v-model="ticketData.value.ticketInfo.projectId" class="form-control">
+              <select id="projectId" v-model="tableData.value.ticketInfo.projectId" class="form-control">
                 <option
                   v-for="item in data"
                   :key="item.id"
@@ -30,19 +30,19 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="exampleFormControlSelect1">نوع درخواست :</label>
-              <select id="requestTypeId" class="form-control" v-model="ticketData.value.ticketInfo.requestTypeId">
+              <select id="requestTypeId" class="form-control" v-model="tableData.value.ticketInfo.requestTypeId">
                 <option key="1" value="1">پشتیبانی</option>
                 <option key="2" value="2">توسعه</option>
               </select>
             </div>
           </div>
-          <div v-show="formValues.RequestType == 2" class="col-md-4">
+          <div v-show="tableData.value.ticketInfo.requestTypeId == 2" class="col-md-4">
             <div class="form-group">
               <label for="exampleFormControlSelect1"> </label>
               <div class="checkbox-container">
                 <label style="margin-left: 12px; margin-top: 10px;">آیا بر اساس برنامه زمانبندی می باشد؟ </label>
                 <label class="switch">
-                    <input id="isSchedule" type="checkbox" v-model="ticketData.value.ticketInfo.isSchedule" :true-value="1" :false-value="0">
+                    <input id="isSchedule" type="checkbox" v-model="tableData.value.ticketInfo.isSchedule" :true-value="1" :false-value="0">
                     <span class="slider round"></span>
                 </label>
               </div>
@@ -51,7 +51,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="exampleFormControlSelect1">اولویت</label>
-              <select id="priority" class="form-control" v-model="ticketData.value.ticketInfo.priority">
+              <select id="priority" class="form-control" v-model="tableData.value.ticketInfo.priority">
                 <option key="1" value="1">بالا</option>
                 <option key="2" value="2">متوسط</option>
                 <option key="3" value="3">پایین</option>
@@ -62,7 +62,7 @@
   
         <div class="form-group">
           <label for="exampleFormControlTextarea1">متن پیام</label>
-            <textarea class="form-control" v-model="ticketData.value.ticketInfo.text" id="editor-demo1"></textarea>
+            <textarea class="form-control" v-model="tableData.value.ticketInfo.title" id="editor-demo1"></textarea>
         </div>
         <div class="row">
           <div class="col-md-3 m-t-b-20">
@@ -73,27 +73,36 @@
   </template>
   
   <script setup>
+import { IsSchaduleEnum } from '~/models/enums/IsSchaduleEnum';
+
   const user = useCookie("UserInfo");
   const { public: { ticketingUrl }} = useRuntimeConfig();
   const formValues = reactive({
-    RequestType: document.getElementById('requestTypeId'),
+    RequestType: document.getElementById('#requestTypeId'),
   });
   const route = useRoute();
+  const tableData = ref
   
   watch(() => formValues.RequestType, (value) => {
     formValues.RequestType = value;
   });
-  
+
+  var title = document.getElementById('title').value;
+  var text = document.getElementById('editor-demo1').value;
+  var priority = +document.getElementById('priority').value;
+  var requestType = +document.getElementById('requestTypeId').value;
+  var projectId = document.getElementById('projectId').value;
+  var isSchedule = document.getElementById('isSchedule').value;
   
   async function send(){
     const formData = new FormData();
-
-    var title = document.getElementById('title');
-    var text = document.getElementById('editor-demo1');
-    var priority = document.getElementById('priority');
-    var requestType = document.getElementById('requestTypeId');
-    var projectId = document.getElementById('projectId');
-    var isSchedule = document.getElementById('isSchedule');
+    if(isSchedule == true){
+      isSchedule=IsSchaduleEnum.yes;
+    }
+    else
+    {
+      isSchedule=IsSchaduleEnum.no;
+    }
     var ticketId = route.query.id;
 
     formData.append('TicketId', ticketId);
@@ -105,7 +114,7 @@
     formData.append('ProjectId', projectId);
     formData.append('IsSchedule' , isSchedule);
   
-    if(title!="" && text!="" && priority!="" && requestType!="" && projectId!="" && isSchedule!="" && formValues.UserId>0){
+  if(title!="" && text!="" && priority!="" && requestType!="" && projectId!=""){
       try{
             await $fetch(`${ticketingUrl}/api/v1/EditeTicket`,{
               method:'POST',
@@ -122,8 +131,8 @@
   }
   
   const { data , error } = await useFetch(`${ticketingUrl}/api/v1/getProjects?roleId=${user.value.userRole}`);
-//   const { ticket } = await useFetch(`${ticketingUrl}api/v1/getTicketMassages?ticketId=${route.query.id}`);
-  // debugger;
   const { data: ticketData } = await useFetch(`${ticketingUrl}/api/v1/getTicketMassages?TicketId=${route.query.id}`);
+  tableData.value = ticketData.value;
+  debugger;
   </script>
   
