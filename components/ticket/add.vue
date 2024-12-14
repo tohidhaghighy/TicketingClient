@@ -41,7 +41,7 @@
             <div class="checkbox-container">
               <label style="margin-left: 12px; margin-top: 10px;">آیا بر اساس برنامه زمانبندی می باشد؟ </label>
               <label class="switch">
-                  <input type="checkbox" v-model="formValues.IsSchedule" :true-value="1" :false-value="0">
+                  <input id="IsSchedule" type="checkbox" v-model="formValues.IsSchedule" :true-value="1" :false-value="0">
                   <span class="slider round"></span>
               </label>
             </div>
@@ -77,6 +77,8 @@
 </template>
 
 <script setup>
+import { IsSchaduleEnum } from '~/models/enums/IsSchaduleEnum';
+
 const user = useCookie("UserInfo");
 const { public: { ticketingUrl }} = useRuntimeConfig();
 const formValues = reactive({

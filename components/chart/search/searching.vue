@@ -177,6 +177,7 @@
 						  <th>انجام دهنده</th>
 						  <th>ساعت صرف شده</th>
 						  <th>جزئیات</th>
+              <th>ویرایش</th>
             </tr>
           </thead>
         </table>
@@ -191,6 +192,7 @@
   //#region import
   import { _toLeftRightCenter } from 'chart.js/helpers';
   import jalaali from 'jalaali-js';
+import { IsSchaduleEnum } from '~/models/enums/IsSchaduleEnum';
   //#endregion
 
   //#region  constants
@@ -258,12 +260,32 @@
     // Update placeholder with number of selected items
     $('.js-example-basic-multiple').on('change', function () {
       const selectedCount = $(this).val() ? $(this).val().length : 0;
-      $(this).next('.select2').find('.select2-selection__rendered').text(`${selectedCount} : تعداد انتخاب شده`);
-      var RequestTypeDataIds = $('#RequestType').select2('data').map(option => option.id);
+      if(selectedCount>0){
+        $(this).next('.select2').find('.select2-selection__rendered').text(`${selectedCount} : تعداد انتخاب شده`);
+      }
+      else{
+        $(this).next('.select2').find('.select2-selection__rendered').text('موردی انتخاب نشده');
+      }
+
+      var RequestTypeData = $('#RequestType').select2('data').map(option => option.id);
       IsSchaduleChange.value = true;
-      RequestTypeDataIds.forEach(element => {
-        if(RequestTypeDataIds.length == 1 && element == "2"){
+    
+      RequestTypeData.forEach(element => {
+        if(RequestTypeData.length == 1 && element == "2"){
           IsSchaduleChange.value = false;
+          const SCount = $('#IsSchadule').val() ? $('#IsSchadule').val().length : 0;
+          if(SCount>0)
+          {
+            $('#IsSchadule').next('.select2').find('.select2-selection__rendered').text(`${selectedCount} : تعداد انتخاب شده`);
+          }
+          else{
+            $('#IsSchadule').val(null);
+            $('#IsSchadule').next('.select2').find('.select2-selection__rendered').text('موردی انتخاب نشده');
+          }
+        }
+        else{
+          $('#IsSchadule').val(null);
+          $('#IsSchadule').next('.select2').find('.select2-selection__rendered').text('موردی انتخاب نشده');
         }
       });
     });
@@ -283,16 +305,6 @@
   //#region sned function
   async function send()
   {
-    //#region getValues
-    var InsertedRoleIdData = $('#InsertedRoleId').select2('data');
-    var CurrentRoleIdData = $('#CurrentRoleId').select2('data');
-    var StatusIdData = $('#StatusId').select2('data');
-    var ProjectIdData = $('#ProjectId').select2('data');
-    var RequestTypeData = $('#RequestType').select2('data');
-    var DeveloperIdData = $('#DeveloperId').select2('data');
-    var IsSchaduleData = $('#IsSchadule').select2('data');
-    //#endregion
-    
     //#region getTime
     var InsertStart = document.getElementById('InsertStartDateTime').value;
     var InsertEnd = document.getElementById('InsertEndDateTime').value;
@@ -301,13 +313,20 @@
     //#endregion
 
     //#region getValues
-    var InsertedRoleId = InsertedRoleIdData.map(option => option.id);
-    var CurrentRoleId = CurrentRoleIdData.map(option => option.id);
-    var StatusId = StatusIdData.map(option => option.id);
-    var ProjectId = ProjectIdData.map(option => option.id);
-    var RequestType = RequestTypeData.map(option => option.id);
-    var DeveloperId = DeveloperIdData.map(option => option.id);
-    var IsSchadule = IsSchaduleData.map(option => option.id);
+    var InsertedRoleId = $('#InsertedRoleId').select2('data').map(option => option.id);
+    var CurrentRoleId = $('#CurrentRoleId').select2('data').map(option => option.id);
+    var StatusId = $('#StatusId').select2('data').map(option => option.id);
+    var ProjectId = $('#ProjectId').select2('data').map(option => option.id);
+    var RequestType = $('#RequestType').select2('data').map(option => option.id);
+    var DeveloperId = $('#DeveloperId').select2('data').map(option => option.id);
+    var IsSchadule = $('#IsSchadule').select2('data').map(option => option.id);
+
+    RequestType.forEach(requestType => {
+      if(requestType == 1){
+        IsSchadule = '';
+      }
+    });
+    
     //#endregion
 
     try {
@@ -417,6 +436,12 @@
               data: 'id',
               render: (id) => {
                 return `<a href="/ticket/detail?id=${id}" class="custom-link">مشاهده</a>`;
+              }
+            },
+            {
+              data: 'id',
+              render: (id) => {
+                return `<a href="/ticket/edit?id=${id}" class="custom-link-edit">ویرایش</a>`;
               }
             },
           ],
