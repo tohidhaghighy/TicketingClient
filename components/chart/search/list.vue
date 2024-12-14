@@ -111,7 +111,6 @@ tr > td{
 <script setup>
 	
 const user = useCookie("UserInfo");
-debugger;
 onMounted(() => {
 	$('#ticketlist').DataTable({
         responsive: true,

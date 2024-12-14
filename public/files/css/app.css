@@ -3556,6 +3556,23 @@ textarea {
 	border-radius: 5px; /* Smooth corners */
   }
 
+  .custom-link-edit {
+	color: #28a745; /* Distinct green for initial link color */
+	text-decoration: none; /* Remove underline */
+	transition: all 0.3s ease; /* Smooth transition */
+	padding: 5px 10px;
+}
+
+/* Hover effect */
+.custom-link-edit:hover {
+	color: #85e085; /* Softer green on hover */
+	background: linear-gradient(90deg, #85e085, #70db70); /* Gradient with green tones */
+	text-decoration: none; /* Ensure no underline */
+	box-shadow: 0px 4px 15px rgba(135, 206, 250, 0.5); /* Slight glowing effect */
+	border-radius: 5px; /* Smooth corners */
+}
+
+
 /* Searching page css */
 
 

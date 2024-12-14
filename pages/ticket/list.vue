@@ -26,6 +26,7 @@ tr > td{
 							<th v-if="user.userRole==5">انجام دهنده</th>
 							<th v-if="user.userRole==5">ساعت صرف شده</th>
 							<th>جزئیات</th>
+							<th v-if="(user.userRole==5) || (user.userRole==4 && tableData[0].statusId==2)">ویرایش</th><!--Because all lists have a fixed StatusId, there is no need to check all members of the list, checking one member is enough.-->
 						</tr>
 				</thead>
 				<tbody>
@@ -40,7 +41,7 @@ tr > td{
 							<td v-if="item.priority==1">بالا</td>
 							<td v-else-if="item.priority==2">متوسط</td>
 							<td v-else>پایین</td>
-							<td>{{ item.title.length > 100 ? item.title.substring(0, 50) + "..." : item.title }}</td>
+							<td>{{ item.title.length > 60 ? item.title.substring(0, 20) + "..." : item.title }}</td>
 							<td>{{item.project}}</td>
 							<td v-if="user.userRole==5">{{user.userRoleList.find(x => {return x.id == item.insertedRoleId;}).name }}</td>
 							<td>{{user.userRoleList.find(x => {return x.id == item.currentRoleId;}).name }}</td>
@@ -115,7 +116,10 @@ tr > td{
 							</td>
 							<td v-if="user.userRole==5">{{item.ticketTime}}</td>
 							<td>
-								<nuxt-link :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
+								<nuxt-link class="custom-link" :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
+							</td>
+							<td v-if="(user.userRole==5) || (user.userRole==4 && item.statusId==2)">
+								<nuxt-link class="custom-link-edit" :to="{ path: '/ticket/edit', query: {id: item.id}}">ویرایش</nuxt-link>
 							</td>
 						</tr>
 				</tbody>
