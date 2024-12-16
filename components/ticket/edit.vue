@@ -7,7 +7,7 @@
             id="title"
             type="text"
             class="form-control text-left"
-            v-model="tableData.value.ticketInfo.title"
+            v-model="formValues.title"
             placeholder="نمونه عنوان ورودی : مشکل در ثبت اطلاعات"
             dir="ltr"
           />
@@ -16,7 +16,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="exampleFormControlSelect1">سامانه</label>
-              <select id="projectId" v-model="tableData.value.ticketInfo.projectId" class="form-control">
+              <select id="projectId" v-model="formValues.projectId" class="form-control">
                 <option
                   v-for="item in data"
                   :key="item.id"
@@ -30,7 +30,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="exampleFormControlSelect1">نوع درخواست :</label>
-              <select id="requestTypeId" class="form-control" v-model="tableData.value.ticketInfo.requestTypeId">
+              <select id="requestTypeId" class="form-control" v-model="formValues.requestType">
                 <option key="1" value="1">پشتیبانی</option>
                 <option key="2" value="2">توسعه</option>
               </select>
@@ -42,7 +42,7 @@
               <div class="checkbox-container">
                 <label style="margin-left: 12px; margin-top: 10px;">آیا بر اساس برنامه زمانبندی می باشد؟ </label>
                 <label class="switch">
-                    <input id="isSchedule" type="checkbox" v-model="tableData.value.ticketInfo.isSchedule" :true-value="1" :false-value="0">
+                    <input id="isSchedule" type="checkbox" v-model="formValues.isSchedule" :true-value="1" :false-value="0">
                     <span class="slider round"></span>
                 </label>
               </div>
@@ -51,7 +51,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="exampleFormControlSelect1">اولویت</label>
-              <select id="priority" class="form-control" v-model="tableData.value.ticketInfo.priority">
+              <select id="priority" class="form-control" v-model="formValues.priority">
                 <option key="1" value="1">بالا</option>
                 <option key="2" value="2">متوسط</option>
                 <option key="3" value="3">پایین</option>
@@ -80,11 +80,17 @@
   //#region variables
   const user = useCookie("UserInfo");
   const { public: { ticketingUrl }} = useRuntimeConfig();
-  const formValues = reactive({
-    RequestType: document.getElementById('#requestTypeId'),
-  });
   const route = useRoute();
   const tableData = ref
+  const formValues = reactive({
+    title:'',
+    text:'',
+    ticketId:0,
+    priority:0,
+    requestType:0,
+    projectId:0,
+    isSchedule:0,
+  });
   //#endregion
 
   //#region watch for requestType change
@@ -95,35 +101,32 @@
   
   //#region Send function
   async function send(){
-    const title = document.getElementById('title').value;
-    const text = document.getElementById('editor-demo1').value;
-    const ticketId = +route.query.id;
-    const priority = +document.getElementById('priority').value;
-    const requestType = +document.getElementById('requestTypeId').value;
-    const projectId = +document.getElementById('projectId').value;
-    let isSchedule = document.getElementById('isSchedule').value;
-    if(requestType == 2){
-      if (isSchedule == true) {
-        isSchedule = IsSchaduleEnum.yes;
+    formValues.ticketId = +route.query.id;
+
+debugger;
+
+    if(formValues.requestType == 2){
+      if (formValues.isSchedule == 1) {
+        formValues.isSchedule = IsSchaduleEnum.yes;
       } else {
-        isSchedule = IsSchaduleEnum.no;
+        formValues.isSchedule = IsSchaduleEnum.no;
       }
     }
     else{
-      isSchedule = IsSchaduleEnum.Support;
+      formValues.isSchedule = IsSchaduleEnum.Support;
     }
 
     const payload = {
-      TicketId: ticketId,
-      Title: title,
-      Text: text,
-      Priority: priority,
-      RequestType: requestType,
-      ProjectId: projectId,
-      IsSchedule: isSchedule,
+      TicketId: formValues.ticketId,
+      Title: formValues.title,
+      Text: formValues.text,
+      Priority: formValues.priority,
+      RequestType: formValues.requestType,
+      ProjectId: formValues.projectId,
+      IsSchedule: formValues.isSchedule,
     };
 
-    if(title!="" && text!="" && priority!="" && requestType!="" && projectId!=""){
+    if(payload.Title!="" && payload.Text!="" && payload.Priority!="" && payload.RequestType!="" && payload.ProjectId!=""){
       try{
             await $fetch(`${ticketingUrl}/api/v1/EditeTicket`,{
               method:'POST',
@@ -144,6 +147,16 @@
   const { data , error } = await useFetch(`${ticketingUrl}/api/v1/getProjects?roleId=${user.value.userRole}`);
   const { data: ticketData } = await useFetch(`${ticketingUrl}/api/v1/getTicketMassages?TicketId=${route.query.id}`);
   tableData.value = ticketData.value;
+  //#endregion
+
+  //#region binding data
+  formValues.title = tableData.value.ticketInfo.title;
+  formValues.text = tableData.value.ticketInfo.text;
+  formValues.ticketId = tableData.value.ticketInfo.ticketId;
+  formValues.priority = tableData.value.ticketInfo.priority;
+  formValues.requestType = tableData.value.ticketInfo.requestTypeId;
+  formValues.projectId = tableData.value.ticketInfo.projectId;
+  formValues.isSchedule = tableData.value.ticketInfo.isSchedule;
   //#endregion
   
   </script>
