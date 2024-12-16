@@ -31,6 +31,9 @@
             <li v-if="user.userRole==5">
                 <NuxtLink class="active" to="/search/searching">جستجوی پیشرفته<span class="badge badge-danger">2</span></NuxtLink>
             </li>
+            <li v-if="user.userRole==5">
+                <NuxtLink class="active" to="/dashboard/dashboard">داشبورد<span class="badge badge-primary">2</span></NuxtLink>
+            </li>
         </ul>
     </div>
 </div>
