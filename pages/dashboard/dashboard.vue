@@ -12,10 +12,6 @@
 </template>
 
 <script>
-import DeveloperResultYear_Chart from '~/components/dashboard/DeveloperResultYear_Chart.vue';
-import DevelopResultYearInRFP_Chart from '~/components/dashboard/DevelopResultYearInRFP_Chart.vue';
-import DevelopResultYearOutRFP_Chart from '~/components/dashboard/DevelopResultYearOutRFP_Chart.vue';
-import SupportResultYear_Chart from '~/components/dashboard/SupportResultYear_Chart.vue';
 debugger;
 export default {
   data() {
@@ -56,11 +52,4 @@ export default {
     },
   },
 };
-
-const changeRequestTypeId = useRequestTypeStore();
-changeRequestTypeId.showSwitchButton(false);
-const { public: { ticketingUrl }} = useRuntimeConfig();	
-definePageMeta({
-  layout: 'panel'
-})
 </script>

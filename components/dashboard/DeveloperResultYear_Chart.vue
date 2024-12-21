@@ -39,7 +39,7 @@ onMounted(async () => {
     })
   );
 
-//   xAxis.data.setAll(props.total);
+  xAxis.data.setAll(props);
 
   // Add Y-axis
   const yAxis = chart.yAxes.push(
