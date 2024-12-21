@@ -102,9 +102,6 @@
   //#region Send function
   async function send(){
     formValues.ticketId = +route.query.id;
-
-debugger;
-
     if(formValues.requestType == 2){
       if (formValues.isSchedule == 1) {
         formValues.isSchedule = IsSchaduleEnum.yes;
