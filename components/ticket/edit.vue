@@ -62,7 +62,7 @@
   
         <div class="form-group">
           <label for="exampleFormControlTextarea1">متن پیام</label>
-            <textarea class="form-control" v-model="tableData.value.ticketInfo.text" id="editor-demo1"></textarea>
+            <textarea class="form-control" v-model="formValues.text" id="editor-demo1"></textarea>
         </div>
         <div class="row">
           <div class="col-md-3 m-t-b-20">
