@@ -1,55 +1,115 @@
 <template>
-    <div class="row">
-			<div class="col-md-12">
-				<div class="card">
-					<DevelopResultYearInRFP_Chart :data="chartData.DevelopResultYearInRFP"/>
-          <DevelopResultYearOutRFP_Chart :data="chartData.DevelopResultYearOutRFP"/>
-          <SupportResultYear_Chart :data="chartData.SupportResultYear"/>
-          <DeveloperResultYear_Chart :data="chartData.DeveloperResultYear"/>
-				</div>
-			</div>
-		</div>
+  <div class="row">
+    <div class="col-md-6">
+      <h1>توسعه بر اساس برنامه زمانی</h1>
+      <div class="card">
+        <div class="card-body">
+          <UiDynamicClusterdChart
+            :data="chartData?.DevelopResultYearInRFP"
+            :seriesList="seriesListDevelopResultYearInRFP"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h1>توسعه خارج از برنامه زمانی</h1>
+      <div class="card">
+        <div class="card-body">
+          <UiDynamicClusterdChart
+            :data="chartData?.DevelopResultYearOutRFP"
+            :seriesList="seriesListDevelopResultYearOutRFP"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h1>پشتیبانی</h1>
+      <div class="card">
+        <div class="card-body">
+          <UiDynamicClusterdChart
+            :data="chartData?.SupportResultYear"
+            :seriesList="seriesListSupportResultYear"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <UiDynamicBulletBarChart
+            :data="chartData?.SupportResultYear"
+            :seriesList="seriesListSupportResultYear"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script>
-debugger;
-export default {
-  data() {
-    return {
-      chartData: {},
-    };
+<script setup lang="ts">
+import { useRequestTypeStore } from '@/stores/requestTypeStore'
+const changeRequestTypeId = useRequestTypeStore();
+changeRequestTypeId.showSwitchButton(false);
+definePageMeta({
+  layout: "panel",
+});
+const {
+  public: { ticketingUrl },
+} = useRuntimeConfig();
+const chartData = ref<ReportInfo>();
+import type { DeveloperResultYear } from "~/models/interfaces/DeveloperResultYear";
+import type { DevelopResultYear } from "~/models/interfaces/DevelopResultYear";
+import type { SupportResultYear } from "~/models/interfaces/SupportResultYear";
+var seriesListSupportResultYear = [
+  {
+    name: "زمان تعهد پشتیبانی",
+    value: "CompanyCommitmentTime",
   },
-  async mounted() {
-    // Fetch data from backend
-    const response = await fetch(`${ticketingUrl}/api/dashboard/chartdata`);
-    const data = await response.json();
-
-    // Map data for each chart
-    this.chartData = {
-      "DevelopResultYearInRFP": data.DevelopResultYearInRFP,
-      "DevelopResultYearOutRFP": data.DevelopResultYearOutRFP,
-      "SupportResultYear": data.SupportResultYear,
-      "DeveloperResultYear": this.mapDeveloperData(data.DeveloperResultYear),
-    };
+  {
+    name: "زمان پشتیبانی",
+    value: "SupportTime",
   },
-  methods: {
-    mapDeveloperData(data) {
-      return data.map((item) => {
-        const counts = Object.entries(item.DeveloperCounts).map(([key, value]) => ({
-          Month: item.Month,
-          Developer: key,
-          Count: value,
-        }));
+];
 
-        const times = Object.entries(item.DeveloperTimes).map(([key, value]) => ({
-          Month: item.Month,
-          Developer: key,
-          Time: value,
-        }));
-
-        return { ...counts, ...times };
-      });
-    },
+var seriesListDevelopResultYearInRFP = [
+  {
+    name: "تیکت های وارده",
+    value: "Total",
   },
-};
+  {
+    name: "تیکت های انجام شده",
+    value: "Done",
+  },
+];
+
+var seriesListDevelopResultYearOutRFP = [
+  {
+    name: "تیکت های وارده",
+    value: "Total",
+  },
+  {
+    name: "تیکت های انجام شده",
+    value: "Done",
+  },
+];
+
+interface ReportInfo {
+  DevelopResultYearInRFP: DevelopResultYear[];
+  DevelopResultYearOutRFP: DevelopResultYear[];
+  SupportResultYear: SupportResultYear[];
+  DeveloperResultYear: DeveloperResultYear[];
+}
+
+try {
+  const response = await fetch(`${ticketingUrl}/api/v1/getDashboardChartData`);
+  const data = await response.json();
+  chartData.value = data || undefined;
+} catch (error) {
+  console.error("Error fetching dashboard chart data:", error);
+}
 </script>
