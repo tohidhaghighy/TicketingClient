@@ -77,8 +77,6 @@
 </template>
 
 <script setup>
-import { IsSchaduleEnum } from '~/models/enums/IsSchaduleEnum';
-
 const user = useCookie("UserInfo");
 const { public: { ticketingUrl }} = useRuntimeConfig();
 const formValues = reactive({
