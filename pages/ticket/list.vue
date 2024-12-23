@@ -41,7 +41,7 @@ tr > td{
 							<td v-if="item.priority==1">بالا</td>
 							<td v-else-if="item.priority==2">متوسط</td>
 							<td v-else>پایین</td>
-							<td>{{ item.title.length > 60 ? item.title.substring(0, 20) + "..." : item.title }}</td>
+							<td>{{ item.title.length > 45 ? item.title.substring(0, 40) + "..." : item.title }}</td>
 							<td>{{item.project}}</td>
 							<td v-if="user.userRole==5">{{user.userRoleList.find(x => {return x.id == item.insertedRoleId;}).name }}</td>
 							<td>{{user.userRoleList.find(x => {return x.id == item.currentRoleId;}).name }}</td>

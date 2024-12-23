@@ -1,6 +1,6 @@
 <template>
     <div class="card-body">
-      <h6 class="card-title">ویرایش تیکت</h6>
+      <h6 class="card-title">ویرایش تیکت : {{ ticketId }} </h6>
         <div class="form-group">
           <label for="exampleFormControlInput1">عنوان تیکت </label>
           <input
@@ -36,7 +36,7 @@
               </select>
             </div>
           </div>
-          <div v-show="tableData.value.ticketInfo.requestTypeId == 2" class="col-md-4">
+          <div v-show="formValues.requestType == 2" class="col-md-4">
             <div class="form-group">
               <label for="exampleFormControlSelect1"> </label>
               <div class="checkbox-container">
@@ -91,11 +91,12 @@
     projectId:0,
     isSchedule:0,
   });
+  const ticketId = +route.query.id;
   //#endregion
 
   //#region watch for requestType change
-  watch(() => formValues.RequestType, (value) => {
-    formValues.RequestType = value;
+  watch(() => formValues.requestType, (value) => {
+    formValues.requestType = value;
   });
   //#endregion
   
