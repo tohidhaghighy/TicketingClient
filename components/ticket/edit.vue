@@ -102,7 +102,7 @@
   
   //#region Send function
   async function send(){
-    formValues.ticketId = ticketId;
+    formValues.ticketId = +route.query.id;
 
     if(formValues.requestType == 2){
       if (formValues.isSchedule == 1) {
