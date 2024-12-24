@@ -9,7 +9,7 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
-const props = defineProps(["data", "seriesList"]);
+var props = defineProps(["data", "seriesList", "monthId"]);
 const chartdiv = ref(null);
 let series = null;
 onMounted(() => {
@@ -23,47 +23,63 @@ onMounted(() => {
     // https://www.amcharts.com/docs/v5/concepts/themes/
     root.setThemes([am5themes_Animated.new(root)]);
 
+    let apidata = props.data;
+
     let data = [
       {
-        name: "Ehsan",
-        steps: 45688,
+        name: "پویا رضائیه",
+        steps: apidata[0].value,
         pictureSettings: {
-          src: "/components/ui/DevelopersPhoto/Ehsan.png",
+          src: "",
         },
       },
       {
-        name: "Joey",
-        steps: 35781,
+        name: "محمد باقری",
+        steps: apidata[1].value,
         pictureSettings: {
-          src: "https://www.amcharts.com/wp-content/uploads/2019/04/joey.jpg",
+          src: "",
         },
       },
       {
-        name: "Ross",
-        steps: 25464,
+        name: "توحید حقیقی",
+        steps: apidata[2].value,
         pictureSettings: {
-          src: "https://www.amcharts.com/wp-content/uploads/2019/04/ross.jpg",
+          src: "",
         },
       },
       {
-        name: "Phoebe",
-        steps: 18788,
+        name: "مهسا برجی",
+        steps: apidata[3].value,
         pictureSettings: {
-          src: "https://www.amcharts.com/wp-content/uploads/2019/04/phoebe.jpg",
+          src: "",
         },
       },
       {
-        name: "Rachel",
-        steps: 15465,
+        name: "ساناز محمد زاده",
+        steps: apidata[8].value,
         pictureSettings: {
-          src: "https://www.amcharts.com/wp-content/uploads/2019/04/rachel.jpg",
+          src: "",
         },
       },
       {
-        name: "Chandler",
-        steps: 11561,
+        name: "شکیلا کاظم پور",
+        steps: apidata[5].value,
         pictureSettings: {
-          src: "https://www.amcharts.com/wp-content/uploads/2019/04/chandler.jpg",
+          src: "",
+        },
+      },
+      {
+        name: "امیر مسعود صالحی",
+        steps: apidata[4].value,
+        pictureSettings: {
+          src: "",
+        },
+      },
+      {
+        name: "احسان درویشی",
+        steps: apidata[6].value,
+        pictureSettings: {
+          src: "/Ehsan.png",
         },
       },
     ];
@@ -120,7 +136,7 @@ onMounted(() => {
     );
 
     let tooltipRtl = am5.Tooltip.new(root, {
-      labelText: "{categoryX} : {valueY}",
+      labelText: "{valueY}",
     });
     tooltipRtl.label.setAll({
       direction: "rtl",
@@ -157,7 +173,6 @@ onMounted(() => {
       cornerRadiusTL: 10,
       maxWidth: 50,
       fillOpacity: 0.8,
-      tooltip: tooltipRtl,
     });
 
     let currentlyHovered;
@@ -178,7 +193,7 @@ onMounted(() => {
         bullet.animate({
           key: "locationY",
           to: 1,
-          duration: 600,
+          duration: 400,
           easing: am5.ease.out(am5.ease.cubic),
         });
       }
@@ -190,7 +205,7 @@ onMounted(() => {
         bullet.animate({
           key: "locationY",
           to: 0,
-          duration: 600,
+          duration: 400,
           easing: am5.ease.out(am5.ease.cubic),
         });
       }
@@ -204,14 +219,14 @@ onMounted(() => {
         am5.Circle.new(
           root,
           {
-            radius: 34,
+            radius: 26,
           },
           circleTemplate
         )
       );
 
       let maskCircle = bulletContainer.children.push(
-        am5.Circle.new(root, { radius: 27 })
+        am5.Circle.new(root, { radius: 22 })
       );
 
       // only containers can be masked, so we add image to another container
@@ -241,15 +256,15 @@ onMounted(() => {
     series.set("heatRules", [
       {
         dataField: "valueY",
-        min: am5.color(0xe5dc36),
-        max: am5.color(0x5faa46),
+        max: am5.color("#2f65b0"),
+        min: am5.color("#6794DC"),
         target: series.columns.template,
         key: "fill",
       },
       {
         dataField: "valueY",
-        min: am5.color(0xe5dc36),
-        max: am5.color(0x5faa46),
+        max: am5.color("#2f65b0"),
+        min: am5.color("#6794DC"),
         target: circleTemplate,
         key: "fill",
       },
@@ -281,7 +296,6 @@ onMounted(() => {
 watch(
   () => props.data,
   (newval) => {
-    debugger;
     if (series) {
       series.data.setAll(newval);
     }

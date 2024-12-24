@@ -144,7 +144,6 @@ onMounted(() => {
 watch(
   () => props.data,
   (newval) => {
-    debugger;
     if (series) {
       series.data.setAll(newval);
     }
