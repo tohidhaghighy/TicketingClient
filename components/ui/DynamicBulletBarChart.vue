@@ -31,7 +31,7 @@ onMounted(() => {
         name: "پویا رضائیه",
         value: apidata[0].value,
         pictureSettings: {
-          src: "",
+          src: "/puya.png",
         },
       },
       {
@@ -45,42 +45,42 @@ onMounted(() => {
         name: "توحید حقیقی",
         value: apidata[2].value,
         pictureSettings: {
-          src: "",
+          src: "/tohid.png",
         },
       },
       {
         name: "مهسا برجی",
         value: apidata[3].value,
         pictureSettings: {
-          src: "",
+          src: "/mahsa.png",
         },
       },
       {
         name: "ساناز محمد زاده",
         value: apidata[8].value,
         pictureSettings: {
-          src: "",
+          src: "/sanaz.png",
         },
       },
       {
         name: "شکیلا کاظم پور",
         value: apidata[5].value,
         pictureSettings: {
-          src: "",
+          src: "/shakila.png",
         },
       },
       {
         name: "امیر مسعود صالحی",
         value: apidata[4].value,
         pictureSettings: {
-          src: "",
+          src: "/amir.png",
         },
       },
       {
         name: "احسان درویشی",
         value: apidata[6].value,
         pictureSettings: {
-          src: "/Ehsan.png",
+          src: "/ehsan.png",
         },
       },
     ];
@@ -155,7 +155,7 @@ onMounted(() => {
         sequencedInterpolation: true,
         calculateAggregates: true,
         maskBullets: false,
-        tooltip: tooltipRtl
+        tooltip: tooltipRtl,
       })
     );
 
@@ -213,14 +213,14 @@ onMounted(() => {
         am5.Circle.new(
           root,
           {
-            radius: 26,
+            radius: 28,
           },
           circleTemplate
         )
       );
 
       let maskCircle = bulletContainer.children.push(
-        am5.Circle.new(root, { radius: 22 })
+        am5.Circle.new(root, { radius: 24 })
       );
 
       // only containers can be masked, so we add image to another container
@@ -298,7 +298,7 @@ watch(
           name: "پویا رضائیه",
           value: newval[0].value,
           pictureSettings: {
-            src: "",
+            src: "/puya.png",
           },
         },
         {
@@ -312,42 +312,42 @@ watch(
           name: "توحید حقیقی",
           value: newval[2].value,
           pictureSettings: {
-            src: "",
+            src: "/tohid.png",
           },
         },
         {
           name: "مهسا برجی",
           value: newval[3].value,
           pictureSettings: {
-            src: "",
+            src: "/mahsa.png",
           },
         },
         {
           name: "ساناز محمد زاده",
           value: newval[8].value,
           pictureSettings: {
-            src: "",
+            src: "/sanaz.png",
           },
         },
         {
           name: "شکیلا کاظم پور",
           value: newval[5].value,
           pictureSettings: {
-            src: "",
+            src: "/shakila.png",
           },
         },
         {
           name: "امیر مسعود صالحی",
           value: newval[4].value,
           pictureSettings: {
-            src: "",
+            src: "/amir.png",
           },
         },
         {
           name: "احسان درویشی",
           value: newval[6].value,
           pictureSettings: {
-            src: "/Ehsan.png",
+            src: "/ehsan.png",
           },
         },
       ];
