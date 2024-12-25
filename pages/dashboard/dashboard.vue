@@ -40,22 +40,46 @@
   <hr />
   <div class="row">
     <div class="col-md-6">
-      <h1>تعداد تیکت ها</h1>
+      <h1>تعداد تیکت های توسعه</h1>
       <div class="card">
         <div class="card-body">
           <UiDynamicBulletBarChart
-            :data="chartData?.DeveloperResultCount[monthId]"
+            :data="chartData?.DeveloperResultCount_support"
             :seriesList="seriesListDeveloperCounts"
           />
         </div>
       </div>
     </div>
     <div class="col-md-6">
-      <h1>میزان ساعت کارکرد</h1>
+      <h1>میزان ساعت کارکرد تیکت های توسعه</h1>
       <div class="card">
         <div class="card-body">
           <UiDynamicBulletBarChart
-            :data="chartData?.DeveloperResultTime[monthId]"
+            :data="chartData?.DeveloperResultTime_support"
+            :seriesList="seriesListDeveloperTimes"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h1>تعداد تیکت های پشتیبانی</h1>
+      <div class="card">
+        <div class="card-body">
+          <UiDynamicBulletBarChart
+            :data="chartData?.DeveloperResultCount_develop"
+            :seriesList="seriesListDeveloperCounts"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h1>میزان ساعت کارکرد تیکت های پشتیبانی</h1>
+      <div class="card">
+        <div class="card-body">
+          <UiDynamicBulletBarChart
+            :data="chartData?.DeveloperResultTime_develop"
             :seriesList="seriesListDeveloperTimes"
           />
         </div>
@@ -65,29 +89,24 @@
   <div class="row">
     <div class="col-md-12">
       <div id="month-buttons">
-        <button @click="changeMonth(0)">فروردین</button>
-        <button @click="changeMonth(1)">اردیبهشت</button>
-        <button @click="changeMonth(2)">خرداد</button>
-        <button @click="changeMonth(3)">تیر</button>
-        <button @click="changeMonth(4)">مرداد</button>
-        <button @click="changeMonth(5)">شهریور</button>
-        <button @click="changeMonth(6)">مهر</button>
-        <button @click="changeMonth(7)">آبان</button>
-        <button @click="changeMonth(8)">آذر</button>
-        <button @click="changeMonth(9)">دی</button>
-        <button @click="changeMonth(10)">بهمن</button>
-        <button @click="changeMonth(11)">اسفند</button>
+        <button v-for="(month, index) in months" :key="index" @click="changeMonth(index)">
+          {{ month }}
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
+//#region imports
 import { useRequestTypeStore } from "@/stores/requestTypeStore";
 import type { DeveloperData } from "~/models/interfaces/DeveloperData";
 import type { DevelopResultYear } from "~/models/interfaces/DevelopResultYear";
 import type { SupportResultYear } from "~/models/interfaces/SupportResultYear";
+//#endregion
 
+//#region const
 const chartData = ref<ReportInfo>();
 const {public: { ticketingUrl },} = useRuntimeConfig();
 
@@ -97,11 +116,36 @@ definePageMeta({
   layout: "panel",
 });
 
-var monthId = ref(0);
-async function changeMonth(newMonthId: number) {
-  monthId.value = newMonthId;
-}
+const months = [
+  "فروردین",
+  "اردیبهشت",
+  "خرداد",
+  "تیر",
+  "مرداد",
+  "شهریور",
+  "مهر",
+  "آبان",
+  "آذر",
+  "دی",
+  "بهمن",
+  "اسفند",
+];
+//#endregion
 
+//#region changeMonth function
+async function changeMonth(newMonthId: number) {
+  try {
+    const response = await fetch(`${ticketingUrl}/api/v1/getDashboardChartData?monthId=${newMonthId}`);
+    const data = await response.json();
+    chartData.value = data || undefined;
+    debugger;
+  } catch (error) {
+    console.error("Error fetching dashboard chart data:", error);
+  }
+}
+//#endregion
+
+//#region Series
 var seriesListSupportResultYear = [
   {
     name: "زمان تعهد پشتیبانی",
@@ -148,19 +192,25 @@ var seriesListDeveloperTimes = [
     value: "DeveloperTimes",
   },
 ];
+//#endregion
 
+//#region ReportInfo interface
 interface ReportInfo {
   DevelopResultYearInRFP: DevelopResultYear[];
   DevelopResultYearOutRFP: DevelopResultYear[];
   SupportResultYear: SupportResultYear[];
-  DeveloperResultCount: [DeveloperData[]];
-  DeveloperResultTime: [DeveloperData[]];
+  DeveloperResultCount_support: DeveloperData[];
+  DeveloperResultTime_support: DeveloperData[];
+  DeveloperResultCount_develop: DeveloperData[];
+  DeveloperResultTime_develop: DeveloperData[];
 }
+//#endregion
 
 try {
-  const response = await fetch(`${ticketingUrl}/api/v1/getDashboardChartData`);
+  const response = await fetch(`${ticketingUrl}/api/v1/getDashboardChartData?monthId=0`);
   const data = await response.json();
   chartData.value = data || undefined;
+  debugger;
 } catch (error) {
   console.error("Error fetching dashboard chart data:", error);
 }

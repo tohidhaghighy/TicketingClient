@@ -9,9 +9,10 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
-var props = defineProps(["data", "seriesList", "monthId"]);
+var props = defineProps(["data", "seriesList"]);
 const chartdiv = ref(null);
 let series = null;
+
 onMounted(() => {
   am5.ready(function () {
     /* Chart code */
@@ -28,56 +29,56 @@ onMounted(() => {
     let data = [
       {
         name: "پویا رضائیه",
-        steps: apidata[0].value,
+        value: apidata[0].value,
         pictureSettings: {
           src: "",
         },
       },
       {
         name: "محمد باقری",
-        steps: apidata[1].value,
+        value: apidata[1].value,
         pictureSettings: {
           src: "",
         },
       },
       {
         name: "توحید حقیقی",
-        steps: apidata[2].value,
+        value: apidata[2].value,
         pictureSettings: {
           src: "",
         },
       },
       {
         name: "مهسا برجی",
-        steps: apidata[3].value,
+        value: apidata[3].value,
         pictureSettings: {
           src: "",
         },
       },
       {
         name: "ساناز محمد زاده",
-        steps: apidata[8].value,
+        value: apidata[8].value,
         pictureSettings: {
           src: "",
         },
       },
       {
         name: "شکیلا کاظم پور",
-        steps: apidata[5].value,
+        value: apidata[5].value,
         pictureSettings: {
           src: "",
         },
       },
       {
         name: "امیر مسعود صالحی",
-        steps: apidata[4].value,
+        value: apidata[4].value,
         pictureSettings: {
           src: "",
         },
       },
       {
         name: "احسان درویشی",
-        steps: apidata[6].value,
+        value: apidata[6].value,
         pictureSettings: {
           src: "/Ehsan.png",
         },
@@ -145,23 +146,16 @@ onMounted(() => {
 
     // Add series
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    let series = chart.series.push(
+    series = chart.series.push(
       am5xy.ColumnSeries.new(root, {
-        name: "Income",
         xAxis: xAxis,
         yAxis: yAxis,
-        valueYField: "steps",
+        valueYField: "value",
         categoryXField: "name",
         sequencedInterpolation: true,
         calculateAggregates: true,
         maskBullets: false,
-        tooltip: am5.Tooltip.new(root, {
-          dy: -30,
-          pointerOrientation: "vertical",
-          labelText: "{valueY}",
-          direction: "rtl",
-          fontFamily: "Vazir",
-        }),
+        tooltip: tooltipRtl
       })
     );
 
@@ -297,7 +291,70 @@ watch(
   () => props.data,
   (newval) => {
     if (series) {
-      series.data.setAll(newval);
+      debugger;
+      // Ensure series is initialized
+      let data = [
+        {
+          name: "پویا رضائیه",
+          value: newval[0].value,
+          pictureSettings: {
+            src: "",
+          },
+        },
+        {
+          name: "محمد باقری",
+          value: newval[1].value,
+          pictureSettings: {
+            src: "",
+          },
+        },
+        {
+          name: "توحید حقیقی",
+          value: newval[2].value,
+          pictureSettings: {
+            src: "",
+          },
+        },
+        {
+          name: "مهسا برجی",
+          value: newval[3].value,
+          pictureSettings: {
+            src: "",
+          },
+        },
+        {
+          name: "ساناز محمد زاده",
+          value: newval[8].value,
+          pictureSettings: {
+            src: "",
+          },
+        },
+        {
+          name: "شکیلا کاظم پور",
+          value: newval[5].value,
+          pictureSettings: {
+            src: "",
+          },
+        },
+        {
+          name: "امیر مسعود صالحی",
+          value: newval[4].value,
+          pictureSettings: {
+            src: "",
+          },
+        },
+        {
+          name: "احسان درویشی",
+          value: newval[6].value,
+          pictureSettings: {
+            src: "/Ehsan.png",
+          },
+        },
+      ];
+      series.data.setAll(data);
+      // xAxis.data.setAll(data.name);
+      // chart.appear(1000, 100);
+      // series.appear();
     }
   }
 );
