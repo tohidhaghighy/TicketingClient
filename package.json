@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@amcharts/amcharts5": "^5.10.5",
+    "@amcharts/amcharts5": "^5.10.8",
     "@pinia/nuxt": "^0.7.0",
     "chart.js": "^4.4.4",
     "jalaali-js": "^1.2.7",

@@ -123,5 +123,5 @@ watch(()=>props.data,(newval)=>{
 		if(series){
 			series.data.setAll(newval);
 		}
-	});
+});
 </script>

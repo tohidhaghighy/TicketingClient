@@ -1,7 +1,6 @@
 <template>
   <div class="card-body">
     <h6 class="card-title">جستجوی پیشرفته</h6>
-
       <div class="row">
           <div class="custom-col col">
             <div class="form-group">
@@ -54,7 +53,6 @@
             </div>
           </div>
       </div>
-
       <div class="row">
         <div class="custom-col col">
             <div class="form-group">
@@ -121,7 +119,6 @@
             </div>
         </div>
       </div>
-      
       <div class="row">
         <div class="custom-col col">
             <div class="form-group">
@@ -154,7 +151,6 @@
         </div>
       </div>
   </div>
-  
   <div class="row">
     <div class="col-md-12">
       <div class="card-body">
@@ -174,10 +170,11 @@
 						  <th>ایجاد شده توسط</th>
 						  <th>ارجاع شده به</th>
 						  <th>وضعیت</th>
-						  <th>انجام دهنده</th>
-						  <th>ساعت صرف شده</th>
+						  <th v-if="user.userRole==5">انجام دهنده</th>
+						  <th v-if="user.userRole==5">ساعت صرف شده</th>
 						  <th>جزئیات</th>
-              <th>ویرایش</th>
+              <th v-if="user.userRole==5">ویرایش</th>
+              <th v-if="user.userRole==4">ویرایش</th>
             </tr>
           </thead>
         </table>
@@ -192,7 +189,6 @@
   //#region import
   import { _toLeftRightCenter } from 'chart.js/helpers';
   import jalaali from 'jalaali-js';
-import { IsSchaduleEnum } from '~/models/enums/IsSchaduleEnum';
   //#endregion
 
   //#region  constants
@@ -328,7 +324,6 @@ import { IsSchaduleEnum } from '~/models/enums/IsSchaduleEnum';
     });
     
     //#endregion
-
     try {
       const { data, error: fetchError } = await useFetch
       (
@@ -370,7 +365,7 @@ import { IsSchaduleEnum } from '~/models/enums/IsSchaduleEnum';
             },
             { 
               data: 'title',
-              render: (data) => (data.length > 100 ? data.substring(0, 50) + "..." : data)
+              render: (data) => (data.length > 50 ? data.substring(0, 50) + "..." : data)
             },
             { data: 'project' },
             { 
@@ -413,25 +408,30 @@ import { IsSchaduleEnum } from '~/models/enums/IsSchaduleEnum';
                 return `<a class="${statusClass}">${statusText}</a>`;
               }
             },
-            { 
-              data: 'developerId',
-              render: (data) => {
-                const developers = {
-                  1: 'پویا رضاییه',
-                  2: 'محمد باقری',
-                  3: 'توحید حقیقی',
-                  4: 'مهسا برجی',
-                  5: 'امیر مسعود صالحی',
-                  6: 'شکیلا کاظم پور',
-                  7: 'احسان درویشی',
-                  8: 'الهه ابراهیمی',
-                  9: 'ساناز محمد زاده',
-                  10: 'تخصیص نشده'
-                };
-                return developers[data] || '';
+            ...(user.value.userRole == 5 ? [
+              {
+                data: 'developerId',
+                render: (data) => {
+                  const developers = {
+                    1: 'پویا رضاییه',
+                    2: 'محمد باقری',
+                    3: 'توحید حقیقی',
+                    4: 'مهسا برجی',
+                    5: 'امیر مسعود صالحی',
+                    6: 'شکیلا کاظم پور',
+                    7: 'احسان درویشی',
+                    8: 'الهه ابراهیمی',
+                    9: 'ساناز محمد زاده',
+                    10: 'تخصیص نشده'
+                  };
+                  return developers[data] || '';
+                }
+              },
+              {
+                data: 'ticketTime',
+                render: (data) => data || ''  // Display ticket time
               }
-            },
-            { data: 'ticketTime' },
+            ] : []),
             {
               data: 'id',
               render: (id) => {
@@ -440,8 +440,16 @@ import { IsSchaduleEnum } from '~/models/enums/IsSchaduleEnum';
             },
             {
               data: 'id',
-              render: (id) => {
-                return `<a href="/ticket/edit?id=${id}" class="custom-link-edit">ویرایش</a>`;
+              render: function (id, type, row) {
+                if (row.statusId == 2 && user.value.userRole == 4) {
+                  return `<a href="/ticket/edit?id=${id}" class="custom-link-edit">ویرایش</a>`;
+                }
+                if (user.value.userRole == 5) {
+                  return `<a href="/ticket/edit?id=${id}" class="custom-link-edit">ویرایش</a>`;
+                }
+                else {
+                  return `<a href="#" class="custom-link-edit disabled-link" onclick="return false;">ویرایش</a>`;
+                }
               }
             },
           ],

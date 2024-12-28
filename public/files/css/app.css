@@ -3491,7 +3491,7 @@ textarea {
 
 .custom-control-label::before,
 .custom-control-label::after {
-    top: .375rem;
+	top: .375rem;
 }
 
 .custom-switch .custom-control-label::after {
@@ -3520,67 +3520,91 @@ textarea {
 	max-width: 20%;
 	padding: 0 15px;
 	box-sizing: border-box;
-  }
+}
+
 /* Reporting page css */
 .checkbox-container {
 	display: flex;
 	align-items: center;
-	height: 38px; /* Match the height of other input elements */
-	padding: 15px 12px 11px 6px; /* Add padding similar to other inputs */
-	background-color: #fff; /* Background color of inputs */
-  }
-  
-  .form-control-checkbox {
+	height: 38px;
+	/* Match the height of other input elements */
+	padding: 15px 12px 11px 6px;
+	/* Add padding similar to other inputs */
+	background-color: #fff;
+	/* Background color of inputs */
+}
+
+.form-control-checkbox {
 	width: 16px;
 	height: 16px;
 	cursor: pointer;
 	margin: 0;
-  }
+}
 
 /* Searching page css */
-  /* Default style for the link */
-  .custom-link {
-	color: #007bff; /* Initial link color */
-	text-decoration: none; /* Remove underline */
-	transition: all 0.3s ease; /* Smooth transition */
+/* Default style for the link */
+.custom-link {
+	color: #007bff;
+	/* Initial link color */
+	text-decoration: none;
+	/* Remove underline */
+	transition: all 0.3s ease;
+	/* Smooth transition */
 	padding: 5px 10px;
-  }
-  
-  /* Hover effect */
-  .custom-link:hover {
-	color: #ffdd57; /* Change text color to gold-like */
-	background: linear-gradient(90deg, #ffdd57, #ffd700); /* Gradient background */
-	text-decoration: none; /* Ensure no underline */
-	box-shadow: 0px 4px 15px rgba(255, 215, 0, 0.5); /* Glowing shadow */
-	 /* Add padding to make the background visible */
-	border-radius: 5px; /* Smooth corners */
-  }
+}
 
-  .custom-link-edit {
-	color: #28a745; /* Distinct green for initial link color */
-	text-decoration: none; /* Remove underline */
-	transition: all 0.3s ease; /* Smooth transition */
+/* Hover effect */
+.custom-link:hover {
+	color: #ffdd57;
+	/* Change text color to gold-like */
+	background: linear-gradient(90deg, #ffdd57, #ffd700);
+	/* Gradient background */
+	text-decoration: none;
+	/* Ensure no underline */
+	box-shadow: 0px 4px 15px rgba(255, 215, 0, 0.5);
+	/* Glowing shadow */
+	/* Add padding to make the background visible */
+	border-radius: 5px;
+	/* Smooth corners */
+}
+
+.custom-link-edit {
+	color: #28a745;
+	/* Distinct green for initial link color */
+	text-decoration: none;
+	/* Remove underline */
+	transition: all 0.3s ease;
+	/* Smooth transition */
 	padding: 5px 10px;
 }
 
 /* Hover effect */
 .custom-link-edit:hover {
-	color: #85e085; /* Softer green on hover */
-	background: linear-gradient(90deg, #85e085, #70db70); /* Gradient with green tones */
-	text-decoration: none; /* Ensure no underline */
-	box-shadow: 0px 4px 15px rgba(135, 206, 250, 0.5); /* Slight glowing effect */
-	border-radius: 5px; /* Smooth corners */
+	color: #85e085;
+	/* Softer green on hover */
+	background: linear-gradient(90deg, #85e085, #70db70);
+	/* Gradient with green tones */
+	text-decoration: none;
+	/* Ensure no underline */
+	box-shadow: 0px 4px 15px rgba(135, 206, 250, 0.5);
+	/* Slight glowing effect */
+	border-radius: 5px;
+	/* Smooth corners */
 }
 
 
 /* Searching page css */
-
+.disabled-link {
+	color: gray;
+	pointer-events: none;
+	text-decoration: none;
+}
 
 /* detail page css */
 
-  /*Add attachment*/
+/*Add attachment*/
 
-  .file-label {
+.file-label {
 	display: inline-flex;
 	align-items: center;
 	padding: 14px 15px;
@@ -3593,300 +3617,345 @@ textarea {
 	transition: background-color 0.3s, color 0.3s;
 	margin-bottom: 0px;
 	transform: scaleX(-1);
-  }
-  
-  .file-label:hover {
+}
+
+.file-label:hover {
 	background-color: #ebebeb;
 	border-color: #4CAF50;
 	box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 	color: #333;
-  }
-  
-  .file-input {
+}
+
+.file-input {
 	display: none;
-  }
-  
-  .file-name {
+}
+
+.file-name {
 	display: block;
 	margin-top: 8px;
 	color: #333;
 	font-size: 14px;
 	text-align: left;
-	white-space: nowrap;       /* جلوگیری از شکستن متن به خطوط دیگر */
-	overflow: hidden;          /* مخفی کردن محتوای اضافی */
-	text-overflow: ellipsis;   /* اضافه کردن سه‌نقطه در انتهای متن */
-	max-width: 110px;          /* عرض محدود برای نمایش متن */
-  }
-  
-  .chat-body-footer {
+	white-space: nowrap;
+	/* جلوگیری از شکستن متن به خطوط دیگر */
+	overflow: hidden;
+	/* مخفی کردن محتوای اضافی */
+	text-overflow: ellipsis;
+	/* اضافه کردن سه‌نقطه در انتهای متن */
+	max-width: 110px;
+	/* عرض محدود برای نمایش متن */
+}
+
+.chat-body-footer {
 	padding: 10px;
 	background-color: #f8f9fa;
-  }
-  
-  .input-container {
-	gap: 15px; /* فاصله مناسب بین آیتم‌ها */
+}
+
+.input-container {
+	gap: 15px;
+	/* فاصله مناسب بین آیتم‌ها */
 	width: 100%;
 	margin-top: 16px;
-  }
-  
-  .message-input {
+}
+
+.message-input {
 	flex: 1;
 	padding: 10px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	resize: none;
-  }
-  
-  .file-upload-container {
-	display:flexbox;
+}
+
+.file-upload-container {
+	display: flexbox;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
 	margin-bottom: 0px;
-  }
-  
-  .file-name {
+}
+
+.file-name {
 	margin-top: 5px;
 	color: #333;
 	font-size: 12px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 100px; /* محدودیت عرض */
-  }
-  
-  .send-button {
+	max-width: 100px;
+	/* محدودیت عرض */
+}
+
+.send-button {
 	padding: 8px 15px;
 	border-radius: 200px;
-  }
+}
 
-  /*DeveloperId and TicketTime input css*/
-  
-  .form-label {
-    font-weight: bold;
-    font-size: 16px;
-    margin-right: 10px; /* فاصله بین لیبل و ورودی */
-    display: inline-block;
-    vertical-align: middle;
-    min-width: 120px; /* عرض ثابت برای لیبل‌ها */
+/*DeveloperId and TicketTime input css*/
+
+.form-label {
+	font-weight: bold;
+	font-size: 16px;
+	margin-right: 10px;
+	/* فاصله بین لیبل و ورودی */
+	display: inline-block;
+	vertical-align: middle;
+	min-width: 120px;
+	/* عرض ثابت برای لیبل‌ها */
 	display: inline;
-  }
+}
 
-  .form-control1, .form-select {
-    border-radius: 10px; /* گوشه‌ها گرد می‌شود */
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    width: auto;
+.form-control1,
+.form-select {
+	border-radius: 10px;
+	/* گوشه‌ها گرد می‌شود */
+	padding: 8px 12px;
+	border: 1px solid #ccc;
+	font-size: 14px;
+	width: auto;
 	display: inline;
 	margin-left: 20px;
-  }
+}
 
-  .form-control:focus, .form-select:focus {
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-  }
+.form-control:focus,
+.form-select:focus {
+	border-color: #4CAF50;
+	box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
 
-  .btn-gradient {
+.btn-gradient {
 	background: linear-gradient(135deg, #6e7aef, #5c61f3);
 	border: none;
-  }
-  
-  .btn-gradient:hover {
+}
+
+.btn-gradient:hover {
 	background: linear-gradient(135deg, #5c61f3, #6e7aef);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+}
 
-  /*DeveloperId and TicketTime input css*/
-  /*Ticket Flow*/
+/*DeveloperId and TicketTime input css*/
+/*Ticket Flow*/
 
-  /* For card-header */
-  .card-header-custom {
+/* For card-header */
+.card-header-custom {
 	border: 1px solid #ddd;
 	border-radius: 8px;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
-  }
-  
-  /* For card-body */
-  .card-body-custom {
+}
+
+/* For card-body */
+.card-body-custom {
 	border-top: none;
 	border-radius: 8px;
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
-  }
+}
+
 .chat-app-wrapper .chat-app .chat-body .chat-body-messages .message-items .message-item.outgoing-message {
 	background: #5867dd;
 	color: white;
 	margin-right: auto;
 }
-pre{
-  word-wrap: break-word;
-  font-family: 'primary-font', segoe ui, tahoma;
-  font-weight: bold;
-  font-size: 14px;
-  white-space: pre-wrap; /* Preserve whitespace and wrap text */
-  direction: rtl; /* Set default direction to RTL */
-  unicode-bidi: plaintext; /* Handle mixed direction text */
+
+pre {
+	word-wrap: break-word;
+	font-family: 'primary-font', segoe ui, tahoma;
+	font-weight: bold;
+	font-size: 14px;
+	white-space: pre-wrap;
+	/* Preserve whitespace and wrap text */
+	direction: rtl;
+	/* Set default direction to RTL */
+	unicode-bidi: plaintext;
+	/* Handle mixed direction text */
 }
-.m-color{
+
+.m-color {
 	color: white;
 }
+
 .popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
 }
+
 .popup-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 300px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+	width: 300px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .popup-content button {
-  margin: 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+	margin: 10px;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
 }
 
 .btn-success {
-  background-color: #4CAF50;
-  color: white;
+	background-color: #4CAF50;
+	color: white;
 }
 
 .btn-danger {
-  background-color: #f44336dc;
-  color: white;
+	background-color: #f44336dc;
+	color: white;
 }
 
 /* رنگ‌های سفارشی برای دکمه‌ها */
 .btn-reject-close {
-	background-color: #e74c3c !important; /* قرمز تیره برای رد کردن و بستن تیکت */
+	background-color: #e74c3c !important;
+	/* قرمز تیره برای رد کردن و بستن تیکت */
 	color: white !important;
-  }
-  
-  .btn-approve-sendtovira {
-	background-color: #3498db !important; /* آبی روشن برای تایید و ارسال به ویرا */
-	color: white !important;
-  }
-  
-  .btn-approve-close {
-	background-color: #2ecc71 !important; /* سبز برای تایید و بستن تیکت */
-	color: white !important;
-  }
-  
-  .btn-awaiting-reject {
-	background-color: #e67e22 !important; /* نارنجی ملایم‌تر برای رد شده در انتظار تایید*/
-	color: white !important;
-  }
-  
-  .btn-add-queue {
-	background-color: #1abc9c !important; /* سبز آبی برای اضافه کردن به صف پردازش */
-	color: white !important;
-  }
-  
-  .btn-in-progress {
-	background-color: #f39c12 !important; /* نارنجی روشن برای در حال انجام*/
-	color: white !important;
-  }
-  
-  .btn-reject-insufficient {
-	background-color: #c0392b !important; /* قرمز تیره‌تر برای رد کردن به دلیل اطلاعات ناکافی*/
-	color: white !important;
-  }
+}
 
-  .btn-done-awaiting-confirmation {
-	background-color: #2980b9 !important; /* آبی برای انجام شد در انتظار تایید */
+.btn-approve-sendtovira {
+	background-color: #3498db !important;
+	/* آبی روشن برای تایید و ارسال به ویرا */
 	color: white !important;
-  }
-  
-  /* دکمه‌های تغییر وضعیت */
-  .btn-sendtovira {
-	background-color: #8e44ad !important; /* بنفش برای تغییر وضعیت به ارجاع به ویرا */
+}
+
+.btn-approve-close {
+	background-color: #2ecc71 !important;
+	/* سبز برای تایید و بستن تیکت */
 	color: white !important;
-  }
-  
-  .btn-return-from-vira {
-	background-color: #2c3e50 !important; /* خاکستری تیره برای تغییر وضعیت به برگشت از ویرا */
+}
+
+.btn-awaiting-reject {
+	background-color: #e67e22 !important;
+	/* نارنجی ملایم‌تر برای رد شده در انتظار تایید*/
 	color: white !important;
-  }
-  
-  .btn-new {
-	background-color: #3498db !important; /* آبی متوسط برای تغییر وضعیت به جدید */
+}
+
+.btn-add-queue {
+	background-color: #1abc9c !important;
+	/* سبز آبی برای اضافه کردن به صف پردازش */
 	color: white !important;
-  }
-  
-  .btn-in-queue {
-	background-color: #16a085 !important; /* سبز آبی تیره برای تغییر وضعیت به در صف انجام */
+}
+
+.btn-in-progress {
+	background-color: #f39c12 !important;
+	/* نارنجی روشن برای در حال انجام*/
 	color: white !important;
-  }
-  
-  .btn-in-progress {
-	background-color: #e67e22 !important; /* نارنجی برای تغییر وضعیت به درحال انجام */
+}
+
+.btn-reject-insufficient {
+	background-color: #c0392b !important;
+	/* قرمز تیره‌تر برای رد کردن به دلیل اطلاعات ناکافی*/
 	color: white !important;
-  }
-  
-  .btn-done-awaiting {
-	background-color: #27ae60 !important; /* سبز برای تغییر وضعیت به انجام شد در انتظار تایید */
+}
+
+.btn-done-awaiting-confirmation {
+	background-color: #2980b9 !important;
+	/* آبی برای انجام شد در انتظار تایید */
 	color: white !important;
-  }
-  
-  .btn-awaiting-reject {
-	background-color: #e74c3c !important; /* قرمز تیره برای تغییر وضعیت به رد شد در انتظار تایید */
+}
+
+/* دکمه‌های تغییر وضعیت */
+.btn-sendtovira {
+	background-color: #8e44ad !important;
+	/* بنفش برای تغییر وضعیت به ارجاع به ویرا */
 	color: white !important;
-  }
+}
+
+.btn-return-from-vira {
+	background-color: #2c3e50 !important;
+	/* خاکستری تیره برای تغییر وضعیت به برگشت از ویرا */
+	color: white !important;
+}
+
+.btn-new {
+	background-color: #3498db !important;
+	/* آبی متوسط برای تغییر وضعیت به جدید */
+	color: white !important;
+}
+
+.btn-in-queue {
+	background-color: #16a085 !important;
+	/* سبز آبی تیره برای تغییر وضعیت به در صف انجام */
+	color: white !important;
+}
+
+.btn-in-progress {
+	background-color: #e67e22 !important;
+	/* نارنجی برای تغییر وضعیت به درحال انجام */
+	color: white !important;
+}
+
+.btn-done-awaiting {
+	background-color: #27ae60 !important;
+	/* سبز برای تغییر وضعیت به انجام شد در انتظار تایید */
+	color: white !important;
+}
+
+.btn-awaiting-reject {
+	background-color: #e74c3c !important;
+	/* قرمز تیره برای تغییر وضعیت به رد شد در انتظار تایید */
+	color: white !important;
+}
 
 /* Status text color */
 .text-done {
-    color: #28a745 !important; /* سبز تیره برای تکمیل‌شده */
+	color: #28a745 !important;
+	/* سبز تیره برای تکمیل‌شده */
 }
 
 .text-inserted {
-    color: #1f78d1 !important; /* آبی متوسط برای تیکت جدید */
+	color: #1f78d1 !important;
+	/* آبی متوسط برای تیکت جدید */
 }
 
 .text-sendtovira {
-    color: #00bcd4 !important; /* آبی فیروزه‌ای پررنگ برای ارسال‌شده به ویرا */
+	color: #00bcd4 !important;
+	/* آبی فیروزه‌ای پررنگ برای ارسال‌شده به ویرا */
 }
 
 .text-rejected {
-    color: #e70f0f !important; /* قرمز تیره و متمایز برای رد شده */
+	color: #e70f0f !important;
+	/* قرمز تیره و متمایز برای رد شده */
 }
 
 .text-sendtotaz {
-    color: #0400ff !important; /* آبی متمایز برای ارسال‌شده به تعزیرات */
+	color: #0400ff !important;
+	/* آبی متمایز برای ارسال‌شده به تعزیرات */
 }
 
 .text-awaitingConfirmation {
-    color: #eeb600 !important; /* زرد تیره و ملایم برای در انتظار تایید */
+	color: #eeb600 !important;
+	/* زرد تیره و ملایم برای در انتظار تایید */
 }
 
 .text-inLine {
-    color: #2ecc71 !important; /* سبز روشن و جذاب برای در صف */
+	color: #2ecc71 !important;
+	/* سبز روشن و جذاب برای در صف */
 }
 
 .text-inProgress {
-    color: #f3752b !important; /* نارنجی ملایم و قابل مشاهده برای در حال انجام */
+	color: #f3752b !important;
+	/* نارنجی ملایم و قابل مشاهده برای در حال انجام */
 }
 
 .text-awaitingRejecting {
-    color: #c0392b !important; /* قرمز تیره‌تر برای در انتظار رد */
+	color: #c0392b !important;
+	/* قرمز تیره‌تر برای در انتظار رد */
 }
 
 .text-all {
-    color: #adb5bd !important; /* خاکستری روشن برای نمایش همه */
+	color: #adb5bd !important;
+	/* خاکستری روشن برای نمایش همه */
 }
 
 /*download file btn*/
@@ -3900,10 +3969,11 @@ pre{
 /* detail page css */
 
 /* headerTicket */
-	/* The switch - the box around the slider */
-.custome-lable{
+/* The switch - the box around the slider */
+.custome-lable {
 	margin-bottom: 0px;
 }
+
 .switch {
 	margin-bottom: 0px;
 	margin-left: 12px;
@@ -3911,17 +3981,17 @@ pre{
 	display: inline-block;
 	width: 50px;
 	height: 24px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
+}
+
+/* Hide default HTML checkbox */
+.switch input {
 	opacity: 0;
 	width: 0;
 	height: 0;
-  }
-  
-  /* The slider */
-  .slider {
+}
+
+/* The slider */
+.slider {
 	position: absolute;
 	cursor: pointer;
 	top: 0;
@@ -3931,9 +4001,9 @@ pre{
 	background-color: #ccc;
 	-webkit-transition: .4s;
 	transition: .4s;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
 	position: absolute;
 	content: "";
 	height: 16px;
@@ -3943,31 +4013,68 @@ pre{
 	background-color: white;
 	-webkit-transition: .4s;
 	transition: .4s;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked+.slider {
 	background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
+}
+
+input:focus+.slider {
 	box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked+.slider:before {
 	-webkit-transform: translateX(26px);
 	-ms-transform: translateX(26px);
 	transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
+}
+
+/* Rounded sliders */
+.slider.round {
 	border-radius: 34px;
-  }
-  
-  .slider.round:before {
+}
+
+.slider.round:before {
 	border-radius: 50%;
-  }
+}
+
 /* headerTicket */
+
+/* Dashboard css */
+#month-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+#month-buttons button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	font-size: 14px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#month-buttons button:hover {
+	background-color: #0056b3;
+	transform: scale(1.05);
+}
+
+#month-buttons button:active {
+	background-color: #003f7f;
+}
+
+#month-buttons button:focus {
+	outline: none;
+	box-shadow: 0 0 5px #007bff;
+}
+
+/* Dashboard css */
 
 .custom-checkbox .custom-control-input:not(:disabled):active~.custom-control-label::before,
 .custom-radio .custom-control-input:not(:disabled):active~.custom-control-label::before,
@@ -6963,9 +7070,9 @@ a.btn:hover[href="#previous"] {
 .btn.btn-apple>span span:nth-child(2),
 .btn.btn-google-play>span span:nth-child(2) {
 	font-size: 20px;
-    font-weight: 700;
-    margin-top: 5px;
-    line-height: 24px;
+	font-weight: 700;
+	margin-top: 5px;
+	line-height: 24px;
 }
 
 .btn.btn-apple:hover,
@@ -7684,18 +7791,18 @@ body:not(.dark) .nicescroll-cursors {
 }
 
 .select2.select2-container .select2-selection--multiple .select2-selection__rendered {
-    vertical-align: top;
-    margin-bottom: 5px;
-    line-height: 22px;
+	vertical-align: top;
+	margin-bottom: 5px;
+	line-height: 22px;
 }
 
 .select2.select2-container .select2-search--inline {
-    max-width: 100%;
+	max-width: 100%;
 }
 
 .select2.select2-container .select2-search--inline .select2-search__field {
-    margin-top: 7px;
-    max-width: 100%;
+	margin-top: 7px;
+	max-width: 100%;
 }
 
 .select2.select2-container .select2-selection .select2-selection__choice {
@@ -7710,7 +7817,7 @@ body:not(.dark) .nicescroll-cursors {
 	-ms-flex-align: center;
 	align-items: center;
 	border: none;
-    line-height: 26px;
+	line-height: 26px;
 }
 
 .select2.select2-container .select2-selection .select2-selection__choice .select2-selection__choice__remove {
@@ -8265,7 +8372,7 @@ figure.avatar.avatar-state-dark:before {
 	color: black;
 }
 
-.chat-app-wrapper .chat-app .chat-sidebar .chat-sidebar-messages .list-group .list-group-item > div {
+.chat-app-wrapper .chat-app .chat-sidebar .chat-sidebar-messages .list-group .list-group-item>div {
 	min-width: 0;
 }
 
@@ -8616,14 +8723,14 @@ figure.avatar.avatar-state-dark:before {
 }
 
 .timeline .timeline-item::before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 1px;
-    bottom: 8px;
-    top: 45px;
-    right: 18px;
-    background: #b9b9b9;
+	content: "";
+	display: block;
+	position: absolute;
+	width: 1px;
+	bottom: 8px;
+	top: 45px;
+	right: 18px;
+	background: #b9b9b9;
 }
 
 .timeline .timeline-item:last-child {
@@ -10266,16 +10373,16 @@ body.dark a,
 body.dark a:not(.btn):hover,
 body.dark a:not(.btn):active,
 body.dark a:not(.btn):focus {
-    color: white;
+	color: white;
 }
 
 body.dark .btn.btn-apple {
-    border-color: #fff;
-    color: #fff;
+	border-color: #fff;
+	color: #fff;
 }
 
 body.dark .btn.btn-apple:hover {
-    border-color: #040507;
+	border-color: #040507;
 }
 
 body.dark a.link-1,
@@ -11625,7 +11732,7 @@ body.dark .nav a.nav-link:not(.active):active {
 	.header .breadcrumb {
 		display: none;
 	}
-	
+
 	.text-xs-center {
 		text-align: center !important;
 	}
@@ -11746,7 +11853,7 @@ body.dark .nav a.nav-link:not(.active):active {
 /* Other */
 
 .irs {
-    font-family: inherit;
+	font-family: inherit;
 }
 
 .bootstrap-tagsinput .tag [data-role="remove"] {
@@ -11890,7 +11997,7 @@ textarea.form-control {
 }
 
 .popover-body {
-    line-height: 2;
+	line-height: 2;
 }
 
 .progress-bar {
@@ -11907,26 +12014,26 @@ textarea.form-control {
 }
 
 select.form-control {
-    padding-top: .125rem;
-    padding-bottom: .125rem;
+	padding-top: .125rem;
+	padding-bottom: .125rem;
 }
 
 .form-control-sm {
-    height: calc(1.8125rem + 2px);
-    font-size: .8rem;
+	height: calc(1.8125rem + 2px);
+	font-size: .8rem;
 }
 
 .form-control-lg {
-    height: calc(2.875rem + 2px);
-    font-size: 1.1rem;
+	height: calc(2.875rem + 2px);
+	font-size: 1.1rem;
 }
 
 .col-form-label-sm {
-    font-size: .8rem;
+	font-size: .8rem;
 }
 
 .col-form-label-lg {
-    font-size: 1.1rem;
+	font-size: 1.1rem;
 }
 
 .bootstrap-tagsinput input {
@@ -11974,8 +12081,8 @@ body.dark .table-bordered {
 }
 
 body.dark .ui-datepicker {
-    background-color: #222538;
-    border-color: #222538;
+	background-color: #222538;
+	border-color: #222538;
 }
 
 body.dark .ui-datepicker td:not(.ui-state-disabled) .ui-state-default:hover {
@@ -12005,7 +12112,7 @@ body.dark .ui-datepicker .ui-datepicker-buttonpane .btn:hover {
 }
 
 body.dark .ui-datepicker select {
-    background-color: #222538;
-    color: inherit;
-    border-color: #404356;
+	background-color: #222538;
+	color: inherit;
+	border-color: #404356;
 }
