@@ -38,7 +38,7 @@ onMounted(() => {
         name: "محمد باقری",
         value: apidata[1].value,
         pictureSettings: {
-          src: "",
+          src: "/mohammad.png",
         },
       },
       {
