@@ -291,7 +291,6 @@ watch(
   () => props.data,
   (newval) => {
     if (series) {
-      debugger;
       // Ensure series is initialized
       let data = [
         {
@@ -305,7 +304,7 @@ watch(
           name: "محمد باقری",
           value: newval[1].value,
           pictureSettings: {
-            src: "",
+            src: "/mohammad.png",
           },
         },
         {

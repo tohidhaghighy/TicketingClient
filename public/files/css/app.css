@@ -3594,7 +3594,11 @@ textarea {
 
 
 /* Searching page css */
-
+.disabled-link {
+	color: gray;
+	pointer-events: none;
+	text-decoration: none;
+}
 
 /* detail page css */
 
@@ -4069,6 +4073,7 @@ input:checked+.slider:before {
 	outline: none;
 	box-shadow: 0 0 5px #007bff;
 }
+
 /* Dashboard css */
 
 .custom-checkbox .custom-control-input:not(:disabled):active~.custom-control-label::before,

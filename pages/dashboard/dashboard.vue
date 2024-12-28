@@ -138,7 +138,6 @@ async function changeMonth(newMonthId: number) {
     const response = await fetch(`${ticketingUrl}/api/v1/getDashboardChartData?monthId=${newMonthId}`);
     const data = await response.json();
     chartData.value = data || undefined;
-    debugger;
   } catch (error) {
     console.error("Error fetching dashboard chart data:", error);
   }
@@ -210,7 +209,6 @@ try {
   const response = await fetch(`${ticketingUrl}/api/v1/getDashboardChartData?monthId=0`);
   const data = await response.json();
   chartData.value = data || undefined;
-  debugger;
 } catch (error) {
   console.error("Error fetching dashboard chart data:", error);
 }
