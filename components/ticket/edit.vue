@@ -96,13 +96,14 @@
 
   //#region watch for requestType change
   watch(() => formValues.requestType, (value) => {
-    formValues.requestType = value;
+    formValues.requestType = +value;
   });
   //#endregion
   
   //#region Send function
   async function send(){
     formValues.ticketId = +route.query.id;
+
     if(formValues.requestType == 2){
       if (formValues.isSchedule == 1) {
         formValues.isSchedule = IsSchaduleEnum.yes;
