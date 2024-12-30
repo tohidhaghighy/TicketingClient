@@ -57,7 +57,7 @@ onMounted(() => {
       },
       {
         name: "ساناز محمد زاده",
-        value: apidata[8].value,
+        value: apidata[7].value,
         pictureSettings: {
           src: "/sanaz.png",
         },
@@ -323,7 +323,7 @@ watch(
         },
         {
           name: "ساناز محمد زاده",
-          value: newval[8].value,
+          value: newval[7].value,
           pictureSettings: {
             src: "/sanaz.png",
           },

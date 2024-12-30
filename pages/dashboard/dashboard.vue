@@ -40,31 +40,7 @@
   <hr />
   <div class="row">
     <div class="col-md-6">
-      <h1>تعداد تیکت های توسعه</h1>
-      <div class="card">
-        <div class="card-body">
-          <UiDynamicBulletBarChart
-            :data="chartData?.DeveloperResultCount_support"
-            :seriesList="seriesListDeveloperCounts"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <h1>میزان ساعت کارکرد تیکت های توسعه</h1>
-      <div class="card">
-        <div class="card-body">
-          <UiDynamicBulletBarChart
-            :data="chartData?.DeveloperResultTime_support"
-            :seriesList="seriesListDeveloperTimes"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <h1>تعداد تیکت های پشتیبانی</h1>
+      <h1>تعداد تیکت های توسعه - {{ months[month-1] }}</h1>
       <div class="card">
         <div class="card-body">
           <UiDynamicBulletBarChart
@@ -75,7 +51,7 @@
       </div>
     </div>
     <div class="col-md-6">
-      <h1>میزان ساعت کارکرد تیکت های پشتیبانی</h1>
+      <h1>میزان ساعت کارکرد تیکت های توسعه - {{ months[month-1] }}</h1>
       <div class="card">
         <div class="card-body">
           <UiDynamicBulletBarChart
@@ -87,9 +63,33 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-md-6">
+      <h1>تعداد تیکت های پشتیبانی - {{ months[month-1] }}</h1>
+      <div class="card">
+        <div class="card-body">
+          <UiDynamicBulletBarChart
+            :data="chartData?.DeveloperResultCount_support"
+            :seriesList="seriesListDeveloperCounts"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h1>میزان ساعت کارکرد تیکت های پشتیبانی - {{ months[month-1] }}</h1>
+      <div class="card">
+        <div class="card-body">
+          <UiDynamicBulletBarChart
+            :data="chartData?.DeveloperResultTime_support"
+            :seriesList="seriesListDeveloperTimes"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-12">
       <div id="month-buttons">
-        <button v-for="(month, index) in months" :key="index" @click="changeMonth(index)">
+        <button v-for="(month, index) in months" :key="index" @click="changeMonth(index+1)">
           {{ month }}
         </button>
       </div>
@@ -131,9 +131,10 @@ const months = [
   "اسفند",
 ];
 //#endregion
-
+var month=1;
 //#region changeMonth function
 async function changeMonth(newMonthId: number) {
+  month = newMonthId;
   try {
     const response = await fetch(`${ticketingUrl}/api/v1/getDashboardChartData?monthId=${newMonthId}`);
     const data = await response.json();
