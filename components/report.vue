@@ -141,7 +141,7 @@ import type { ChartInfo } from "../models/interfaces/ChartConfig";
 import { useRequestTypeStore } from "@/stores/requestTypeStore";
 
 const changeRequestTypeId = useRequestTypeStore();
-let defaultDate = 1403;
+let defaultDate = 1404;
 const tableData = ref<TicketInfo>();
 const chartlistData = ref<ChartInfo>();
 
