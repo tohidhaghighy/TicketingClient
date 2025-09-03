@@ -49,15 +49,11 @@
           <div class="form-group">
             <label for="exampleFormControlSelect1">وضعیت تیکت :</label>
             <select id='StatusId' class="form-control js-example-basic-multiple" multiple>
-              <option value="1">انجام شده</option>
               <option value="2">جدید</option>
-              <option value="3">ارجاع به ویرا</option>
-              <option value="4">ردشده</option>
-              <option value="5">بازگشت از ویرا</option>
-              <option value="6">انجام شد در انتظار تایید</option>
-              <option value="9">رد شده در انتظار تایید</option>
               <option value="7">در صف انجام پردازش</option>
               <option value="8">در حال انجام</option>
+              <option value="1">انجام شده</option>
+              <option value="4">ردشده</option>
             </select>
           </div>
         </div>

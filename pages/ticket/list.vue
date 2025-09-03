@@ -20,13 +20,13 @@ tr > td{
 							<th>اولویت</th>
 							<th>عنوان</th>
 							<th>سامانه</th>
-							<th v-if="user.userRole==5">ایجاد شده توسط</th>
+							<th v-if="user.userRole!=6">ایجاد شده توسط</th>
 							<th>ارجاع شده به</th>
 							<th>وضعیت</th>
-							<th v-if="user.userRole==5">انجام دهنده</th>
-							<th v-if="user.userRole==5">ساعت صرف شده</th>
+							<th v-if="user.userRole!=6">انجام دهنده</th>
+							<th v-if="user.userRole!=6">ساعت صرف شده</th>
 							<th>جزئیات</th>
-							<th v-if="(user.userRole==5) || (user.userRole==4 && tableData[0].statusId==2)">ویرایش</th><!--Because all lists have a fixed StatusId, there is no need to check all members of the list, checking one member is enough.-->
+							<th v-if="(user.userRole==2 && tableData[0].statusId==2)">ویرایش</th>
 						</tr>
 				</thead>
 				<tbody>
@@ -51,26 +51,8 @@ tr > td{
 							<td v-else-if="item.statusId==2">
 								<a class="text-inserted">{{ item.status }}</a>
 							</td>
-							<td v-else-if="item.statusId==3 && (user.userRole == 5 || user.userRole == 4)"> <!--adminTaz and adminVira can see-->
-								<a class="text-inserted">{{ item.status }}</a>
-							</td>
-							<td v-else-if="item.statusId==3 && user.userRole !=5 && user.userRole != 4"> <!--another admins can see-->
-								<a class="text-inserted">در صف بررسی</a>
-							</td>
 							<td v-else-if="item.statusId==4">
 								<a class="text-rejected">{{ item.status }}</a>
-							</td>
-							<td v-else-if="item.statusId==5 && (user.userRole == 5 || user.userRole == 4)"> <!--adminTaz and adminVira can see-->
-								<a class="text-inserted">{{ item.status }}</a>
-							</td>
-							<td v-else-if="item.statusId==5 && user.userRole !=5 && user.userRole != 4"> <!--another admins can see-->
-								<a class="text-inserted">در حال بررسی</a>	
-							</td>
-							<td v-else-if="item.statusId==6 && (user.userRole == 5 || user.userRole == 4)"> <!--adminTaz and adminVira can see-->
-								<a class="text-inserted">{{ item.status }}</a> <!--بازگشت از ویرا-->
-							</td>
-							<td v-else-if="item.statusId==6 && user.userRole !=5 && user.userRole != 4"> <!--another admins can see-->
-								<a class="text-inserted">انجام شده در انتظار تایید سازمان تعزیرات</a>
 							</td>
 							<td v-else-if="item.statusId==7">
 								<a class="text-inserted">{{ item.status }}</a>
@@ -78,47 +60,45 @@ tr > td{
 							<td v-else-if="item.statusId==8">
 								<a class="text-inserted">{{ item.status }}</a>
 							</td>
-							<td v-else-if="item.statusId==9 && (user.userRole == 5 || user.userRole == 4)"> <!--adminTaz and adminVira can see-->
-								<a class="text-awaitingConfirmation">{{ item.status }}</a>
-							</td>
-							<td v-else-if="item.statusId==9 && user.userRole !=5 && user.userRole != 4"> <!--another admins can see-->
-								<a class="text-awaitingConfirmation">رد شده در انتظار تایید سازمان تعزیرات</a>
-							</td>
-							<td v-if="item.developerId==1 && user.userRole==5">
+							<!--اینارو باید از دیتا بیس بخونه-->
+							<td v-if="item.developerId==1 && user.userRole!=6">
 								<p>پویا رضاییه</p>
 							</td>
-							<td v-else-if="item.developerId==2 && user.userRole==5">
+							<td v-else-if="item.developerId==2 && user.userRole!=6">
 								<p>محمد باقری</p>
 							</td>
-							<td v-else-if="item.developerId==3 && user.userRole==5">
+							<td v-else-if="item.developerId==3 && user.userRole!=6">
 								<p>توحید حقیقی</p>
 							</td>
-							<td v-else-if="item.developerId==4 && user.userRole==5">
+							<td v-else-if="item.developerId==4 && user.userRole!=6">
 								<p>مهسا برجی</p>
 							</td>
-							<td v-else-if="item.developerId==5 && user.userRole==5">
+							<td v-else-if="item.developerId==5 && user.userRole!=6">
 								<p>امیر مسعود صالحی</p>
 							</td>
-							<td v-else-if="item.developerId==6 && user.userRole==5">
+							<td v-else-if="item.developerId==6 && user.userRole!=6">
 								<p>شکیلا کاظم پور</p>
 							</td>
-							<td v-else-if="item.developerId==7 && user.userRole==5">
+							<td v-else-if="item.developerId==7 && user.userRole!=6">
 								<p>احسان درویشی</p>
 							</td>
-							<td v-else-if="item.developerId==8 && user.userRole==5">
+							<td v-else-if="item.developerId==8 && user.userRole!=6">
 								<p>الهه ابراهیمی</p>
 							</td>
-							<td v-else-if="item.developerId==9 && user.userRole==5">
+							<td v-else-if="item.developerId==9 && user.userRole!=6">
 								<p>ساناز محمد زاده</p>
 							</td>
-							<td v-else-if="item.developerId==10 && user.userRole==5">
+							<td v-else-if="item.developerId==10 && user.userRole!=6">
 								<p> تخصیص نشده</p>
 							</td>
-							<td v-if="user.userRole==5">{{item.ticketTime}}</td>
+							<!--اینارو باید از دیتا بیس بخونه-->
+							<td v-if="(user.userRole != 2) && (user.userRole != 6)">
+								{{item.ticketTime}}
+							</td>
 							<td>
 								<nuxt-link class="custom-link" :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
 							</td>
-							<td v-if="(user.userRole==5) || (user.userRole==4 && item.statusId==2)">
+							<td v-if="(user.userRole == 2) && (item.statusId == 2)">
 								<nuxt-link class="custom-link-edit" :to="{ path: '/ticket/edit', query: {id: item.id}}">ویرایش</nuxt-link>
 							</td>
 						</tr>

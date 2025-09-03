@@ -48,30 +48,7 @@
                       render: function (data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }},
-                    { data: 'userId' ,
-                    render: (data) => {
-                        const developers = {
-                        1: 'superuser',
-                        2: 'admintaz',
-                        3: 'adminvira',
-                        4: 'admincms',
-                        5: 'admin135',
-                        6: 'adminemha',
-                        7: 'admintabadol',
-                        8: 'Ebrahimi',
-                        11: 'ارغوان سرتیپ زاده',
-                        14: 'mrnadaf',
-                        18: 'mahmodkhani',
-                        19: 'davoudi',
-                        20: 'raeeisi',
-                        21: 'naghibi',
-                        22: 'ameneh',
-                        23: 'adminbi',
-                        24: 'admininfra'
-                        };
-                        return developers[data] || '';
-                        }
-                    },
+                    { data: 'userName' },
                     { data: 'statusId',
                       render: (data, type, row) => {
                         let statusClass = '';

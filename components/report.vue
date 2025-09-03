@@ -35,15 +35,14 @@
             color="progress-bar bg-success"
           />
         </div>
-
-        <!-- تیکت انجام شده -->
+        <!-- در صف انجام پردازش -->
         <div class="col-md-6">
           <ReportCard
-            title="تیکت انجام شده "
-            :count="tableData?.done"
+            title="در صف انجام پردازش"
+            :count="tableData?.inLine"
             :total="tableData?.total"
-            url="/ticket/list?status=1"
-            color="progress-bar bg-primary"
+            url="/ticket/list?status=7"
+            color="progress-bar bg-info"
           />
         </div>
       </div>
@@ -59,7 +58,19 @@
             color="progress-bar bg-primary"
           />
         </div>
+        <!-- تیکت انجام شده -->
+        <div class="col-md-6">
+          <ReportCard
+            title="تیکت انجام شده "
+            :count="tableData?.done"
+            :total="tableData?.total"
+            url="/ticket/list?status=1"
+            color="progress-bar bg-primary"
+          />
+        </div>
+      </div>
 
+      <div class="row">
         <!-- تیکت رد شده -->
         <div class="col-md-6">
           <ReportCard
@@ -71,65 +82,7 @@
           />
         </div>
       </div>
-
-      <div class="row" v-if="user.userRole == 4 || user.userRole == 5">
-        <!-- ارجاع به ویرا -->
-        <div class="col-md-6">
-          <ReportCard
-            title="ارجاع به ویرا"
-            :count="tableData?.sendtovira"
-            :total="tableData?.total"
-            url="/ticket/list?status=3"
-            color="progress-bar bg-info"
-          />
-        </div>
-
-        <!-- بازگشت از ویرا -->
-        <div class="col-md-6">
-          <ReportCard
-            title="بازگشت از ویرا"
-            :count="tableData?.sendtotaz"
-            :total="tableData?.total"
-            url="/ticket/list?status=5"
-            color="progress-bar bg-info"
-          />
-        </div>
-      </div>
-
-      <div class="row" v-if="user.userRole == 4 || user.userRole == 5">
-        <!-- انجام شده در انتظار تایید -->
-        <div class="col-md-6">
-          <ReportCard
-            title="انجام شده در انتظار تایید"
-            :count="tableData?.awaitingConfirmation"
-            :total="tableData?.total"
-            url="/ticket/list?status=6"
-            color="progress-bar bg-info"
-          />
-        </div>
-
-        <!-- در صف انجام پردازش -->
-        <div class="col-md-6">
-          <ReportCard
-            title="در صف انجام پردازش"
-            :count="tableData?.inLine"
-            :total="tableData?.total"
-            url="/ticket/list?status=7"
-            color="progress-bar bg-info"
-          />
-        </div>
-
-        <!-- رد شده در انتظار تایید -->
-        <div class="col-md-6">
-          <ReportCard
-            title="رد شده در انتظار تایید"
-            :count="tableData?.awaitingRejecting"
-            :total="tableData?.total"
-            url="/ticket/list?status=9"
-            color="progress-bar bg-info"
-          />
-        </div>
-      </div>
+      
     </div>
   </div>
 </template>

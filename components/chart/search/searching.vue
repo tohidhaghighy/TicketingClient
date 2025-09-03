@@ -33,7 +33,7 @@
           <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlInput1">نام کاربری :</label>
-              <input type="text" class="form-control text-left" v-model="query.Username" autocomplete="off" placeholder="نمونه نام کاربری : admintaz" />
+              <input type="text" class="form-control text-left" v-model="query.Username" autocomplete="off" placeholder="نمونه نام کاربری : adminitm" />
             </div>
           </div>
           <div class="custom-col col">
@@ -58,15 +58,11 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">وضعیت تیکت :</label>
               <select id='StatusId' class="form-control js-example-basic-multiple" multiple>
-                <option value="1">انجام شده</option>
                 <option value="2">جدید</option>
-                <option value="3">ارجاع به ویرا</option>
-                <option value="4">ردشده</option>
-                <option value="5">بازگشت از ویرا</option>
-                <option value="6">انجام شد در انتظار تایید</option>
-                <option value="9">رد شده در انتظار تایید</option>
                 <option value="7">در صف انجام پردازش</option>
                 <option value="8">در حال انجام</option>
+                <option value="1">انجام شده</option>
+                <option value="4">ردشده</option>
               </select>
             </div>
         </div>
@@ -170,11 +166,9 @@
 						  <th>ایجاد شده توسط</th>
 						  <th>ارجاع شده به</th>
 						  <th>وضعیت</th>
-						  <th v-if="user.userRole==5">انجام دهنده</th>
-						  <th v-if="user.userRole==5">ساعت صرف شده</th>
+						  <th>انجام دهنده</th>
+						  <th>ساعت صرف شده</th>
 						  <th>جزئیات</th>
-              <th v-if="user.userRole==5">ویرایش</th>
-              <th v-if="user.userRole==4">ویرایش</th>
             </tr>
           </thead>
         </table>
@@ -408,7 +402,6 @@
                 return `<a class="${statusClass}">${statusText}</a>`;
               }
             },
-            ...(user.value.userRole == 5 ? [
               {
                 data: 'developerId',
                 render: (data) => {
@@ -431,25 +424,11 @@
                 data: 'ticketTime',
                 render: (data) => data || ''  // Display ticket time
               }
-            ] : []),
+            ,
             {
               data: 'id',
               render: (id) => {
                 return `<a href="/ticket/detail?id=${id}" class="custom-link">مشاهده</a>`;
-              }
-            },
-            {
-              data: 'id',
-              render: function (id, type, row) {
-                if (row.statusId == 2 && user.value.userRole == 4) {
-                  return `<a href="/ticket/edit?id=${id}" class="custom-link-edit">ویرایش</a>`;
-                }
-                if (user.value.userRole == 5) {
-                  return `<a href="/ticket/edit?id=${id}" class="custom-link-edit">ویرایش</a>`;
-                }
-                else {
-                  return `<a href="#" class="custom-link-edit disabled-link" onclick="return false;">ویرایش</a>`;
-                }
               }
             },
           ],
