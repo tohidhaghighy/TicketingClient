@@ -170,7 +170,7 @@
                   <div class="d-flex justify-content-start gap-3 mb-3">
         
                     <!-- First Column: Ticket Time and Developer Selection -->
-                    <div class="col-md-6">
+                    <div v-if="(userrole.role != UserRole.normalUser) && (userrole.role != UserRole.admindir)" class="col-md-6">
                       <div class="card">
                         <div class="card-header"
                         data-toggle="collapse"
@@ -197,7 +197,14 @@
                               <div class="me-2 flex-grow-1">
                                 <label class="form-label" for="statusSelect" style="margin-left: 10px;">برنامه نویس :</label>
                                 <select class="form-select rounded-input" id="developerId" v-model="data.ticketInfo.developerId">
-                                  <option :value="DeveloperId.p_rezayeh">پویا رضائیه</option>
+                                  <option
+                                    v-for="item in developerList"
+                                    :key="item.id"
+                                    :value="item.id"
+                                  >
+                                    {{ item.name }}
+                                  </option>
+                                  <!-- <option :value="DeveloperId.p_rezayeh">پویا رضائیه</option>
                                   <option :value="DeveloperId.m_bagheri">محمد باقری</option>
                                   <option :value="DeveloperId.t_hagigi">توحید حقیقی</option>
                                   <option :value="DeveloperId.m_borji">مهسا برجی</option>
@@ -206,7 +213,7 @@
                                   <option :value="DeveloperId.m_salehi">امیر مسعود صالحی</option>
                                   <option :value="DeveloperId.Sh_kazempour">شکیلا کاظم پور</option>
                                   <option :value="DeveloperId.e_darvishi">احسان درویشی</option>
-                                  <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option>
+                                  <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option> -->
                                 </select>
                               </div>
 
@@ -587,6 +594,11 @@ onMounted(async () => {
 const { data: data, error , refresh } = await useFetch(
   `${ticketingUrl}/api/v1/getTicketMassages?TicketId=${route.query.id}`
 );
+
+const { data: developerData, error: developerError } = await useFetch(
+  `${ticketingUrl}/api/v1/GetDeveloperListByRoleId?RoleId=${user.value.userRole}`
+);
+const developerList = computed(() => developerData.value ?? []);
 
 async function refreshpage(){
   setTimeout(() => location.href='/', 1000);

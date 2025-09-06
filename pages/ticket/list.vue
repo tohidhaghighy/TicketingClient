@@ -20,11 +20,11 @@ tr > td{
 							<th>اولویت</th>
 							<th>عنوان</th>
 							<th>سامانه</th>
-							<th v-if="user.userRole!=6">ایجاد شده توسط</th>
+							<th>ایجاد شده توسط</th>
 							<th>ارجاع شده به</th>
 							<th>وضعیت</th>
-							<th v-if="user.userRole!=6">انجام دهنده</th>
-							<th v-if="user.userRole!=6">ساعت صرف شده</th>
+							<th v-if="(user.userRole != 2) && (user.userRole != 6)">انجام دهنده</th>
+							<th v-if="(user.userRole != 2) && (user.userRole != 6)">ساعت صرف شده</th>
 							<th>جزئیات</th>
 							<th v-if="(user.userRole==2 && tableData[0].statusId==2)">ویرایش</th>
 						</tr>
@@ -43,7 +43,7 @@ tr > td{
 							<td v-else>پایین</td>
 							<td>{{ item.title.length > 45 ? item.title.substring(0, 40) + "..." : item.title }}</td>
 							<td>{{item.project}}</td>
-							<td v-if="user.userRole==5">{{user.userRoleList.find(x => {return x.id == item.insertedRoleId;}).name }}</td>
+							<td>{{user.userRoleList.find(x => {return x.id == item.insertedRoleId;}).name }}</td>
 							<td>{{user.userRoleList.find(x => {return x.id == item.currentRoleId;}).name }}</td>
 							<td v-if="item.statusId==1">
 								<p class="text-done">{{ item.status }}</p>
@@ -61,34 +61,34 @@ tr > td{
 								<a class="text-inserted">{{ item.status }}</a>
 							</td>
 							<!--اینارو باید از دیتا بیس بخونه-->
-							<td v-if="item.developerId==1 && user.userRole!=6">
+							<td v-if="item.developerId==1 && user.userRole!=6 && user.userRole!=2">
 								<p>پویا رضاییه</p>
 							</td>
-							<td v-else-if="item.developerId==2 && user.userRole!=6">
+							<td v-else-if="item.developerId==2 && user.userRole!=6 && user.userRole!=2">
 								<p>محمد باقری</p>
 							</td>
-							<td v-else-if="item.developerId==3 && user.userRole!=6">
+							<td v-else-if="item.developerId==3 && user.userRole!=6 && user.userRole!=2">
 								<p>توحید حقیقی</p>
 							</td>
-							<td v-else-if="item.developerId==4 && user.userRole!=6">
+							<td v-else-if="item.developerId==4 && user.userRole!=6 && user.userRole!=2">
 								<p>مهسا برجی</p>
 							</td>
-							<td v-else-if="item.developerId==5 && user.userRole!=6">
+							<td v-else-if="item.developerId==5 && user.userRole!=6 && user.userRole!=2">
 								<p>امیر مسعود صالحی</p>
 							</td>
-							<td v-else-if="item.developerId==6 && user.userRole!=6">
+							<td v-else-if="item.developerId==6 && user.userRole!=6 && user.userRole!=2">
 								<p>شکیلا کاظم پور</p>
 							</td>
-							<td v-else-if="item.developerId==7 && user.userRole!=6">
+							<td v-else-if="item.developerId==7 && user.userRole!=6 && user.userRole!=2">
 								<p>احسان درویشی</p>
 							</td>
-							<td v-else-if="item.developerId==8 && user.userRole!=6">
+							<td v-else-if="item.developerId==8 && user.userRole!=6 && user.userRole!=2">
 								<p>الهه ابراهیمی</p>
 							</td>
-							<td v-else-if="item.developerId==9 && user.userRole!=6">
+							<td v-else-if="item.developerId==9 && user.userRole!=6 && user.userRole!=2">
 								<p>ساناز محمد زاده</p>
 							</td>
-							<td v-else-if="item.developerId==10 && user.userRole!=6">
+							<td v-else-if="item.developerId==10 && user.userRole!=6 && user.userRole!=2">
 								<p> تخصیص نشده</p>
 							</td>
 							<!--اینارو باید از دیتا بیس بخونه-->
@@ -98,7 +98,7 @@ tr > td{
 							<td>
 								<nuxt-link class="custom-link" :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
 							</td>
-							<td v-if="(user.userRole == 2) && (item.statusId == 2)">
+							<td v-if="(user.userRole == 2)">
 								<nuxt-link class="custom-link-edit" :to="{ path: '/ticket/edit', query: {id: item.id}}">ویرایش</nuxt-link>
 							</td>
 						</tr>
