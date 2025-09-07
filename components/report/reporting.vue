@@ -63,15 +63,13 @@
           <div class="form-group">
             <label for="exampleFormControlSelect1">انجام دهنده :</label>
             <select id="DeveloperId" class="form-control js-example-basic-multiple" multiple>
-              <option value="1">پویا رضائیه</option>
-              <option value="2">محمد باقری</option>
-              <option value="3">توحید حقیقی</option>
-              <option value="4">مهسا برجی</option>
-              <option value="8">الهه ابراهیمی</option>
-              <option value="9">ساناز محمد زاده</option>
-              <option value="6">شکیلا کاظم پور</option>
-              <option value="5">امیر مسعود صالحی</option>
-              <option value="7">احسان درویشی</option>
+              <option
+                v-for="item in developerList"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </option>
             </select>
           </div>
         </div>
@@ -222,4 +220,9 @@ async function send(){
 //#region get project api
 const { data , error } = await useFetch(`${ticketingUrl}/api/v1/getProjects?roleId=${user.value.userRole}`);
 //#endregion
+
+  const { data: developerData, error: developerError } = await useFetch(
+  `${ticketingUrl}/api/v1/GetDeveloperListByRoleId?RoleId=${user.value.userRole}`
+);
+const developerList = computed(() => developerData.value ?? []);
 </script>

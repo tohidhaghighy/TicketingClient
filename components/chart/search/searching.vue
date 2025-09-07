@@ -18,15 +18,10 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">نقش ثبت کننده :</label>
               <select id='InsertedRoleId' class="form-control js-example-basic-multiple" multiple>
-                <option value="1">ادمین سامانه SSO</option>
-                <option value="2">ادمین سامانه مدیریت پرونده ها</option>
-                <option value="3">ادمین سامانه میز خدمت</option>
-                <option value="4">ادمین تعزیرات</option>
-                <option value="5">ادمین ویرا</option>
-                <option value="6">ادمین سامانه امحا</option>
-                <option value="7">ادمین سامانه تبادل اطلاعات</option>
-                <option value="10">هوش تجاری</option>
-                <option value="9">زیر ساخت</option>
+                <option value="2">مدیر کل</option>
+                <option value="3">کاربر آمار</option>
+                <option value="4">کاربر زیرساخت، شبکه و امنیت</option>
+                <option value="5">کاربر فناوری اطلاعات</option>
               </select>
             </div>
           </div>
@@ -40,15 +35,10 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">ارجاع شده به :</label>
               <select id='CurrentRoleId' class="form-control js-example-basic-multiple" multiple>
-                <option value="1">ادمین سامانه SSO</option>
-                <option value="2">ادمین سامانه مدیریت پرونده ها</option>
-                <option value="3">ادمین سامانه میز خدمت</option>
-                <option value="4">ادمین تعزیرات</option>
-                <option value="5">ادمین ویرا</option>
-                <option value="6">ادمین سامانه امحا</option>
-                <option value="7">ادمین سامانه تبادل اطلاعات</option>
-                <option value="10">هوش تجاری</option>
-                <option value="9">زیر ساخت</option>
+                <option value="2">مدیر کل</option>
+                <option value="3">کاربر آمار</option>
+                <option value="4">کاربر زیرساخت، شبکه و امنیت</option>
+                <option value="5">کاربر فناوری اطلاعات</option>
               </select>
             </div>
           </div>
@@ -102,15 +92,13 @@
           <label for="exampleFormControlSelect1">انجام دهنده :</label>
             <div class="form-group">
               <select id="DeveloperId" class="form-control js-example-basic-multiple" multiple>
-                <option value="1">پویا رضائیه</option>
-                <option value="2">محمد باقری</option>
-                <option value="3">توحید حقیقی</option>
-                <option value="4">مهسا برجی</option>
-                <option value="8">الهه ابراهیمی</option>
-                <option value="9">ساناز محمد زاده</option>
-                <option value="6">شکیلا کاظم پور</option>
-                <option value="5">امیر مسعود صالحی</option>
-                <option value="7">احسان درویشی</option>
+                <option
+                  v-for="item in developerList"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </option>
               </select>
             </div>
         </div>
@@ -406,18 +394,23 @@
                 data: 'developerId',
                 render: (data) => {
                   const developers = {
-                    1: 'پویا رضاییه',
-                    2: 'محمد باقری',
-                    3: 'توحید حقیقی',
-                    4: 'مهسا برجی',
-                    5: 'امیر مسعود صالحی',
-                    6: 'شکیلا کاظم پور',
-                    7: 'احسان درویشی',
-                    8: 'الهه ابراهیمی',
-                    9: 'ساناز محمد زاده',
-                    10: 'تخصیص نشده'
+                      1: "آقای اسلامی فر",
+                      2: "آقای نجار",
+                      3: "آقای انوری",
+                      4: "آقای ترابی زاده",
+                      5: "آقای شاکی",
+                      6: "آقای ادیب نیا",
+                      7: "خانم ابراهیمی",
+                      8: "خانم سرتیپ زاده",
+                      9: "خانم نقیبی",
+                      10: "آقای داودی",
+                      11: "آقای ندافی",
+                      12: "آقای محمودخانی",
+                      13: "خانم رئیسی",
+                      14: "خانم آهنگران",
+                      15: "خانم مشفقی"
                   };
-                  return developers[data] || '';
+                  return developers[data] || "ثبت نشده";
                 }
               },
               {
@@ -464,5 +457,12 @@
   }
   //#endregion
   
+  //#region developer name
+  const { data: developerData, error: developerError } = await useFetch(
+  `${ticketingUrl}/api/v1/GetDeveloperListByRoleId?RoleId=${user.value.userRole}`
+  );
+  const developerList = computed(() => developerData.value ?? []);
+  //#endregion
+
 </script>
   

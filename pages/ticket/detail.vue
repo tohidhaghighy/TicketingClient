@@ -101,8 +101,8 @@
         </div>
         <div class="chat-body-footer" style="direction: rtl">
           <!--Admins role-->
-          <div class="row" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject && userrole.role != UserRole.normalUser ">
-            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inserted">
+          <div class="row" v-if="data.ticketInfo.statusId != UserStatus.Done && data.ticketInfo.statusId != UserStatus.Reject && userrole.role != UserRole.normalUser">
+            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inserted  && userrole.role != UserRole.admindir">
               <div class="d-flex justify-content-around">
                 <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="changestatus(UserStatus.inLine)">
                   اضافه کردن به صف پردازش
@@ -120,7 +120,7 @@
                 </div>
               </div>
             </div>
-            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inLine">
+            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inLine  && userrole.role != UserRole.admindir">
               <div class="d-flex justify-content-around">
                 <button type="button" class="btn btn-primary btn-rounded" style="margin-right: 20px ;" @click="virachangestatus(UserStatus.inProgress,data.ticketInfo.ticketTime,data.ticketInfo.developerId)">
                 در حال انجام
@@ -138,7 +138,7 @@
                 </div>
               </div>
             </div>
-            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inProgress">
+            <div class="m-t-b-20" v-if="data.ticketInfo.statusId==UserStatus.inProgress  && userrole.role != UserRole.admindir">
               <div class="d-flex justify-content-around">
                 <button class="btn btn-success btn-rounded" style="margin-right: 20px ;" @click="openPopup('done')">تایید و بستن تیکت</button>
                 <div v-if="isOpen && activePopup == 'done'" class="popup-overlay">
@@ -204,16 +204,6 @@
                                   >
                                     {{ item.name }}
                                   </option>
-                                  <!-- <option :value="DeveloperId.p_rezayeh">پویا رضائیه</option>
-                                  <option :value="DeveloperId.m_bagheri">محمد باقری</option>
-                                  <option :value="DeveloperId.t_hagigi">توحید حقیقی</option>
-                                  <option :value="DeveloperId.m_borji">مهسا برجی</option>
-                                  <option :value="DeveloperId.s_mohamadzadeh">ساناز محمد زاده</option>
-                                  <option :value="DeveloperId.e_ebrahimi">الهه ابراهیمی</option>
-                                  <option :value="DeveloperId.m_salehi">امیر مسعود صالحی</option>
-                                  <option :value="DeveloperId.Sh_kazempour">شکیلا کاظم پور</option>
-                                  <option :value="DeveloperId.e_darvishi">احسان درویشی</option>
-                                  <option :value="DeveloperId.unknown">برنامه نویس را انتخاب کنید</option> -->
                                 </select>
                               </div>
 
@@ -432,7 +422,7 @@ const developerInfo=reactive({
 async function savechange(time,developerId) {
   developerInfo.developerId=developerId;
   developerInfo.time=time;
-  if(time != null && time.trim(" ") != null  && developerId < 10)
+  if(time != null && time.trim(" ") != null  && developerId < 20)
   {
     try
     {

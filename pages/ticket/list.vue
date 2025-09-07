@@ -23,10 +23,10 @@ tr > td{
 							<th>ایجاد شده توسط</th>
 							<th>ارجاع شده به</th>
 							<th>وضعیت</th>
-							<th v-if="(user.userRole != 2) && (user.userRole != 6)">انجام دهنده</th>
-							<th v-if="(user.userRole != 2) && (user.userRole != 6)">ساعت صرف شده</th>
+							<th v-if="(user.userRole != 6)">انجام دهنده</th>
+							<th v-if="(user.userRole != 6)">ساعت صرف شده</th>
 							<th>جزئیات</th>
-							<th v-if="(user.userRole==2 && tableData[0].statusId==2)">ویرایش</th>
+							<th v-if="((tableData[0].statusId==2) || (user.userRole == 9))">ویرایش</th>
 						</tr>
 				</thead>
 				<tbody>
@@ -60,46 +60,20 @@ tr > td{
 							<td v-else-if="item.statusId==8">
 								<a class="text-inserted">{{ item.status }}</a>
 							</td>
-							<!--اینارو باید از دیتا بیس بخونه-->
-							<td v-if="item.developerId==1 && user.userRole!=6 && user.userRole!=2">
-								<p>پویا رضاییه</p>
+							<td v-if="user.userRole != 6 ">
+								<p>{{ developerNames[item.developerId] || "ثبت نشده" }}</p>
 							</td>
-							<td v-else-if="item.developerId==2 && user.userRole!=6 && user.userRole!=2">
-								<p>محمد باقری</p>
-							</td>
-							<td v-else-if="item.developerId==3 && user.userRole!=6 && user.userRole!=2">
-								<p>توحید حقیقی</p>
-							</td>
-							<td v-else-if="item.developerId==4 && user.userRole!=6 && user.userRole!=2">
-								<p>مهسا برجی</p>
-							</td>
-							<td v-else-if="item.developerId==5 && user.userRole!=6 && user.userRole!=2">
-								<p>امیر مسعود صالحی</p>
-							</td>
-							<td v-else-if="item.developerId==6 && user.userRole!=6 && user.userRole!=2">
-								<p>شکیلا کاظم پور</p>
-							</td>
-							<td v-else-if="item.developerId==7 && user.userRole!=6 && user.userRole!=2">
-								<p>احسان درویشی</p>
-							</td>
-							<td v-else-if="item.developerId==8 && user.userRole!=6 && user.userRole!=2">
-								<p>الهه ابراهیمی</p>
-							</td>
-							<td v-else-if="item.developerId==9 && user.userRole!=6 && user.userRole!=2">
-								<p>ساناز محمد زاده</p>
-							</td>
-							<td v-else-if="item.developerId==10 && user.userRole!=6 && user.userRole!=2">
-								<p> تخصیص نشده</p>
-							</td>
-							<!--اینارو باید از دیتا بیس بخونه-->
-							<td v-if="(user.userRole != 2) && (user.userRole != 6)">
+							<td v-if="user.userRole != 6">
 								{{item.ticketTime}}
 							</td>
 							<td>
 								<nuxt-link class="custom-link" :to="{ path: '/ticket/detail', query: {id: item.id}}">مشاهده</nuxt-link>
 							</td>
-							<td v-if="(user.userRole == 2)">
+							<td v-if="((user.userId == item.userId) && (item.statusId==2)) || (user.userRole == 9)">
 								<nuxt-link class="custom-link-edit" :to="{ path: '/ticket/edit', query: {id: item.id}}">ویرایش</nuxt-link>
+							</td>
+							<td v-if="(user.userId != item.userId) && (item.statusId==2) && (user.userRole != 9)">
+								ویرایش
 							</td>
 						</tr>
 				</tbody>
@@ -150,8 +124,25 @@ onMounted(() => {
     });
 })
 
-
 const tableData = ref(null);
+
+const developerNames = {
+  1: "آقای اسلامی فر",
+  2: "آقای نجار",
+  3: "آقای انوری",
+  4: "آقای ترابی زاده",
+  5: "آقای شاکی",
+  6: "آقای ادیب نیا",
+  7: "خانم ابراهیمی",
+  8: "خانم سرتیپ زاده",
+  9: "خانم نقیبی",
+  10: "آقای داودی",
+  11: "آقای ندافی",
+  12: "آقای محمودخانی",
+  13: "خانم رئیسی",
+  14: "خانم آهنگران",
+  15: "خانم مشفقی"
+};
 
 let requestId = 1 ;
 if(changeRequestTypeId.requestTypeId){
