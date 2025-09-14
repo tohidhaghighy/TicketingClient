@@ -170,7 +170,11 @@
                   <div class="d-flex justify-content-start gap-3 mb-3">
         
                     <!-- First Column: Ticket Time and Developer Selection -->
-                    <div v-if="(userrole.role != UserRole.normalUser) && (userrole.role != UserRole.admindir)" class="col-md-6">
+                    <div v-if="
+                    (userrole.role == UserRole.adminsta) || 
+                    (userrole.role == UserRole.adminina) || 
+                    (userrole.role == UserRole.adminita) || 
+                    (userrole.role == UserRole.TicketingAdmin)" class="col-md-6">
                       <div class="card">
                         <div class="card-header"
                         data-toggle="collapse"
@@ -195,12 +199,13 @@
 
                               <!-- Developer Select -->
                               <div class="me-2 flex-grow-1">
-                                <label class="form-label" for="statusSelect" style="margin-left: 10px;">برنامه نویس :</label>
-                                <select class="form-select rounded-input" id="developerId" v-model="data.ticketInfo.developerId">
+                                <label class="form-label" for="statusSelect" style="margin-right: 10px; margin-left: 10px;">متولی :</label>
+                                <!-- <label class="form-label" style="margin-right: 10px; margin-left: 10px;">{{ data.ticketInfo.assignUserName }}</label> -->
+                                <select class="form-select rounded-input" id="developerId" v-model="data.ticketInfo.assignUserId">
                                   <option
                                     v-for="item in developerList"
-                                    :key="item.id"
-                                    :value="item.id"
+                                    :key="item.userId"
+                                    :value="item.userId"
                                   >
                                     {{ item.name }}
                                   </option>
@@ -209,7 +214,7 @@
 
                               <!-- Save Button -->
                               <div class="flex-shrink-0">
-                                <button type="button" class="btn btn-success btn-rounded" style="margin-right: 10px;" @click="savechange(data.ticketInfo.ticketTime, data.ticketInfo.developerId)">
+                                <button type="button" class="btn btn-success btn-rounded" style="margin-right: 10px;" @click="savechange(data.ticketInfo.ticketTime, data.ticketInfo.assignUserId)">
                                   ذخیره
                                 </button>
                               </div>
@@ -255,7 +260,6 @@
 
 import {UserRole} from '../../models/enums/userRole'
 import {UserStatus} from '../../models/enums/userStatus'
-import {DeveloperId} from '../../models/enums/developerId'
 import { ref } from 'vue';
 import { useRequestTypeStore } from '@/stores/requestTypeStore'
 const changeRequestTypeId = useRequestTypeStore();
@@ -272,10 +276,9 @@ toastr.options = {
 		hideDuration: 200
 };
 
-
 const route = useRoute();
 const user = useCookie("UserInfo");
-const { public: { ticketingUrl }} = useRuntimeConfig();
+const { public: { ticketingUrl,ssoUrl }} = useRuntimeConfig();
 
 const isOpen = ref(false);
 const activePopup = ref(null);
@@ -301,31 +304,6 @@ async function rejectConfirmAction() {
   closePopup();
 }
 
-async function awaitRejectConfirmAction() {
-  await changestatus(UserStatus.awaitingRejecting);
-  closePopup();
-}
-
-async function finalAwaitRejectConfirmAction(time,developerId) {
-  await virafinalchangestatus(UserStatus.awaitingRejecting,time,developerId);
-  closePopup();
-}
-
-async function sendTogroupViraConfirmAction() {
-  await sendtogroup(UserRole.AdminVira);
-  closePopup();
-}
-
-async function sendTogroupTazConfirmAction() {
-  await virasendtogroup(UserRole.AdminTaz);
-  closePopup();
-}
-
-async function viraConfirmAction(time,developerId) {
-  await virafinalchangestatus(UserStatus.awaitingConfirmation,time,developerId);
-  closePopup();
-}
-
 async function doneConfirmAction() {
   await changestatus(UserStatus.done);
   closePopup();
@@ -339,7 +317,6 @@ function cancelAction() {
 const userrole = reactive({
   role: user.value.userRole
 });
-
 
 const messageInfo = reactive({
   text:"",
@@ -397,7 +374,6 @@ const statusInfo=reactive({
   ticketId:route.query.id
 });
 
-
 async function changestatus(status) {
   statusInfo.status=status;
 	try{
@@ -414,15 +390,24 @@ async function changestatus(status) {
 
 //data need to send /api/v1/changeDevelopedBy
 const developerInfo=reactive({
-  developerId:DeveloperId.unknown,
+  AssignUserId:0,
   time:"0",
-  ticketId:route.query.id
+  ticketId:route.query.id,
+  AssignUserName:""
+});
+
+const selectedDeveloperName = computed(() => {
+  const dev = developerList.value.find(
+    (d) => d.userId === data.value.ticketInfo.assignUserId
+  );
+  return dev ? dev.name : "";
 });
 
 async function savechange(time,developerId) {
-  developerInfo.developerId=developerId;
+  developerInfo.AssignUserId=developerId;
   developerInfo.time=time;
-  if(time != null && time.trim(" ") != null  && developerId < 20)
+  developerInfo.AssignUserName = selectedDeveloperName
+  if(time != null && time.trim(" ") != null)
   {
     try
     {
@@ -447,82 +432,19 @@ async function savechange(time,developerId) {
   }
 }
 
-
-
-//virafinalchangestatus need to fill ticketTime and developerId
-async function virafinalchangestatus(status,time,developerId) {
-  statusInfo.status=status;
-  developerInfo.developerId=developerId;
-  developerInfo.time=time;
-  if(developerInfo.time != null && developerInfo.time.trim(" ") != null && developerInfo.developerId < 10)
-  {
-    try
-    {
-		  await $fetch(`${ticketingUrl}/api/v1/changeStatus`,{
-			method:'POST',
-			body : statusInfo
-		});
-    await $fetch(`${ticketingUrl}/api/v1/changeDevelopedBy`,{
-			method:'POST',
-			body : developerInfo
-		});
-
-    toastr.success('با موفقیت ثبت شد');
-    refreshpage();
-    }
-    catch(error)
-    {
-	      console.log(error);
-    }
-  }
-  else
-  {
-    toastr.error('لطفا زمان تیکت و توسعه دهنده را وارد کنید');
-  }
-}
-
 //virachangestatus need to fill developerId
 async function virachangestatus(status,time,developerId) {
   statusInfo.status=status;
   developerInfo.developerId=developerId;
   developerInfo.time=time;
-  if(developerInfo.developerId < 10)
-  {
-    try
+
+  try
     {
 		  await $fetch(`${ticketingUrl}/api/v1/changeStatus`,{
 			method:'POST',
 			body : statusInfo
 		});
-    await $fetch(`${ticketingUrl}/api/v1/changeDevelopedBy`,{
-			method:'POST',
-			body : developerInfo
-		});
 
-    toastr.success('با موفقیت ثبت شد');
-    refreshpage();
-    }
-    catch(error)
-    {
-	      console.log(error);
-    }
-  }
-  else
-  {
-    toastr.error('لطفا توسعه دهنده را انتخاب کنید');
-  }
-}
-
-//virasendtogroup need to fill roleId,developerId and ticketTime
-async function virasendtogroup(roleId) {
-  roleInfo.roleId=roleId;
-
-  try
-    {
-		  await $fetch(`${ticketingUrl}/api/v1/changeRole`,{
-			method:'POST',
-			body : roleInfo
-		});
     toastr.success('با موفقیت ثبت شد');
     refreshpage();
     }
@@ -538,19 +460,6 @@ const roleInfo = reactive({
   ticketId:route.query.id
 });
 
-async function sendtogroup(roleId) {
-  roleInfo.roleId=roleId;
-	try{
-		  await $fetch(`${ticketingUrl}/api/v1/changeRole`,{
-			method:'POST',
-			body : roleInfo
-		});
-    toastr.success('با موفقیت ارسال شد');
-    refreshpage();
-  }catch(error){
-	      console.log(error);
-  }
-}
 
 async function downloadfile(id){
   try{
@@ -586,9 +495,9 @@ const { data: data, error , refresh } = await useFetch(
 );
 
 const { data: developerData, error: developerError } = await useFetch(
-  `${ticketingUrl}/api/v1/GetDeveloperListByRoleId?RoleId=${user.value.userRole}`
+  `${ssoUrl}/GetUserRole?roleId=${user.value.userRole}`
 );
-const developerList = computed(() => developerData.value ?? []);
+const developerList = computed(() => developerData.value.data ?? []);
 
 async function refreshpage(){
   setTimeout(() => location.href='/', 1000);

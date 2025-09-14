@@ -61,7 +61,7 @@ tr > td{
 								<a class="text-inserted">{{ item.status }}</a>
 							</td>
 							<td v-if="user.userRole != 6 ">
-								<p>{{ developerNames[item.developerId] || "ثبت نشده" }}</p>
+								<p>{{ item.assignUserName || "ثبت نشده" }}</p>
 							</td>
 							<td v-if="user.userRole != 6">
 								{{item.ticketTime}}
@@ -125,24 +125,6 @@ onMounted(() => {
 })
 
 const tableData = ref(null);
-
-const developerNames = {
-  1: "آقای اسلامی فر",
-  2: "آقای نجار",
-  3: "آقای انوری",
-  4: "آقای ترابی زاده",
-  5: "آقای شاکی",
-  6: "آقای ادیب نیا",
-  7: "خانم ابراهیمی",
-  8: "خانم سرتیپ زاده",
-  9: "خانم نقیبی",
-  10: "آقای داودی",
-  11: "آقای ندافی",
-  12: "آقای محمودخانی",
-  13: "خانم رئیسی",
-  14: "خانم آهنگران",
-  15: "خانم مشفقی"
-};
 
 let requestId = 1 ;
 if(changeRequestTypeId.requestTypeId){

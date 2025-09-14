@@ -19,9 +19,9 @@
               <label for="exampleFormControlSelect1">نقش ثبت کننده :</label>
               <select id='InsertedRoleId' class="form-control js-example-basic-multiple" multiple>
                 <option value="2">مدیر کل</option>
-                <option value="3">کاربر آمار</option>
-                <option value="4">کاربر زیرساخت، شبکه و امنیت</option>
-                <option value="5">کاربر فناوری اطلاعات</option>
+                <option value="3">معاون آمار</option>
+                <option value="4">معاون زیرساخت، شبکه و امنیت</option>
+                <option value="5">معاون فناوری اطلاعات</option>
               </select>
             </div>
           </div>
@@ -31,19 +31,6 @@
               <input type="text" class="form-control text-left" v-model="query.Username" autocomplete="off" placeholder="نمونه نام کاربری : adminitm" />
             </div>
           </div>
-          <div class="custom-col col">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">ارجاع شده به :</label>
-              <select id='CurrentRoleId' class="form-control js-example-basic-multiple" multiple>
-                <option value="2">مدیر کل</option>
-                <option value="3">کاربر آمار</option>
-                <option value="4">کاربر زیرساخت، شبکه و امنیت</option>
-                <option value="5">کاربر فناوری اطلاعات</option>
-              </select>
-            </div>
-          </div>
-      </div>
-      <div class="row">
         <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">وضعیت تیکت :</label>
@@ -56,6 +43,8 @@
               </select>
             </div>
         </div>
+      </div>
+      <div class="row">
         <div class="custom-col col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">سامانه :</label>
@@ -94,8 +83,8 @@
               <select id="DeveloperId" class="form-control js-example-basic-multiple" multiple>
                 <option
                   v-for="item in developerList"
-                  :key="item.id"
-                  :value="item.id"
+                  :key="item.userId"
+                  :value="item.userId"
                 >
                   {{ item.name }}
                 </option>
@@ -175,7 +164,7 @@
 
   //#region  constants
   const user = useCookie("UserInfo");
-  const { public: { ticketingUrl }} = useRuntimeConfig();
+  const { public: { ticketingUrl,ssoUrl}} = useRuntimeConfig();
   const { data , error } = await useFetch(`${ticketingUrl}/api/v1/getProjects?roleId=${user.value.userRole}`);
   const searchResult = reactive([]);
   const query = reactive({
@@ -292,7 +281,6 @@
 
     //#region getValues
     var InsertedRoleId = $('#InsertedRoleId').select2('data').map(option => option.id);
-    var CurrentRoleId = $('#CurrentRoleId').select2('data').map(option => option.id);
     var StatusId = $('#StatusId').select2('data').map(option => option.id);
     var ProjectId = $('#ProjectId').select2('data').map(option => option.id);
     var RequestType = $('#RequestType').select2('data').map(option => option.id);
@@ -309,7 +297,7 @@
     try {
       const { data, error: fetchError } = await useFetch
       (
-        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${InsertedRoleId}&username=${query.Username}&CurrentRoleId=${CurrentRoleId}&statusId=${StatusId}&projectId=${ProjectId}&requestType=${RequestType}&developerId=${DeveloperId}${InsertStart==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStart)}${InsertEnd==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEnd)}${CloseStartD==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartD)}${CloseEnd==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEnd)}&IsSchadule=${IsSchadule}`       
+        `${ticketingUrl}/api/v1/search?ticketNumber=${query.TicketNumber}&title=${query.Title}&insertedRoleId=${InsertedRoleId}&username=${query.Username}&statusId=${StatusId}&projectId=${ProjectId}&requestType=${RequestType}&developerId=${DeveloperId}${InsertStart==''?'':'&insertStartDateTime='+convertShamsiToGregorian(InsertStart)}${InsertEnd==''?'':'&insertEndDateTime='+convertShamsiToGregorian(InsertEnd)}${CloseStartD==''?'':'&closeStartDateTime='+convertShamsiToGregorian(CloseStartD)}${CloseEnd==''?'':'&closeEndDateTime='+convertShamsiToGregorian(CloseEnd)}&IsSchadule=${IsSchadule}`       
       );
 
       if (!fetchError.value) //fetchError.value == null or empty
@@ -391,27 +379,7 @@
               }
             },
               {
-                data: 'developerId',
-                render: (data) => {
-                  const developers = {
-                      1: "آقای اسلامی فر",
-                      2: "آقای نجار",
-                      3: "آقای انوری",
-                      4: "آقای ترابی زاده",
-                      5: "آقای شاکی",
-                      6: "آقای ادیب نیا",
-                      7: "خانم ابراهیمی",
-                      8: "خانم سرتیپ زاده",
-                      9: "خانم نقیبی",
-                      10: "آقای داودی",
-                      11: "آقای ندافی",
-                      12: "آقای محمودخانی",
-                      13: "خانم رئیسی",
-                      14: "خانم آهنگران",
-                      15: "خانم مشفقی"
-                  };
-                  return developers[data] || "ثبت نشده";
-                }
+                data: 'assignUserName',
               },
               {
                 data: 'ticketTime',
@@ -458,10 +426,10 @@
   //#endregion
   
   //#region developer name
-  const { data: developerData, error: developerError } = await useFetch(
-  `${ticketingUrl}/api/v1/GetDeveloperListByRoleId?RoleId=${user.value.userRole}`
-  );
-  const developerList = computed(() => developerData.value ?? []);
+const { data: developerData, error: developerError } = await useFetch(
+  `${ssoUrl}/GetUserRole?roleId=${user.value.userRole}`
+);
+const developerList = computed(() => developerData.value.data ?? []);
   //#endregion
 
 </script>
