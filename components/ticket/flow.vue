@@ -5,7 +5,7 @@
                 <thead>
                     <tr>
                         <th style="width:auto;">ردیف</th>
-			            <th style="width:auto;">کاربر</th>
+			            <th style="width:auto;">توضیح</th>
 			            <th style="width:auto;">وضعیت</th>
 			            <th style="width:140px;">زمان</th>
                     </tr>
