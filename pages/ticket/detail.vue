@@ -33,7 +33,7 @@
             <template v-for="message in data.messageList">
               <div class="message-item" style="min-width: 350px;margin-top: 20px; margin-bottom: 20px;" v-if="data.ticketInfo.userId==message.userId">
                 <pre>{{ message.text }}</pre>
-                <small class="message-item-date text-muted"> [ {{ data.ticketInfo.ticketNumber }} : شماره تیکت ] - {{message.date}} | {{ message.username }}</small>
+                <small class="message-item-date text-muted">{{ data.ticketInfo.ticketNumber }} | {{message.date}} | {{ message.username }}</small>
                 <!--download attachmet file-->
                 <div v-if="message.haveFile==true">
                   <a id="downloadfilemessage" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
@@ -48,7 +48,7 @@
               </div>
               <div class="message-item outgoing-message" style="min-width: 350px;margin-top: 20px;" v-else >
                 <pre class="m-color">{{ message.text }}</pre>
-                <small class="message-item-date text-muted"> {{message.date}} | {{ message.username }} </small>
+                <small class="message-item-date text-muted">{{ data.ticketInfo.ticketNumber }} | {{message.date}} | {{ message.username }} </small>
                 <!--download attachmet file-->
                 <div v-if="message.haveFile==true">
                   <a id="downloadfilemessage" @click="downloadmessagefile(message.id)" class="btn btn-outline-light text-left align-items-center justify-content-center">
@@ -322,7 +322,7 @@ const messageInfo = reactive({
   text:"",
   userId:user.value.userId,
   ticketId:route.query.id,
-  username:user.value.username,
+  username:user.value.username + " - " + user.value.name,
   file : null
 });
 
